@@ -1,6 +1,6 @@
-import App from './App'
+import App from './App';
+import uView from './uni_modules/vk-uview-ui';
 import * as Pinia from 'pinia';
-import uviewPlus from 'uview-plus'
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -15,10 +15,9 @@ app.$mount()
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
 export function createApp() {
-  const app = createSSRApp(App)
-  app.use(uviewPlus)
+  const app = createSSRApp(App);
   app.use(Pinia.createPinia());
-  uni.$u.config.unit = 'rpx'
+  app.use(uView)
   return {
     app,
 	Pinia

@@ -251,6 +251,10 @@
 		width: 100%;
 		padding: 0 32rpx;
 		margin-top: -172rpx;
+		.wrap {
+			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+			border-radius: 20rpx;
+		}
 	}
 
 	.indexTitle {

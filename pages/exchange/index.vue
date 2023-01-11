@@ -1,11 +1,469 @@
 <template>
-	<h1>交易所</h1>
+	<view class="bg" :class="[tabIndex === 2 ? 'bg2' : '']">
+		<view class="box" :class="[tabIndex === 2 ? 'box2' : '']">
+			<view class="boxTitle">
+				<view class="boxTitleItem">
+					<text class="title">2503558</text>
+					<text class="subheading">能量池</text>
+				</view>
+				<view class="boxTitleItem">
+					<text class="title">2503558</text>
+					<text class="subheading">能量值</text>
+				</view>
+				<view class="boxTitleItem">
+					<text class="title">￥6.35</text>
+					<text class="subheading">价格</text>
+				</view>
+			</view>
+			<view class="tabs">
+				<view class="tabItem" :class="[tabIndex === index ? 'tabItemActivate' : '']" v-for="item,index in tabs"
+					:key="item.id" @click="changleStyle(index)">
+					<text>{{item.name}}</text>
+				</view>
+			</view>
+			<view class="buyList" v-show="tabIndex === 0">
+				<view class="buyListItem">
+					<view class="buyListItemTitle">
+						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemPrice">
+							<text style="margin-right: 22rpx;">单价￥6.42</text>
+							<text>总价￥147.88</text>
+						</view>
+					</view>
+					<view class="buyListItemBtn">买入</view>
+				</view>
+				<view class="buyListItem">
+					<view class="buyListItemTitle">
+						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemPrice">
+							<text style="margin-right: 22rpx;">单价￥6.42</text>
+							<text>总价￥147.88</text>
+						</view>
+					</view>
+					<view class="buyListItemBtn">买入</view>
+				</view>
+			</view>
+			<view class="buyList" v-show="tabIndex === 1">
+				<view class="buyListItem">
+					<view class="buyListItemTitle">
+						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemPrice">
+							<text style="margin-right: 22rpx; text-decoration: line-through;">单价￥6.42</text>
+							<text>￥147.88</text>
+						</view>
+					</view>
+					<view class="buyListItemBtn">卖出</view>
+				</view>
+				<view class="buyListItem">
+					<view class="buyListItemTitle">
+						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemPrice">
+							<text style="margin-right: 22rpx; text-decoration: line-through;">单价￥6.42</text>
+							<text>￥147.88</text>
+						</view>
+					</view>
+					<view class="buyListItemBtn">卖出</view>
+				</view>
+			</view>
+			<view class="market" v-if="tabIndex === 2">
+				<view class="chartsTabs">
+					<u-tabs 
+						height="70" 
+						bg-color="#272A30"
+						inactive-color="#FFF"
+						bar-width="40" 
+						bar-height="8"
+						gutter=45
+						:bar-style="{
+							'background-color': '#1FA848',
+							'color': '#3A2A08',
+							'text-align': 'center',
+							'margin': '0rpx 0rpx',
+						}" 
+						:active-item-style="{
+							'color': '#1FA848',
+						}" 
+						:list="tabList" 
+						v-model="current" 
+						@change="changeTabs"></u-tabs>
+				</view>
+				<view class="charts-box">
+					<qiun-data-charts 
+						type="line" 
+						:opts="opts" 
+						:chartData="chartData" 
+						:canvas2d="true" />
+				</view>
+				<view class="particulars">
+					<view class="particularsLeft">
+						<view class="particularsItem">
+							<text>收</text>
+							<text>0.00000082</text>
+						</view>
+						<view class="particularsItem">
+							<text>开</text>
+							<text>0.00000082</text>
+						</view>
+						<view class="particularsItem">
+							<text>高</text>
+							<text>0.00000082</text>
+						</view>
+						<view class="particularsItem">
+							<text>低</text>
+							<text>0.00000082</text>
+						</view>
+					</view>
+					<view class="borderBg"></view>
+					<view class="particularsRight">
+						<view class="particularsItem">
+							<text>时间</text>
+							<text>01-03 5:30</text>
+						</view>
+						<view class="particularsItem">
+							<text>涨跌额</text>
+							<text class="ItemBg">-0.000082</text>
+						</view>
+						<view class="particularsItem">
+							<text>涨跌幅</text>
+							<text class="ItemBg">30%</text>
+						</view>
+						<view class="particularsItem">
+							<text>成交量</text>
+							<text class="ItemBg">30%</text>
+						</view>
+					</view>
+				</view>
+				<view class="btn">
+					<view class="btnLeft btnBg">买入</view>
+					<view class="btnRight btnBg">卖出</view>
+				</view>
+			</view>
+			<u-popup 
+				v-model="isPopupShow" 
+				mode="bottom"
+				border-radius="16"
+				>
+				<view class="popClass">
+					<view class="inpItem">
+						<u-input v-model="dataForm.numberTransaction" 
+								type="number"
+								height=88
+								placeholder="请输入交易数量"
+								 />
+					</view>
+					<view class="inpItem">
+						<u-input v-model="dataForm.payPassword"
+								type="password"
+								height=88
+								placeholder="请输入支付密码"
+								 />
+					</view>
+				</view>
+			</u-popup>
+		</view>
+	</view>
 </template>
 
 <script setup>
+	import {
+		ref,
+		reactive,
+		onMounted,
+		toRefs
+	} from "vue";
+	import {
+		onReady,
+		onLoad
+	} from "@dcloudio/uni-app";
 	
+	onMounted(() => {
+		getServerData()
+	})
+	const dataForm = reactive({
+		numberTransaction: null,
+		payPassword: null
+	})
+	const data = reactive({
+		tabList: [
+			{name: '5分'},
+			{name: '1时'},
+			{name: '4时'},
+			{name: '1周'},
+			{name: '1月'},
+		],
+		current: 0,
+		chartData: null,
+		isPopupShow: true
+	})
+	const {
+		chartData,
+		tabList,
+		current,
+		isPopupShow
+	} = toRefs(data)
+	
+	// 用户点击tabs后触发
+	const changeTabs = (index) => {
+		console.log(index)
+	}
+	
+	
+	const opts = ref({
+		color: ["#0AAB14"],
+		padding: [15, 10, 0, 15],
+		enableScroll: false,
+		legend: {},
+		fontColor: '#FFF',
+		dataPointShape: false,
+		dataLabel: false,
+		xAxis: {
+			dashLength: 2,
+			calibration: true,
+			disableGrid: false,
+			fontColor: '#FFF'
+		},
+		yAxis: {
+			gridType: "dash",
+			dashLength: 2,
+			disabled: true,
+			disableGrid: true
+		},
+		extra: {
+			line: {
+				type: "curve",
+				width: 5,
+				activeType: "hollow"
+			}
+		}
+	})
+
+	const getServerData = () => {
+		setTimeout(() => {
+			let res = {
+				categories: ["0", "5", "10", "20", "30", "40", "50"],
+				series: [{
+					name: "能量",
+					data: [70, 40, 65, 100, 44, 68]
+				}, ]
+			};
+			chartData.value = res;
+		}, 500)
+	}
+
+
+	const tabIndex = ref(0)
+	const tabs = ref([{
+			id: 1,
+			name: '买入'
+		},
+		{
+			id: 2,
+			name: '卖出'
+		},
+		{
+			id: 3,
+			name: '行情'
+		}
+	])
+	const changleStyle = (index) => {
+		tabIndex.value = index
+	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.bg {
+		width: 100%;
+		height: 100vh;
+		background-color: #FBFBFB;
+		position: relative;
 
+		.box {
+			width: 100%;
+			background-color: #FBFBFB;
+			.popClass {
+				padding: 42rpx 32rpx;
+			}
+			.inpItem {
+				height: 88rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+				border-radius: 16rpx;
+				margin-bottom: 24rpx;
+				padding: 0 32rpx;
+			}
+			.market {
+				margin-top: 50rpx;
+				width: 750rpx;
+				height: 500rpx;
+				padding: 0 30rpx;
+				.btn {
+					margin-top: 44rpx;
+					width: 100%;
+					height: 96rpx;
+					padding: 0 28rpx;
+					font-weight: bold;
+					font-size: 32rpx;
+					color: #FFF;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					.btnLeft {
+						background: #24743C;
+					}
+					.btnRight {
+						background: #FA3B4A;
+					}
+				}
+				.btnBg {
+					width: 294rpx;
+					height: 96rpx;
+					line-height: 96rpx;
+					text-align: center;
+					border-radius: 16rpx;
+				}
+				.particulars {
+					margin-top: 32rpx;
+					padding: 36rpx 0;
+					width: 100%;
+					border-radius: 14rpx;
+					border: 2rpx solid rgba(255,255,255,0.38);
+					font-size: 24rpx;
+					font-weight: bold;
+					color: #FFFFFF;
+					display: flex;
+					justify-content: space-around;
+				}
+				.particularsItem {
+					margin-bottom: 10rpx;
+					text {
+						&:first-child {
+							margin-right: 20rpx;
+						}
+					}
+				}
+				.ItemBg {
+					color: #FA3B4A;
+				}
+				.borderBg {
+					border: 2rpx solid #707070;
+				}
+				.charts-box {
+					margin: 0 auto;
+					width: 100%;
+					height: 500rpx;
+				}
+			}
+
+			.buyList {
+				padding: 0 32rpx;
+				margin-top: 71rpx;
+			}
+
+			.buyListItem {
+				width: 100%;
+				height: 140rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+				border-radius: 16rpx;
+				padding: 0 30rpx 0 16rpx;
+				margin-bottom: 24rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.buyListItemTitle {
+					height: 100%;
+					padding: 16rpx 0;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+
+					.ItemTitle {
+						font-size: 36rpx;
+						font-weight: 800;
+						color: #000000;
+					}
+
+					.ItemPrice {
+						font-size: 24rpx;
+						font-weight: 800;
+						color: #9A9A9A;
+					}
+				}
+
+				.buyListItemBtn {
+					width: 126rpx;
+					height: 48rpx;
+					background: #24743C;
+					border-radius: 24rpx;
+					text-align: center;
+					line-height: 48rpx;
+					font-size: 28rpx;
+					font-weight: bold;
+					color: #FFFFFF;
+				}
+			}
+
+			.tabs {
+				height: 58rpx;
+				line-height: 58rpx;
+				padding: 30rpx;
+				display: flex;
+				font-size: 32rpx;
+				font-weight: 800;
+				color: #FFFFFF;
+			}
+
+			.tabItem {
+				width: 175rpx;
+				height: 58rpx;
+				text-align: center;
+				background: url("@/static/img/tabBg.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+
+			.tabItemActivate {
+				width: 175rpx;
+				height: 58rpx;
+				background: url("@/static/img/tabActivateBg.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+
+			.boxTitle {
+				width: 100%;
+				height: 248rpx;
+				background: #24743C;
+				color: #FFF;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+
+				.boxTitleItem {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					margin-top: 80rpx;
+				}
+
+				.title {
+					font-weight: 800;
+					font-size: 40rpx;
+				}
+
+				.subheading {
+					margin-top: 16rpx;
+					font-weight: 400;
+					font-size: 24rpx;
+				}
+			}
+		}
+	}
+
+	.bg2 {
+		background: #272A30;
+
+		.box2 {
+			background: #272A30;
+		}
+	}
 </style>

@@ -241,6 +241,7 @@
 				name: '自提订单'
 			},
 		],
+		// 全部订单(0) 待发货(1) 待收货(2) 已完成(3) 自提订单(4)
 		type: 0,
 		orderIsShow: false,
 		orderCause: []

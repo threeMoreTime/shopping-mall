@@ -17,7 +17,7 @@
 				<view class="newsdite">通知</view>
 			</view>
 			<view class="fundomian">
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changePath('/pages/home/IntegralDetail')">
 					<view class="itemBg1"></view>
 					<view class="itemText">积分</view>
 				</view>
@@ -29,7 +29,7 @@
 					<view class="itemBg3"></view>
 					<view class="itemText">商城入驻</view>
 				</view>
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changeTab('/pages/exchange/index')">
 					<view class="itemBg4"></view>
 					<view class="itemText">交易所</view>
 				</view>
@@ -140,6 +140,22 @@
 	// 用户点击tabs后触发
 	const changeTabs = (index) => {
 		console.log(index)
+	}
+	// 路由跳转
+	const changePath = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
+	// 点击跳转tab页面
+	const changeTab = (path) => {
+		if (path) {
+			uni.switchTab({
+				url: path
+			})
+		}
 	}
 </script>
 

@@ -130,7 +130,7 @@ import { reactive, toRefs } from "vue";
 	.box {
 		width: 100%;
 		background-color: #FBFBFB;
-		padding-bottom: 180rpx;
+		padding-bottom: 100rpx;
 		.context {
 			width: 100%;
 			padding: 0 32rpx;

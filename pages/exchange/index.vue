@@ -30,7 +30,7 @@
 							<text>总价￥147.88</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn">买入</view>
+					<view class="buyListItemBtn" @click="changeDeal(0)">买入</view>
 				</view>
 				<view class="buyListItem">
 					<view class="buyListItemTitle">
@@ -52,7 +52,7 @@
 							<text>￥147.88</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn">卖出</view>
+					<view class="buyListItemBtn" @click="changeDeal(1)">卖出</view>
 				</view>
 				<view class="buyListItem">
 					<view class="buyListItemTitle">
@@ -133,9 +133,9 @@
 						</view>
 					</view>
 				</view>
-				<view class="btn">
-					<view class="btnLeft btnBg">买入</view>
-					<view class="btnRight btnBg">卖出</view>
+				<view class="btnForflex">
+					<view class="btnLeft btnBg" @click="changeDeal(0)">买入</view>
+					<view class="btnRight btnBg" @click="changeDeal(1)">卖出</view>
 				</view>
 			</view>
 			<u-popup 
@@ -144,12 +144,33 @@
 				border-radius="16"
 				>
 				<view class="popClass">
-					<view class="inpItem">
+					<view class="inpItem" v-show="showIndex === 0">
 						<u-input v-model="dataForm.numberTransaction" 
 								type="number"
 								height=88
 								placeholder="请输入交易数量"
 								 />
+					</view>
+					<view class="inpItem flex-space-between" v-show="showIndex === 1">
+						<text class="Title">数量</text>
+						<u-input v-model="dataForm.numberTransaction" 
+								type="number"
+								height=88
+								input-align="right"
+								placeholder="请输入挂单数量"
+								 />
+					</view>
+					<view class="inpItem" v-show="showIndex === 1">
+						<view class="flex-space-between">
+							<text class="Title">价格</text>
+							<u-input v-model="dataForm.numberTransaction" 
+									type="number"
+									height=88
+									input-align="right"
+									placeholder="请输入挂单价格"
+									 />
+						</view>
+						<view class="price">当前价格：￥6.53</view>
 					</view>
 					<view class="inpItem">
 						<u-input v-model="dataForm.payPassword"
@@ -158,6 +179,7 @@
 								placeholder="请输入支付密码"
 								 />
 					</view>
+					<view class="btn">确认</view>
 				</view>
 			</u-popup>
 		</view>
@@ -193,14 +215,22 @@
 		],
 		current: 0,
 		chartData: null,
-		isPopupShow: true
+		isPopupShow: false,
+		showIndex: null
 	})
 	const {
 		chartData,
 		tabList,
 		current,
-		isPopupShow
+		isPopupShow,
+		showIndex
 	} = toRefs(data)
+	
+	// 点击买入卖出时触发 index==0 买入  1卖出  需要调用函数时自传入
+	const changeDeal = (index) => {
+		isPopupShow.value = true
+		showIndex.value = index
+	}
 	
 	// 用户点击tabs后触发
 	const changeTabs = (index) => {
@@ -282,9 +312,38 @@
 			background-color: #FBFBFB;
 			.popClass {
 				padding: 42rpx 32rpx;
+				.price {
+					padding: 12rpx 0 18rpx;
+					text-align: right;
+					font-size: 20rpx;
+					font-weight: 400;
+					color: #E92929;
+					border-top: 2rpx solid rgba(112, 112, 112, 0.09);
+				}
+				.Title {
+					font-size: 28rpx;
+					font-weight: 400;
+					color: #000000;
+				}
+				.flex-space-between {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
+			}
+			.btn {
+				width: 100%;
+				height: 88rpx;
+				line-height: 88rpx;
+				text-align: center;
+				background: #24743C;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+				border-radius: 16rpx;
+				font-size: 32rpx;
+				font-weight: 400;
+				color: #FFFFFF;
 			}
 			.inpItem {
-				height: 88rpx;
 				background: #FFFFFF;
 				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
 				border-radius: 16rpx;
@@ -296,7 +355,7 @@
 				width: 750rpx;
 				height: 500rpx;
 				padding: 0 30rpx;
-				.btn {
+				.btnForflex {
 					margin-top: 44rpx;
 					width: 100%;
 					height: 96rpx;
@@ -307,12 +366,12 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					.btnLeft {
-						background: #24743C;
-					}
-					.btnRight {
-						background: #FA3B4A;
-					}
+				}
+				.btnLeft {
+					background: #24743C;
+				}
+				.btnRight {
+					background: #FA3B4A;
 				}
 				.btnBg {
 					width: 294rpx;

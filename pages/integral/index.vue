@@ -52,7 +52,7 @@
 					<view class="tabBox">
 						<u-tabs 
 							height="70" 
-							bg-color="#FBFBFB" duration="0.3" gutter="15" active-color="#3A2A08" 
+							bg-color="#FFF" duration="0.3" gutter="15" active-color="#3A2A08" 
 							bar-width="60"
 							font-size="24"
 							inactive-color="#676767"
@@ -174,7 +174,7 @@ import { reactive, ref, toRefs } from "vue";
 	.box {
 		width: 100%;
 		background-color: #FBFBFB;
-		padding-bottom: 180rpx;
+		padding-bottom: 100rpx;
 		.context {
 			width: 100%;
 			padding: 0 32rpx;

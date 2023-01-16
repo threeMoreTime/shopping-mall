@@ -4,7 +4,7 @@
 			<view class="TopTitle">
 				<view class="set">
 					<view class="msgBg"></view>
-					<view class="setBg"></view>
+					<view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
 				</view>
 				<view class="userInfo">
 					<view class="headAndUser">
@@ -32,26 +32,26 @@
 			<view class="context">
 				<view class="property">
 					<view class="propertyTop">
-						<view class="coin_certificate">
+						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
 							<text style="font-weight: 800; font-size: 40rpx;">25035.58</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">兑换券</text>
 						</view>
-						<view class="coin_certificate">
+						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',3)">
 							<text style="font-weight: 800; font-size: 40rpx;">5027.00</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">能量值</text>
 						</view>
-						<view class="coin_certificate">
+						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',4)">
 							<text style="font-weight: 800; font-size: 40rpx;">18119.13</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
 						</view>
 					</view>
 					<view class="propertyBottom">
-						<view class="integralAndtitle">
+						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
 							<text class="integral">140.00</text>
 							<text class="title">购物积分</text>
 						</view>
 						<view class="borderBg"></view>
-						<view class="integralAndtitle">
+						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
 							<text class="integral">12471.22</text>
 							<text class="title">管理积分</text>
 						</view>
@@ -60,26 +60,26 @@
 				<view class="order">
 					<view class="Title">
 						<text class="titleText">我的订单</text>
-						<view class="allOrder">
+						<view class="allOrder" @click="changePath('/pages/order/order',0)">
 							<text class="allOrderText">全部订单</text>
 							<view class="arrowsBg"></view>
 						</view>
 					</view>
 					<view class="">
 						<u-grid :col="4" :border="false">
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/order/order',1)">
 								<view class="itemBg selected1"></view>
 								<view class="grid-text">待发货</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/order/order',2)">
 								<view class="itemBg selected2"></view>
 								<view class="grid-text">待收货</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/order/order',3)">
 								<view class="itemBg selected3"></view>
 								<view class="grid-text">已完成</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/order/order',4)">
 								<view class="itemBg selected4"></view>
 								<view class="grid-text">自提订单</view>
 							</u-grid-item>
@@ -110,7 +110,7 @@
 								<view class="itemBg selected5"></view>
 								<view class="grid-text">推广中心</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/merchant')">
 								<view class="itemBg selected6"></view>
 								<view class="grid-text">我的店铺</view>
 							</u-grid-item>
@@ -162,7 +162,14 @@
 </template>
 
 <script setup>
-
+	// 路由跳转
+	const changePath = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -175,7 +182,7 @@
 		.box {
 			width: 100%;
 			background-color: #FBFBFB;
-			padding-bottom: 180rpx;
+			padding-bottom: 100rpx;
 			.context {
 				padding: 0 32rpx;
 				margin-top: -178rpx;

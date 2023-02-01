@@ -162,6 +162,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/pay",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我要充值",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

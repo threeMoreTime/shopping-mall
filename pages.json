@@ -203,6 +203,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/application",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提现申请",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

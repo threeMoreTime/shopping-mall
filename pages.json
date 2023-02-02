@@ -172,6 +172,37 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/energyValue",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "能量值兑换",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/record",
+            "style" :                                                                                    
+            {
+				// 充值记录(0) 兑换记录(1) 
+                "navigationBarTitleText": "记录",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/property",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的资产",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

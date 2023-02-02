@@ -41,7 +41,7 @@
 						<view class="ItemBg"></view>
 						<text>退货/款</text>
 					</view>
-					<view class="workingAllItem">
+					<view class="workingAllItem" @click="changePath('/pages/user/property')">
 						<view class="ItemBg"></view>
 						<text>我的账户</text>
 					</view>
@@ -80,6 +80,14 @@
 		uni.navigateBack({
 			delta: 1
 		})
+	}
+	// 路由跳转
+	const changePath = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
 	}
 </script>
 

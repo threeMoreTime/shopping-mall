@@ -3,7 +3,7 @@
 		<view class="tabs">
 			<view class="arrowsBg" @click="navigateBack"></view>
 			<view class="title">我要充值</view>
-			<view class="titleText">充值记录</view>
+			<view class="titleText" @click="changePath('/pages/user/record',0)">充值记录</view>
 		</view>
 		<view class="contextBox">
 			<view class="payList">
@@ -61,7 +61,7 @@
 			</view>
 			<view class="listBg">
 				<view class="payTitle">打款截图</view>
-				<view class="">
+				<view class="" style="margin-top: 10rpx;">
 					<u-upload 
 						:action="action" 
 						:file-list="fileList" 
@@ -71,6 +71,7 @@
 						></u-upload>
 				</view>
 			</view>
+			<view class="btn">立即充值</view>
 		</view>
 	</view>
 </template>
@@ -106,14 +107,34 @@ import { ref } from "vue";
 			delta: 1
 		})
 	}
+	// 路由跳转
+	const changePath = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
 .bg {
 	width: 100%;
-	height: 100vh;
 	background-color: #FBFBFB;
 	position: relative;
+	.btn {
+		width: 100%;
+		height: 72rpx;
+		line-height: 72rpx;
+		border-radius: 16rpx;
+		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+		background: #24743C;
+		text-align: center;
+		font-weight: 400;
+		color: #FFFFFF;
+		font-size: 28rpx;
+		margin-top: 96rpx;
+	}
 	.payPassword {
 		display: flex;
 		align-items: center;

@@ -121,11 +121,11 @@
 					<view class="Title">项目功能</view>
 					<view class="">
 						<u-grid :col="4" :border="false">
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/pay')">
 								<view class="itemBg1 selected1"></view>
-								<view class="grid-text" @click="changePath('/pages/user/pay')">我要充值</view>
+								<view class="grid-text">我要充值</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/energyValue')">
 								<view class="itemBg1 selected2"></view>
 								<view class="grid-text">能量值兑换</view>
 							</u-grid-item>

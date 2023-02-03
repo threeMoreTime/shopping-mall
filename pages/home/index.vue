@@ -2,8 +2,8 @@
 	<view class="bg">
 		<view class="search">
 			<view class="logoBg"></view>
-			<view class="searchBox">
-				<u-search shape="round" v-model="keyword" :show-action="false" @search="changeCancel"></u-search>
+			<view class="searchBox" @click="changePath('/pages/home/search')">
+				<view class="searchBg"></view>
 			</view>
 		</view>
 		<view class="context">
@@ -102,7 +102,6 @@
 		toRefs
 	} from "vue";
 	const data = reactive({
-		keyword: '',
 		tabList: [
 			{name: '全部'},
 			{name: '康养'},
@@ -124,15 +123,14 @@
 		],
 	})
 	const {
-		keyword,
 		swiperList,
 		tabList,
 		current
 	} = toRefs(data)
 	// 用户点击搜索后触发
-	const changeCancel = () => {
-		console.log(keyword.value)
-	}
+	// const changeCancel = () => {
+	// 	console.log(keyword.value)
+	// }
 	// 用户点击轮播图后触发
 	const changeSwiper = (index) => {
 		console.log(index)
@@ -260,6 +258,15 @@
 			width: 604rpx;
 			height: 64rpx;
 			margin-top: 132rpx;
+			background: #FFFFFF;
+			border-radius: 36rpx;
+		}
+		.searchBg {
+			width: 35rpx;
+			height: 36rpx;
+			background: url("@/static/img/search.png") 100% no-repeat;
+			background-size: 100% 100%;
+			margin: 14rpx 18rpx;
 		}
 	}
 

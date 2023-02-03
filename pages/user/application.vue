@@ -12,23 +12,19 @@
 					<text>{{item.name}}</text>
 				</view>
 			</view>
-			<view class="ctxBox">
+			<view class="ctxBox" v-show="classIndex === 1">
 				<u-field
 					v-model="formData.cardholder"
 					label="持卡人"
 					placeholder="请输入持卡人姓名"
+					label-width="150"
 				>
 				</u-field>
 				<u-field
 					v-model="formData.cardNumber"
 					label="卡号"
 					placeholder="请填写卡号"
-				>
-				</u-field>
-				<u-field
-					v-model="formData.cardNumber"
-					label="卡号"
-					placeholder="请填写卡号"
+					label-width="150"
 				>
 				</u-field>
 				<u-field
@@ -37,10 +33,66 @@
 					placeholder="请选择银行"
 					:disabled="true"
 					@click="clickItem"
+					label-width="150"
 				>
 				</u-field>
 				<!-- confirm事件改变formData.bank的值 -->
-				<u-select :list="bankList" v-model="bankShow"></u-select>
+				<u-select :list="bankList" v-model="bankShow" @confirm="changeBank"></u-select>
+				<u-field
+					v-model="formData.bankName"
+					label="开户行名称"
+					placeholder="请填写开户行名称"
+					label-width="150"
+				>
+				</u-field>
+				<u-field
+					v-model="formData.balance"
+					label="提现"
+					placeholder="请输入提现金额"
+					label-width="150"
+				>
+				</u-field>
+				<view class="balance">当前可提现金额：0.00</view>
+			</view>
+			<view class="ctxBox" v-show="classIndex === 2">
+				<u-field
+					v-model="formData.cardholder"
+					label="账号"
+					placeholder="请填写您的微信账号"
+					label-width="150"
+				>
+				</u-field>
+				<u-field
+					v-model="formData.cardNumber"
+					label="提现"
+					placeholder="请输入提现金额"
+					label-width="150"
+				>
+				</u-field>
+				<view class="balance">当前可提现金额：0.00</view>
+			</view>
+			<view class="ctxBox" v-show="classIndex === 3">
+				<u-field
+					v-model="formData.cardholder"
+					label="账号"
+					placeholder="请填写您的支付宝账号"
+					label-width="150"
+				>
+				</u-field>
+				<u-field
+					v-model="formData.cardNumber"
+					label="提现"
+					placeholder="请输入提现金额"
+					label-width="150"
+				>
+				</u-field>
+				<view class="balance">当前可提现金额：0.00</view>
+			</view>
+			<view class="btn">提现</view>
+			<view class="rule">
+				<text class="ruleTitle">规则</text>
+				<text class="texts">最低提现1元</text>
+				<text class="texts">提现申请后管理员会尽快审核打款，请耐心等待。</text>
 			</view>
 		</view>
 	</view>
@@ -51,7 +103,9 @@ import { reactive, ref } from "vue";
 	const formData = reactive({
 		cardholder: '',
 		cardNumber: null,
-		bank: ''
+		bank: '',
+		bankName: '',
+		balance: null
 	})
 	const classStyle = ref([
 		{id: 1,name: '银行卡'},
@@ -63,15 +117,20 @@ import { reactive, ref } from "vue";
 	const bankList = ref([
 		{
 			value: '1',
-			label: '江'
+			label: '中国银行'
 		},
 		{
 			value: '2',
-			label: '湖'
+			label: '农业银行'
 		}
 	])
+	// 打开选择银行的下拉列表
 	const clickItem = () => {
 		bankShow.value = true
+	}
+	// 改变银行
+	const changeBank = (list) => {
+		formData.bank = list[0].label
 	}
 	// 返回上一级
 	const navigateBack = () => {
@@ -79,6 +138,7 @@ import { reactive, ref } from "vue";
 			delta: 1
 		})
 	}
+	// 改变支付方式 银行卡(1) 微信(2) 支付宝(3)
 	const changeClass = (index) => {
 		classIndex.value = index
 	}
@@ -90,6 +150,43 @@ import { reactive, ref } from "vue";
 	height: 100vh;
 	background-color: #FBFBFB;
 	position: relative;
+	.ruleTitle {
+		font-size: 28rpx;
+		font-weight: 400;
+		color: #000000;
+		margin-bottom: 16rpx;
+	}
+	.rule {
+		margin-top: 44rpx;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		.texts {
+			font-size: 20rpx;
+			font-weight: 400;
+			color: #A8A8A8;
+			margin-bottom: 2rpx;
+		}
+	}
+	.btn {
+		margin-top: 64rpx;
+		width: 686rpx;
+		height: 72rpx;
+		line-height: 72rpx;
+		background: #24743C;
+		border-radius: 16rpx;
+		text-align: center;
+		font-size: 28rpx;
+		font-weight: 400;
+		color: #FFFFFF;
+	}
+	.balance {
+		width: 100%;
+		font-size: 20rpx;
+		font-weight: 400;
+		color: #A8A8A8;
+		padding: 20rpx 0;
+	}
 	.ctxBox {
 		margin-top: 24rpx;
 		padding: 0 24rpx;

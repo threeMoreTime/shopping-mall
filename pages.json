@@ -213,6 +213,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/home/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索页面",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

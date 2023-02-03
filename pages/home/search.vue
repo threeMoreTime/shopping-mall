@@ -22,9 +22,9 @@
 				<text class="historyTitle">搜索历史</text>
 				<view class="historyBox">
 					<view class="boxText">
-						<text></text>
+						<text v-for="item,index in searchList" :key="index">{{item}}</text>
 					</view>
-					<view class="delBg"></view>
+					<view class="delBg" @click="changeDel"></view>
 				</view>
 			</view>
 		</view>
@@ -37,11 +37,16 @@ import { historyStore } from "@/store/index.js"
 	const store = historyStore()
 	const keyword = ref('')
 	// 调用仓库的搜索记录
-	const searchList = store.history
-	console.log(searchList);
+	const searchList = ref(store.history || [])
 	// 点击搜索
 	const changeSearch = (value) => {
 		store.historyList(value)
+		searchList.value = store.history
+	}
+	// 点击删除浏览器缓存搜索记录
+	const changeDel = () => {
+		store.delStorage()
+		searchList.value = []
 	}
 	// 返回上一级
 	const navigateBack = () => {
@@ -60,14 +65,24 @@ import { historyStore } from "@/store/index.js"
 	.delBg {
 		width: 33rpx;
 		height: 31rpx;
+		background: url("@/static/img/del.png") 100% no-repeat;
+		background-size: 100% 100%;
 	}
 	.boxText {
 		width: 80%;
 		text {
 			margin-right: 14rpx;
+			display: inline-block;
+			background: #E2E2E2;
+			border-radius: 22rpx;
+			font-size: 24rpx;
+			font-weight: 400;
+			color: #8D8D8D;
+			padding: 6rpx 22rpx;
 		}
 	}
 	.historyBox {
+		margin-top: 24rpx;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;

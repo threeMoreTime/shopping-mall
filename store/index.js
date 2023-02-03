@@ -15,5 +15,9 @@ export const historyStore = defineStore('history', () => {
 			data: history.value
 		})
 	}
-	return { history,historyList };
+	const delStorage = () => {
+		uni.removeStorageSync('searchList');
+		history.value = []
+	}
+	return { history,historyList,delStorage };
 });

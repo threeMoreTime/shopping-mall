@@ -147,11 +147,11 @@
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected7"></view>
-								<view class="grid-text">我的挂单</view>
+								<view class="grid-text" @click="myGuaDan">我的挂单</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected8"></view>
-								<view class="grid-text">我要转换</view>
+								<view class="grid-text" >我要转换</view>
 							</u-grid-item>
 						</u-grid>
 					</view>
@@ -170,6 +170,19 @@
 			})
 		}
 	}
+  
+  // 点击我的挂单跳转路由
+  const myGuaDan = () => {
+      // console.log(11);
+  		uni.navigateTo({
+  			url:'/pages/user/myGuaDan'
+  		})
+    
+  	}
+  
+  
+  
+  
 </script>
 
 <style lang="scss" scoped>

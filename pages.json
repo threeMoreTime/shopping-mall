@@ -223,6 +223,17 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/myGuaDan",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的挂单",
+                "enablePullDownRefresh": false,
+                    "navigationStyle": "custom",
+                    "backgroundColor": "#24743C"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

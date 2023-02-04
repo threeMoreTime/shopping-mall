@@ -25,7 +25,7 @@
 						<text class="redBg">代发货</text>
 					</view>
 					<view class="ItemMiddle">
-						<img src="../../static/img/clothing.png" alt="">
+						<image src="../../static/img/clothing.png" alt=""/>
 						<view class="context">
 							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
 							<view class="price">
@@ -50,7 +50,7 @@
 						<text class="redBg">代发货</text>
 					</view>
 					<view class="ItemMiddle">
-						<img src="../../static/img/clothing.png" alt="">
+						<image src="../../static/img/clothing.png" alt=""/>
 						<view class="context">
 							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
 							<view class="price">
@@ -79,7 +79,7 @@
 						<text class="redBg">待收货</text>
 					</view>
 					<view class="ItemMiddle">
-						<img src="../../static/img/clothing.png" alt="">
+						<image src="../../static/img/clothing.png" alt=""/>
 						<view class="context">
 							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
 							<view class="price">
@@ -107,7 +107,7 @@
 						<text class="redBg">已完成</text>
 					</view>
 					<view class="ItemMiddle">
-						<img src="../../static/img/clothing.png" alt="">
+						<image src="../../static/img/clothing.png" alt=""/>
 						<view class="context">
 							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
 							<view class="price">
@@ -132,7 +132,7 @@
 						<text class="redBg">已提货</text>
 					</view>
 					<view class="ItemMiddle">
-						<img src="../../static/img/clothing.png" alt="">
+						<image src="../../static/img/clothing.png" alt=""/>
 						<view class="context">
 							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
 							<view class="price">
@@ -439,7 +439,7 @@
 					}
 				}
 
-				img {
+				image {
 					width: 138rpx;
 					height: 138rpx;
 				}

@@ -31,7 +31,7 @@
 				</view>
 				<view class="BoxList">
 					<view class="BoxListItem">
-						<img src="@/static/img/watches.png" alt="">
+						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -45,7 +45,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/camera.png" alt="">
+						<image src="@/static/img/camera.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -59,7 +59,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/camera.png" alt="">
+						<image src="@/static/img/camera.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -73,7 +73,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/watches.png" alt="">
+						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -185,7 +185,7 @@ import { reactive, toRefs } from "vue";
 						color: #E60808;
 					}
 				}
-				img {
+				image {
 					width: 200rpx;
 					height: 200rpx;
 					margin: 0 auto;

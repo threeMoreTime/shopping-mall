@@ -47,6 +47,7 @@
 <script setup>
 import { ref } from "vue";
 import { historyStore } from "@/store/index.js"
+import { changePath } from "@/utils/navigate.js"
 	const store = historyStore()
 	const keyword = ref('')
 	// 调用仓库的搜索记录
@@ -56,10 +57,10 @@ import { historyStore } from "@/store/index.js"
 		if(value) {
 			store.historyList(value)
 			searchList.value = store.history
-			console.log(store.history);
 			if (searchList.value.length > 15) {
 				store.history.splice(15,1)
-			} 
+			}
+			changePath('/pages/home/searchList/searchList',{keyword: value})
 		} else {
 			return uni.showToast({
 				title: "输入内容不能为空",
@@ -75,6 +76,7 @@ import { historyStore } from "@/store/index.js"
 	// 点击搜索记录
 	const changeKeyWord = (keywordtext) => {
 		keyword.value = keywordtext
+		changePath('/pages/home/searchList/searchList',{keyword: keyword.value})
 	}
 	// 返回上一级
 	const navigateBack = () => {

@@ -9,10 +9,16 @@ export const userStore = defineStore('user', () => {
 export const historyStore = defineStore('history', () => {
 	const history = ref(uni.getStorageSync('searchList') || [])
 	const historyList = (data) => {
-		history.value.push(data)
-		uni.setStorage({
-			key: 'searchList',
-			data: history.value
+		new Promise((resolve, reject) => {
+			history.value.unshift(data)
+			// history.value = [...new Set(history.value)]
+			history.value = Array.from(new Set(history.value))
+			resolve(history.value)
+		}).then((res) => {
+			uni.setStorage({
+				key: 'searchList',
+				data: res
+			})
 		})
 	}
 	const delStorage = () => {

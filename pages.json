@@ -1,289 +1,255 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/home/index",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		}
-	    ,{
-            "path" : "pages/exchange/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "交易所",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/integral/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "积分",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/shopping/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "商城",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/login/register",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "注册",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/login/index",
-            "style" :                                                                                    
-            {
-				// 共用 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4)
-                "navigationBarTitleText": "登录",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "设置",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/commonSetting",
-            "style" :                                                                                    
-            {
-				// 个人资料(0) 安全设置(1) 意见反馈(2) 银行信息(3) 添加银行卡信息(4)
-                "navigationBarTitleText": "资料公共页面",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/about",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "关于我们",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/changeProfile",
-            "style" :                                                                                    
-            {
-				// 更改姓名(0) 更改手机号(1) 更改身份证号(2)
-                "navigationBarTitleText": "更改信息",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/securitySettings",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "安全设置",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/merchant",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "商家中心",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/home/IntegralDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "积分明细",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/setting/IntegrationAndFlow",
-            "style" :                                                                                    
-            {
-				// type值对应的页面 管理积分流水(0) 购物积分流水(1) 兑换券流水(2) 能量值流水(3) 仓单流水(4)
-                "navigationBarTitleText": "积分和流水",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/order/order",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的订单",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/pay",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我要充值",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/energyValue",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "能量值兑换",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/record",
-            "style" :                                                                                    
-            {
-				// 充值记录(0) 兑换记录(1) 
-                "navigationBarTitleText": "记录",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/property",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的资产",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/application",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "提现申请",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/home/search",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "搜索页面",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/user/myGuaDan",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的挂单",
-                "enablePullDownRefresh": false,
-                    "navigationStyle": "custom",
-                    "backgroundColor": "#24743C"
-            }
-            
-        }
-    ],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"app-plus": {
-			"bounce": "none",
-			"scrollIndicator": "none"
-		}
-	},
-	"uniIdRouter": {},
-	"tabBar": {
-		"color": "#999999",
-		"selectedColor": "#999999",
-		"borderStyle": "#F1F1F1",
-		"backgroundColor": "#fff",
-		"height": "70px",
-		"fontSize": "12px",
-		"spacing": "5px",
-		"list": [{
-				"pagePath": "pages/home/index",
-				"text": "首页",
-				"iconPath": "static/img/home.png",
-				"selectedIconPath": "static/img/homeActivate.png"
-			},
-			{
-				"pagePath": "pages/integral/index",
-				"text": "积分",
-				"iconPath": "static/img/integral.png",
-				"selectedIconPath": "static/img/integralActivate.png"
-			},
-			{
-				"pagePath": "pages/shopping/index",
-				"text": "商城",
-				"iconPath": "static/img/shopping.png",
-				"selectedIconPath": "static/img/shoppingActivate.png"
-			},
-			{
-				"pagePath": "pages/exchange/index",
-				"text": "交易所",
-				"iconPath": "static/img/exchange.png",
-				"selectedIconPath": "static/img/exchangeActivate.png"
-			},
-			{
-				"pagePath": "pages/user/index",
-				"text": "我的",
-				"iconPath": "static/img/user.png",
-				"selectedIconPath": "static/img/userActivate.png"
-			}
-		]
-	}
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/home/index",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/exchange/index",
+      "style": {
+        "navigationBarTitleText": "交易所",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/integral/index",
+      "style": {
+        "navigationBarTitleText": "积分",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shopping/index",
+      "style": {
+        "navigationBarTitleText": "商城",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/index",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/register",
+      "style": {
+        "navigationBarTitleText": "注册",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        // 共用 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4)
+        "navigationBarTitleText": "登录",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/index",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/commonSetting",
+      "style": {
+        // 个人资料(0) 安全设置(1) 意见反馈(2) 银行信息(3) 添加银行卡信息(4)
+        "navigationBarTitleText": "资料公共页面",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/about",
+      "style": {
+        "navigationBarTitleText": "关于我们",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/changeProfile",
+      "style": {
+        // 更改姓名(0) 更改手机号(1) 更改身份证号(2)
+        "navigationBarTitleText": "更改信息",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/securitySettings",
+      "style": {
+        "navigationBarTitleText": "安全设置",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/merchant",
+      "style": {
+        "navigationBarTitleText": "商家中心",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/home/IntegralDetail",
+      "style": {
+        "navigationBarTitleText": "积分明细",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/setting/IntegrationAndFlow",
+      "style": {
+        // type值对应的页面 管理积分流水(0) 购物积分流水(1) 兑换券流水(2) 能量值流水(3) 仓单流水(4)
+        "navigationBarTitleText": "积分和流水",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/order/order",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/pay",
+      "style": {
+        "navigationBarTitleText": "我要充值",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/energyValue",
+      "style": {
+        "navigationBarTitleText": "能量值兑换",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/record",
+      "style": {
+        // 充值记录(0) 兑换记录(1)
+        "navigationBarTitleText": "记录",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/property",
+      "style": {
+        "navigationBarTitleText": "我的资产",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/application",
+      "style": {
+        "navigationBarTitleText": "提现申请",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/home/search",
+      "style": {
+        "navigationBarTitleText": "搜索页面",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/myGuaDan",
+      "style": {
+        "navigationBarTitleText": "我的挂单",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom",
+        "backgroundColor": "#24743C"
+      }
+    },
+    {
+      "path": "pages/home/searchList/searchList",
+      "style": {
+        "navigationBarTitleText": "搜索列表页",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "app-plus": {
+      "bounce": "none",
+      "scrollIndicator": "none"
+    }
+  },
+  "uniIdRouter": {},
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#999999",
+    "borderStyle": "#F1F1F1",
+    "backgroundColor": "#fff",
+    "height": "70px",
+    "fontSize": "12px",
+    "spacing": "5px",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "static/img/home.png",
+        "selectedIconPath": "static/img/homeActivate.png"
+      },
+      {
+        "pagePath": "pages/integral/index",
+        "text": "积分",
+        "iconPath": "static/img/integral.png",
+        "selectedIconPath": "static/img/integralActivate.png"
+      },
+      {
+        "pagePath": "pages/shopping/index",
+        "text": "商城",
+        "iconPath": "static/img/shopping.png",
+        "selectedIconPath": "static/img/shoppingActivate.png"
+      },
+      {
+        "pagePath": "pages/exchange/index",
+        "text": "交易所",
+        "iconPath": "static/img/exchange.png",
+        "selectedIconPath": "static/img/exchangeActivate.png"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "我的",
+        "iconPath": "static/img/user.png",
+        "selectedIconPath": "static/img/userActivate.png"
+      }
+    ]
+  }
 }

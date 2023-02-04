@@ -35,7 +35,7 @@
 				</view>
 			</view>
 			<view class="indexTitle">
-				<img src="@/static/img/indexTitleBg.png" alt="">
+				<image src="@/static/img/indexTitleBg.png" alt=""/>
 			</view>
 			<view class="tabBox">
 				<u-tabs 
@@ -55,12 +55,12 @@
 			<view class="ctxList">
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<img src="@/static/img/logoBg.png" alt="">
+						<image src="@/static/img/logoBg.png" alt=""/>
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<img src="@/static/img/camera.png" alt="">
+							<image src="@/static/img/camera.png" alt=""/>
 							<view class="ItemBottomText">
 								<text>数码相机</text>
 								<view class="goldCtx">
@@ -74,12 +74,12 @@
 				</view>
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<img src="@/static/img/logoBg.png" alt="">
+						<image src="@/static/img/logoBg.png" alt=""/>
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<img src="@/static/img/watches.png" alt="">
+							<image src="@/static/img/watches.png" alt=""/>
 							<view class="ItemBottomText">
 								<text>时尚手表</text>
 								<view class="goldCtx">
@@ -185,7 +185,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			img {
+			image {
 				width: 120rpx;
 				height: 120rpx;
 			}
@@ -229,7 +229,7 @@
 			.ItemTitle {
 				margin-left: 22rpx;
 			}
-			img {
+			image {
 				width: 42rpx;
 				height: 42rpx;
 			}
@@ -285,7 +285,7 @@
 		width: 686rpx;
 		height: 130rpx;
 		margin-bottom: 10rpx;
-		img {
+		image {
 			width: 100%;
 			height: 100%;
 			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);

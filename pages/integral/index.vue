@@ -46,7 +46,7 @@
 					</view>
 				</view>
 				<view class="gameImg">
-					<img src="@/static/img/gameImg.png" alt="">
+					<image src="@/static/img/gameImg.png" alt=""/>
 				</view>
 				<view class="ctxBox">
 					<view class="tabBox">
@@ -71,7 +71,7 @@
 					<view class="ctxList" v-if="current === 0">
 						<view class="ctxListItem">
 							<view class="ItemBottomCtx">
-								<img src="@/static/img/camera.png" alt="">
+								<image src="@/static/img/camera.png" alt=""/>
 								<view class="ItemBottomText">
 									<text>数码相机</text>
 									<view class="goldCtx">
@@ -84,7 +84,7 @@
 						</view>
 						<view class="ctxListItem">
 							<view class="ItemBottomCtx">
-								<img src="@/static/img/camera.png" alt="">
+								<image src="@/static/img/camera.png" alt=""/>
 								<view class="ItemBottomText">
 									<text>数码相机</text>
 									<view class="goldCtx">
@@ -253,7 +253,7 @@ import { reactive, ref, toRefs } from "vue";
 					align-items: center;
 					justify-content: space-between;
 					margin-top: 42rpx;
-					img {
+					image {
 						width: 120rpx;
 						height: 120rpx;
 					}
@@ -262,7 +262,7 @@ import { reactive, ref, toRefs } from "vue";
 			.gameImg {
 				width: 686rpx;
 				height: 130rpx;
-				img {
+				image {
 					width: 100%;
 					height: 100%;
 					border-radius: 16rpx;

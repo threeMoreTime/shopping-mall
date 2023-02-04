@@ -223,6 +223,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/home/searchList/searchList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索列表页",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

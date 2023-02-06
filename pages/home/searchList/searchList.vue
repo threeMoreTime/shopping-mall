@@ -25,7 +25,28 @@
 		</view>
 		<view class="ctxBox">
 			<view class="ctxBoxItem">
-				
+				<image src="@/static/img/camera.png" mode=""></image>
+				<view class="contextBox">
+					<text class="ctxTitle u-line-2">美特斯邦威羽绒服保暖冬季防风保暖美特斯邦威羽绒服保暖冬季防风保暖</text>
+					<text class="t-size-20rpx" style="text-decoration: line-through;color: #A8A8A8;">￥350.00</text>
+					<text class="ctxTitle">￥315.00</text>
+					<view class="shopName">
+						<text class="t-size-20rpx" style="color: #A20505;">天猫超市</text>
+						<text class="t-size-20rpx" style="color: #A8A8A8;">已售2.6万</text>
+					</view>
+				</view>
+			</view>
+			<view class="ctxBoxItem">
+				<image src="@/static/img/camera.png" mode=""></image>
+				<view class="contextBox">
+					<text class="ctxTitle u-line-2">美特斯邦威羽绒服保暖冬季防风保暖美特斯邦威羽绒服保暖冬季防风保暖</text>
+					<text class="t-size-20rpx" style="text-decoration: line-through;color: #A8A8A8;">￥350.00</text>
+					<text class="ctxTitle">￥315.00</text>
+					<view class="shopName">
+						<text class="t-size-20rpx" style="color: #A20505;">天猫超市</text>
+						<text class="t-size-20rpx" style="color: #A8A8A8;">已售2.6万</text>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -75,12 +96,42 @@
 	background-color: #FBFBFB;
 	position: relative;
 	.ctxBoxItem {
-		width: 684rpx;
-		height: 260rpx;
+		padding: 26rpx 26rpx 26rpx 34rpx;
+		width: 100%;
+		// height: 260rpx;
 		background: #FFFFFF;
 		box-shadow: 0rpx 8rpx 12rpx 2rpx rgba(0,0,0,0.12);
 		border-radius: 20rpx;
 		margin-bottom: 16rpx;
+		display: flex;
+		align-items: center;
+		.t-size-20rpx {
+			font-size: 20rpx;
+			font-weight: 400rpx;
+		}
+		.shopName {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.contextBox {
+			margin-left: 26rpx;
+			display: flex;
+			flex-direction: column;
+		}
+		.ctxTitle {
+			width: 410rpx;
+			font-size: 28rpx;
+			font-weight: bold;
+			color: #000000;
+		}
+		text {
+			padding: 0 0 8rpx;
+		}
+		image {
+			width: 188rpx;
+			height: 188rpx;
+		}
 	}
 	.ctxBox {
 		width: 100%;

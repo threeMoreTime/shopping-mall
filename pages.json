@@ -260,16 +260,16 @@
 				"selectedIconPath": "static/img/homeActivate.png"
 			},
 			{
-				"pagePath": "pages/integral/index",
-				"text": "积分",
-				"iconPath": "static/img/integral.png",
-				"selectedIconPath": "static/img/integralActivate.png"
-			},
-			{
 				"pagePath": "pages/shopping/index",
 				"text": "商城",
 				"iconPath": "static/img/shopping.png",
 				"selectedIconPath": "static/img/shoppingActivate.png"
+			},
+			{
+				"pagePath": "pages/integral/index",
+				"text": "积分",
+				"iconPath": "static/img/integral.png",
+				"selectedIconPath": "static/img/integralActivate.png"
 			},
 			{
 				"pagePath": "pages/exchange/index",

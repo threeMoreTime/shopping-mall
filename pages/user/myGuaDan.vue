@@ -6,9 +6,9 @@
     </view>
     <view class="DaBox">
       <view class="tishiBox" v-for="item, index in dateList" :key="item.id"
-        :class="[index === titleIndex ? 'boxListTitleItem1' : '']" @click="changTitle(index)">
+        :class="[index === titleIndex ? 'boxListTitleItem1' : '']" >
         <view class="left">
-          <text class="leftBox">
+          <text class="leftBox" @click="changTitle(index)">
             {{item.title}}
             <!-- tab -->
           </text>
@@ -21,17 +21,31 @@
    <view class="" v-show="titleIndex === 0 ?true :false">
      <view class="jiaoYiChangGongTopBox"  >
            <view class="TopBox1">交易成功</view>
-           <view class="TopBox2">2022-11-29:17:19:41</view>
+           <view class="TopBox2"> &nbsp;2022-11-29:17:19:41</view>
            <view class="TopBox3" style="text-align: center;">买入</view>
          </view>
          <!-- 第1个 -->
          <view class="jiaoYiChangGongBottomBox">
+           <view
+                style="
+                  margin: 0px auto;
+                  padding: 0px;
+                  overflow: hidden;
+                  width: 300px;
+                  height: 1px;  
+                  background-color: #707070;
+                  
+opacity: 0.17;
+                  "
+              ></view>
            <view class="Top">
+             
              <view class="bottomBox1">单价</view>
              <view class="bottomBox2">数量</view>
              <view class="bottomBox3">剩余数量</view>
              <view class="bottomBox4">总额</view>
            </view>
+  
            <view class="Bottom">
              <view class="bottomBox5">7.80</view>
              <view class="bottomBox6">100.00</view>
@@ -43,13 +57,25 @@
          <view class="ssss" style="transform: translateY(-100rpx);">
            <view class="jiaoYiChangGongTopBox">
              <view class="TopBox1">交易成功</view>
-             <view class="TopBox2">2022-11-29:17:19:41</view>
+             <view class="TopBox2"> &nbsp;2022-11-29:17:19:41</view>
              <view class="TopBox3" style="width: 72rpx;
      height: 64rpx;
      background: #FF0000;
      border-radius: 0rpx 0rpx 32rpx 32rpx; text-align: center;">卖出</view>
            </view>
            <view class="jiaoYiChangGongBottomBox">
+             <view
+                  style="
+                    margin: 0px auto;
+                    padding: 0px;
+                    overflow: hidden;
+                    width: 300px;
+                    height: 1px;  
+                    background-color: #707070;
+                    
+opacity: 0.17;
+                    "
+                ></view>
              <view class="Top">
                <view class="bottomBox1">单价</view>
                <view class="bottomBox2">数量</view>
@@ -71,9 +97,78 @@
    
   <!-- tab右 -->
   <view class=""  v-show="titleIndex === 1 ?true :false">
-    2222222222222222222222
+  <view class="jiaoYiChangGongTopBox"  >
+        <view class="TopBox1">待确认</view>
+        <view class="TopBox2">2022-11-29:17:19:41</view>
+        <view class="TopBox3" style="text-align: center;">买入</view>
+      </view>
+      <!-- 第1个 -->
+      <view class="jiaoYiChangGongBottomBox">
+        <view
+             style="
+               margin: 0px auto;
+               padding: 0px;
+               overflow: hidden;
+               width: 300px;
+               height: 1px;  
+               background-color: #707070;
+               
+opacity: 0.17;
+               "
+           ></view>
+        <view class="Top">
+          <view class="bottomBox1">单价</view>
+          <view class="bottomBox2">数量</view>
+          <!-- <view class="bottomBox3">剩余数量</view> -->
+          <view class="bottomBox4">总额</view>
+        </view>
+        <view class="Bottom">
+          <view class="bottomBox5">7.80</view>
+          <!-- <view class="bottomBox6">100.00</view> -->
+          <view class="bottomBox7">100.00</view>
+          <view class="bottomBox8">780.00</view>
+        </view>
+      </view>
+      <!-- 第2个 -->
+      <view class="ssss" style="transform: translateY(-100rpx);">
+        
+        <view class="jiaoYiChangGongTopBox">
+          <view class="TopBox1">待确认</view>
+          <view class="TopBox2">2022-11-29:17:19:41</view>
+          <view class="TopBox3" style="width: 72rpx;
+  height: 64rpx;
+  background: #FF0000;
+  border-radius: 0rpx 0rpx 32rpx 32rpx; text-align: center;">卖出</view>
+        </view>
+        <view class="jiaoYiChangGongBottomBox">
+          <view
+               style="
+                 margin: 0px auto;
+                 padding: 0px;
+                 overflow: hidden;
+                 width: 300px;
+                 height: 1px;  
+                 background-color: #707070;
+                 
+opacity: 0.17;
+                 "
+             ></view>
+          <view class="Top">
+            <view class="bottomBox1">单价</view>
+            <view class="bottomBox2">数量</view>
+         <!--   <view class="bottomBox3">剩余数量</view> -->
+            <view class="bottomBox4">总额</view>
+          </view>
+          <view class="Bottom">
+            <view class="bottomBox5">7.80</view>
+            <view class="bottomBox6">100.00</view>
+            <!-- <view class="bottomBox7">100.00</view> -->
+            <view class="bottomBox8">780.00</view>
+          </view>
+        </view>
+      </view>
   </view>
-  
+ 
     <!-- -------		 -->
   </view>
 </template>

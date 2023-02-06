@@ -100,7 +100,7 @@
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected3"></view>
-								<view class="grid-text">我的社区</view>
+								<view class="grid-text" @click="mySheQu('/pages/user/mySheQu')">我的社区</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected4"></view>
@@ -147,7 +147,7 @@
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected7"></view>
-								<view class="grid-text" @click="myGuaDan">我的挂单</view>
+								<view class="grid-text" @click="myGuaDan('/pages/user/myGuaDan')">我的挂单</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected8"></view>
@@ -172,14 +172,23 @@
 	}
   
   // 点击我的挂单跳转路由
-  const myGuaDan = () => {
-      // console.log(11);
-  		uni.navigateTo({
-  			url:'/pages/user/myGuaDan'
-  		})
-    
-  	}
-  
+	const myGuaDan = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
+
+
+    // 点击我的社区跳转路由
+	const   mySheQu = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
   
   
   

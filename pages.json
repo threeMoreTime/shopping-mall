@@ -198,7 +198,17 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/user/mySheQu",
+            "style" :                                                                                    
+            {
+           "navigationBarTitleText": "我的社区",
+                "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

@@ -25,7 +25,7 @@
 					<view class="itemBg2"></view>
 					<view class="itemText">农场</view>
 				</view>
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changePath('/pages/user/merchant')">
 					<view class="itemBg3"></view>
 					<view class="itemText">商城入驻</view>
 				</view>

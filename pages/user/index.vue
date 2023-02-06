@@ -114,7 +114,7 @@
 								<view class="itemBg selected6"></view>
 								<view class="grid-text">我的店铺</view>
 							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/merchant')">
+							<u-grid-item @click="changePath('/pages/user/project')">
 								<view class="itemBg selected7"></view>
 								<view class="grid-text">我的项目</view>
 							</u-grid-item>

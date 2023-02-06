@@ -2,8 +2,8 @@
 	<view class="bg">
 		<view class="box">
 			<view class="search">
-				<view class="searchBox">
-					<u-search shape="round" v-model="keyword" :show-action="false" @search="changeCancel"></u-search>
+				<view class="searchBox" @click="changePath('/pages/home/search',{})">
+					<view class="searchBg"></view>
 				</view>
 			</view>
 			<view class="context">
@@ -93,7 +93,8 @@
 </template>
 
 <script setup>
-import { reactive, toRefs } from "vue";
+import { reactive, ref, toRefs } from "vue";
+import {changePath} from "@/utils/navigate.js"
 	const data = reactive({
 		keyword: '',
 		swiperList: [{
@@ -112,9 +113,9 @@ import { reactive, toRefs } from "vue";
 	})
 	const {keyword,swiperList} = toRefs(data)
 	// 用户点击搜索后触发
-	const changeCancel = () => {
-		console.log(keyword.value)
-	}
+	// const changeCancel = () => {
+	// 	console.log(keyword.value)
+	// }
 	// 用户点击轮播图后触发
 	const changeSwiper = (index) => {
 		console.log(index)
@@ -258,6 +259,15 @@ import { reactive, toRefs } from "vue";
 				width: 100%;
 				height: 64rpx;
 				margin-top: 132rpx;
+				background: #FFFFFF;
+				border-radius: 36rpx;
+			}
+			.searchBg {
+				width: 35rpx;
+				height: 36rpx;
+				background: url("@/static/img/search.png") 100% no-repeat;
+				background-size: 100% 100%;
+				margin: 14rpx 18rpx;
 			}
 		}
 	}

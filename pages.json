@@ -207,6 +207,16 @@
 				"navigationStyle": "custom"
             }
         }
+        ,{
+            "path" : "pages/user/planting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "沉香树兑换",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

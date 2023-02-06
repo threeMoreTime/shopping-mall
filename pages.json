@@ -198,7 +198,16 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/user/project",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的项目",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

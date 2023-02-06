@@ -111,6 +111,36 @@
 							</view>
 						</view>
 					</view>
+					<view class="ctxList" v-if="current === 3">
+						<view class="ctxListItem border-bottom-70">
+							<view class="ItemBottomCtx">
+								<image src="@/static/img/gold.png" alt=""/>
+								<view class="ItemBottomText">
+									<text>黄金10克金条</text>
+									<view class="goldCtx">
+										<text class="gold">3000</text>
+										<text class="goldForm">￥</text>
+									</view>
+									<text class="market">已售2.6万</text>
+								</view>
+							</view>
+							<view class="ItemBottomBtn">兑换</view>
+						</view>
+						<view class="ctxListItem border-bottom-70">
+							<view class="ItemBottomCtx">
+								<image src="@/static/img/gold.png" alt=""/>
+								<view class="ItemBottomText">
+									<text>黄金10克金条</text>
+									<view class="goldCtx">
+										<text class="gold">3000</text>
+										<text class="goldForm">￥</text>
+									</view>
+									<text class="market">已售2.6万</text>
+								</view>
+							</view>
+							<view class="ItemBottomBtn">兑换</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -147,6 +177,7 @@ import { reactive, ref, toRefs } from "vue";
 			{name: '积分兑换'},
 			{name: '现金购买'},
 			{name: '周边生活'},
+			{name: '兑换黄金'},
 		],
 		current: 0,
 	})
@@ -219,9 +250,18 @@ import { reactive, ref, toRefs } from "vue";
 				.ctxList {
 					padding-bottom: 70rpx;
 				}
+				.border-bottom-70 {
+					border-bottom: 2rpx solid rgba(112, 112, 112, 0.1);
+					padding-bottom: 30rpx;
+				}
 				.ItemBottomCtx {
 					display: flex;
 					align-items: center;
+				}
+				.market {
+					font-size: 20rpx;
+					font-weight: 400;
+					color: #A8A8A8;
 				}
 				.ItemBottomText {
 					margin-left: 18rpx;
@@ -248,6 +288,7 @@ import { reactive, ref, toRefs } from "vue";
 					font-weight: bold;
 					color: #3A0808;
 				}
+				
 				.ctxListItem {
 					display: flex;
 					align-items: center;

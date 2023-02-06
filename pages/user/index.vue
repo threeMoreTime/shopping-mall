@@ -114,6 +114,10 @@
 								<view class="itemBg selected6"></view>
 								<view class="grid-text">我的店铺</view>
 							</u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/merchant')">
+								<view class="itemBg selected7"></view>
+								<view class="grid-text">我的项目</view>
+							</u-grid-item>
 						</u-grid>
 					</view>
 				</view>
@@ -281,6 +285,10 @@
 					}
 					&.selected6 {
 						background: url("@/static/img/store.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+					&.selected7 {
+						background: url("@/static/img/project.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
 				}

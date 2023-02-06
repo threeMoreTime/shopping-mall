@@ -25,7 +25,7 @@
 					<view class="itemBg2"></view>
 					<view class="itemText">农场</view>
 				</view>
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changePath('/pages/user/merchant')">
 					<view class="itemBg3"></view>
 					<view class="itemText">商城入驻</view>
 				</view>
@@ -69,7 +69,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn">购买</view>
+						<view class="ItemBottomBtn">了解详情</view>
 					</view>
 				</view>
 				<view class="ctxListItem">
@@ -88,7 +88,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn">购买</view>
+						<view class="ItemBottomBtn">了解详情</view>
 					</view>
 				</view>
 			</view>
@@ -198,7 +198,8 @@
 				margin-left: 18rpx;
 			}
 			.ItemBottomBtn {
-				width: 126rpx;
+				// width: 126rpx;
+				padding: 0 16rpx;
 				height: 48rpx;
 				background: #24743C;
 				border-radius: 24rpx 24rpx 24rpx 24rpx;

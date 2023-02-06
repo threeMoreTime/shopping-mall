@@ -2,9 +2,12 @@
 	<view class="bg">
 		<view class="box">
 			<view class="TopTitle">
-				<view class="set">
-					<view class="msgBg"></view>
-					<view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
+				<view class="setBox">
+					<view class="arrowsBg1" @click="navigateBack"></view>
+					<view class="set">
+						<view class="msgBg"></view>
+						<view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
+					</view>
 				</view>
 				<view class="userInfo">
 					<view class="headAndUser">
@@ -87,75 +90,28 @@
 					</view>
 				</view>
 				<view class="function">
-					<view class="Title">常用功能</view>
-					<view class="">
-						<u-grid :col="4" :border="false">
-							<u-grid-item>
-								<view class="itemBg selected1"></view>
-								<view class="grid-text">仓单交易</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg selected2"></view>
-								<view class="grid-text">能量交易</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg selected3"></view>
-								<view class="grid-text" @click="mySheQu('/pages/user/mySheQu')">我的社区</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg selected4"></view>
-								<view class="grid-text" @click="myJiaoYi('/pages/user/myJiaoYi')">我的交易</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg selected5"></view>
-								<view class="grid-text">推广中心</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/merchant')">
-								<view class="itemBg selected6"></view>
-								<view class="grid-text">我的店铺</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/project')">
-								<view class="itemBg selected7"></view>
-								<view class="grid-text">我的项目</view>
-							</u-grid-item>
-						</u-grid>
-					</view>
-				</view>
-				<view class="function">
 					<view class="Title">项目功能</view>
 					<view class="">
 						<u-grid :col="4" :border="false">
-							<u-grid-item @click="changePath('/pages/user/pay')">
-								<view class="itemBg1 selected1"></view>
-								<view class="grid-text">我要充值</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/energyValue')">
-								<view class="itemBg1 selected2"></view>
-								<view class="grid-text">能量值兑换</view>
-							</u-grid-item>
 							<u-grid-item>
-								<view class="itemBg1 selected3"></view>
-								<view class="grid-text">仓单提现</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg1 selected4"></view>
-								<view class="grid-text">我的合同</view>
+								<view class="itemBg selected5"></view>
+								<view class="grid-text">推广中心</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected5"></view>
 								<view class="grid-text">工作室</view>
 							</u-grid-item>
 							<u-grid-item>
+								<view class="itemBg selected3"></view>
+								<view class="grid-text">我的社区</view>
+							</u-grid-item>
+							<u-grid-item>
+								<view class="itemBg1 selected4"></view>
+								<view class="grid-text">我的合同</view>
+							</u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/planting')">
 								<view class="itemBg1 selected6"></view>
-								<view class="grid-text">释放记录</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg1 selected7"></view>
-								<view class="grid-text" @click="myGuaDan('/pages/user/myGuaDan')">我的挂单</view>
-							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg1 selected8"></view>
-								<view class="grid-text" >我要转换</view>
+								<view class="grid-text">复投沉香树</view>
 							</u-grid-item>
 						</u-grid>
 					</view>
@@ -166,6 +122,7 @@
 </template>
 
 <script setup>
+	import {navigateBack} from "@/utils/navigate.js"
 	// 路由跳转
 	const changePath = (path,id) => {
 		if (path) {
@@ -174,35 +131,6 @@
 			})
 		}
 	}
-  
-  // 点击我的挂单跳转路由
-	const myGuaDan = (path,id) => {
-		if (path) {
-			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
-			})
-		}
-	}
-
-
-    // 点击我的社区跳转路由
-	const   mySheQu = (path,id) => {
-		if (path) {
-			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
-			})
-		}
-	}
-  
-// 点击我的交易
-	const   myJiaoYi = (path,id) => {
-		if (path) {
-			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
-			})
-		}
-	}
-  
   
   
   
@@ -263,7 +191,7 @@
 						background-size: 100% 100%;
 					}
 					&.selected6 {
-						background: url("@/static/img/release.png") 100% no-repeat;
+						background: url("@/static/img/planting.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
 					&.selected7 {
@@ -437,7 +365,18 @@
 					}
 				}
 			}
-
+			.setBox {
+				display: flex;
+			}
+			.arrowsBg1 {
+				// transform: rotate(180deg);
+				transform: translate(32rpx, 106rpx);
+				margin-bottom: 5rpx;
+				width: 22rpx;
+				height: 41rpx;
+				background: url("@/static/img/arrows.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
 			.TopTitle {
 				width: 750rpx;
 				height: 540rpx;
@@ -522,7 +461,6 @@
 					display: flex;
 				}
 			}
-
 			.set {
 				transform: translate(560rpx, 86rpx);
 				height: 88rpx;

@@ -60,7 +60,7 @@ import { changePath } from "@/utils/navigate.js"
 			if (searchList.value.length > 15) {
 				store.history.splice(15,1)
 			}
-			changePath('/pages/home/searchList/searchList',{keyword: value})
+			changePath('/pages/home/searchList',{keyword: value})
 		} else {
 			return uni.showToast({
 				title: "输入内容不能为空",
@@ -76,7 +76,7 @@ import { changePath } from "@/utils/navigate.js"
 	// 点击搜索记录
 	const changeKeyWord = (keywordtext) => {
 		keyword.value = keywordtext
-		changePath('/pages/home/searchList/searchList',{keyword: keyword.value})
+		changePath('/pages/home/searchList',{keyword: keyword.value})
 	}
 	// 返回上一级
 	const navigateBack = () => {

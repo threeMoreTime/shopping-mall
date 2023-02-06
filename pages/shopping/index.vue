@@ -24,7 +24,7 @@
 						<view class="itemBg3"></view>
 						<view class="itemText">商品分类</view>
 					</view>
-					<view class="fundomianItem">
+					<view class="fundomianItem" @click="changePath('/pages/shopping/shoppingCart',{})">
 						<view class="itemBg4"></view>
 						<view class="itemText">购物车</view>
 					</view>

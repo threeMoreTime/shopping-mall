@@ -70,15 +70,22 @@
 					</view>
 				</view>
 			</view>
+			<view class="userForm" v-if="type === 5">
+				<view class="userItem flex-space-between">
+					<u-input v-model="userForm.phone" height=96 placeholder="手机号码" />
+				</view>
+			</view>
 			<view class="nextBtn" @click="changeInp">{{type == 0? '登录' : '确定'}}</view>
-			<view class="retrieve-password" v-if="type === 0">找回密码</view>
-			<view class="register" v-if="type === 0">还没有账号？<text @click="changePath('register')"
+			<view class="retrieve-password" v-if="type === 0" 
+				@click="changePath('index',{typeId: 5})">找回密码</view>
+			<view class="register" v-if="type === 0">还没有账号？<text @click="changePath('register',{})"
 					style="color: #1C6732;">立即注册</text></view>
 		</view>
 	</view>
 </template>
 
 <script setup>
+	import {changePath} from "@/utils/navigate.js"
 	import {
 		computed,
 		reactive,
@@ -102,11 +109,10 @@
 	const userForm = reactive({
 		phone: ''
 	})
-	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4)
+	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4) 请输入手机号码(5)
 	const type = ref(0)
 	onLoad((option) => {
-		// console.log(option)
-		// type.value = option? option : 0
+		type.value = option?.typeId ? +(option.typeId) : 0
 	})
 	const typeName = computed(() => {
 		switch (type.value) {
@@ -125,6 +131,9 @@
 			case 4:
 				return '更换手机号'
 				break;
+			case 5:
+				return '请输入手机号码'
+				break;
 		}
 	})
 	const isDisabled = ref(false)
@@ -141,14 +150,10 @@
 		}, 1000)
 	}, 500)
 	const changeInp = () => {
-
-	}
-	// 路由跳转
-	const changePath = (path) => {
-		if (path) {
-			uni.navigateTo({
-				url: path
-			})
+		if(type.value === 5) {
+			changePath('index',{typeId: 1})
+		} else if(type.value === 1) {
+			changePath('index',{typeId: 2})
 		}
 	}
 	// 返回上一级

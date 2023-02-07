@@ -286,7 +286,18 @@
                       "navigationStyle": "custom"
             }
             
-        }
+        },
+		{
+		    "path" : "pages/user/dataStatistics",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "数据统计",
+		        "enablePullDownRefresh": false,
+		        "navigationBarBackgroundColor": "#24743C",
+		        "navigationBarTextStyle": "white"
+		    }
+		    
+		}
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

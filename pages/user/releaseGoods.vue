@@ -20,19 +20,25 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="选择商品类目" right-icon="arrow-right">
-				<u-select v-model="form.category"></u-select>
-			</u-form-item>
+			<view @click="openSelect">
+				<u-form-item label="选择商品类目" right-icon="arrow-right">
+					<u-select 
+						v-model="form.category" 
+						cancel-color="#24743C" 
+						confirm-color="24743C"
+					></u-select>
+				</u-form-item>				
+			</view>
 			<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
 				<u-select></u-select>
 			</u-form-item>
 		</view>
 		<view class="box">
 			<u-form-item label="商品图片0/1">
-				<u-upload></u-upload>
+				<u-upload upload-text=""></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
-				<u-upload></u-upload>
+				<u-upload upload-text=""></u-upload>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -51,7 +57,7 @@
 			<u-form-item label="快递运费">
 				<u-input placeholder="元"></u-input>
 			</u-form-item>
-			<u-form-item label="包邮">
+			<u-form-item label="包邮" :labelWidth='500'>
 				<u-switch></u-switch>
 			</u-form-item>
 		</view>
@@ -96,7 +102,7 @@
 		form: {
 			name: '',
 			title: '',
-			category: '',
+			category: false,
 			classification: ''
 		}
 	});
@@ -116,8 +122,11 @@
 		} else if (index === 3) {
 			data.switchName = '是否开启自购省钱'
 		}
-		console.log(data.switchName)
 		data.current = index
+	}
+	
+	const openSelect = () => {
+		data.form.category = true;   
 	}
 </script>
 
@@ -133,7 +142,19 @@
 		box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 		opacity: 1;
-		// font-size: 24rpx !important;
+		
+		::v-deep .u-add-wrap {
+			width: 82rpx !important;
+			height: 82rpx !important;
+			line-height: 82rpx;
+			border: 1px dashed #707070;
+			border-radius: 16rpx;
+		}
+		
+		::v-deep .u-icon__icon {
+			top: 10rpx !important;
+			color: #B7B7B7;
+		}
 	}
 
 	.footer {

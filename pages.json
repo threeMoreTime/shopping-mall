@@ -199,7 +199,7 @@
 			}
 		}
         ,{
-            "path" : "pages/user/project",
+            "path" : "pages/user/myJiaoYi",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "我的交易",
@@ -267,6 +267,26 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/user/woYaoGuaDan",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我要挂单",
+                "enablePullDownRefresh": false,
+                      "navigationStyle": "custom"
+            }
+            
+        },
+        {
+            "path" : "pages/user/mySheQu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的社区",
+                "enablePullDownRefresh": false,
+                      "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -219,13 +219,31 @@
             
         }
         ,{
-            "path" : "pages/transaction/index",
+            "path" : "pages/user/transaction",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "交易明细",
                 "enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#24743C",
 				"navigationBarTextStyle": "white"
+            }
+        }
+        ,{
+            "path" : "pages/product/productDetail",
+            "style" :
+            {
+                "navigationBarTitleText": "商品详情",
+                "enablePullDownRefresh": false,
+                "navigationStyle": "custom"
+            }
+        }
+        ,{
+            "path" : "pages/user/promotion",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "推广中心",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
             }
             
         },
@@ -247,6 +265,17 @@
                       "navigationStyle": "custom"
             }
         }
+		,{
+		    "path" : "pages/user/releaseGoods",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "发布商品",
+		        "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationBarTextStyle": "white"
+		    }
+		    
+		}
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

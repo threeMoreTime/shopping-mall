@@ -106,7 +106,7 @@
 								<view class="itemBg selected4"></view>
 								<view class="grid-text" @click="myJiaoYi('/pages/user/myJiaoYi')">我的交易</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/promotion')">
 								<view class="itemBg selected5"></view>
 								<view class="grid-text">推广中心</view>
 							</u-grid-item>

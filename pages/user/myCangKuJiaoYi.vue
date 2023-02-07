@@ -3,8 +3,8 @@
 		<view class="tabs">
       <!-- 箭头 -->
 			<view class="arrowsBg" @click="navigateBack"></view>
-			<view class="title">我要充值</view>
-			<view class="titleText" @click="changePath('/pages/user/record',0)">充值记录</view>
+			<view class="title">创单交易</view>
+			<view class="titleText" @click="changePath('/pages/user/record',0)">我要挂单</view>
 		</view>
 
 	</view>
@@ -29,9 +29,11 @@
 		display: flex;
 		align-items: flex-end;
 		.titleText {
-			font-size: 32rpx;
-			font-weight: 800;
-			color: #F5F5F5;
+height: 44rpx;
+font-size: 32rpx;
+font-weight: 800;
+color: #F5F5F5;
+line-height: 24rpx;
 			margin-bottom: 6rpx;
 			margin-left: 145rpx;
 		}
@@ -50,6 +52,7 @@
 			height: 48rpx;
 			background: url("@/static/img/arrows.png") 100% no-repeat;
 			background-size: 100% 100%;
+            margin-bottom: 6rpx;
 		}
 	}
 }

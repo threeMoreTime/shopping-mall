@@ -29,7 +29,7 @@
 			<view class="workingArea">
 				<text>工作区</text>
 				<view class="workingAll">
-					<view class="workingAllItem">
+					<view class="workingAllItem" @click="changePath('/pages/user/goodsManagement')">
 						<view class="ItemBg"></view>
 						<text>商品管理</text>
 					</view>

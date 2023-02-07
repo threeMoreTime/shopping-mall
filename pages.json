@@ -320,6 +320,16 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/user/JiaoYiXiangQing",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "交易详情",
+                "enablePullDownRefresh": false,
+                      "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

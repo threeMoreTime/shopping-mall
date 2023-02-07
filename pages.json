@@ -238,6 +238,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/promotion",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "推广中心",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

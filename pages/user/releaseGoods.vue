@@ -10,7 +10,7 @@
 		>
 		</u-tabs>
 	</view>
-	<u-form :model="form" ref="uform" :labelWidth='200' v-show="current === 0">
+	<u-form :model="form" ref="uform" :labelWidth='200' v-show="current === 0" clearable="form">
 		<view class="box">
 			<u-form-item label="商品名称">
 				<u-input v-model="form.name" placeholder="最多30字"></u-input>
@@ -72,8 +72,10 @@
 		<u-switch></u-switch>
 	</view>
 	<view class="footer" v-show="current === 0">
-		<button type="primary" class="custom-style">保存到仓库</button>
-		<button type="primary" class="custom-style" @click="release">发布商品</button>
+		<view class="footerBtn">
+			<button type="primary" class="custom-style">保存到仓库</button>
+			<button type="primary" class="custom-style" @click="release">发布商品</button>			
+		</view>
 	</view>
 </template>
 
@@ -131,6 +133,8 @@
 </script>
 
 <style lang="scss" scoped>
+	
+	
 	.tabBar {
 		padding: 0 32rpx;
 	}
@@ -158,11 +162,18 @@
 	}
 
 	.footer {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		width: 100%;
+		// position: fixed;
+		// bottom: 0;
 		padding-top: 22rpx;
 		padding-bottom: 61rpx;
+		background: #FFFFFF;
+		
+		.footerBtn {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
 
 		.custom-style {
 			width: 326rpx;

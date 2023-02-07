@@ -25,7 +25,7 @@
 					<view class="itemBg2"></view>
 					<view class="itemText">农场</view>
 				</view>
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changePath('/pages/user/merchant')">
 					<view class="itemBg3"></view>
 					<view class="itemText">商城入驻</view>
 				</view>
@@ -35,7 +35,7 @@
 				</view>
 			</view>
 			<view class="indexTitle">
-				<img src="@/static/img/indexTitleBg.png" alt="">
+				<image src="@/static/img/indexTitleBg.png" alt=""/>
 			</view>
 			<view class="tabBox">
 				<u-tabs 
@@ -55,12 +55,12 @@
 			<view class="ctxList">
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<img src="@/static/img/logoBg.png" alt="">
+						<image src="@/static/img/logoBg.png" alt=""/>
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<img src="@/static/img/camera.png" alt="">
+							<image src="@/static/img/camera.png" alt=""/>
 							<view class="ItemBottomText">
 								<text>数码相机</text>
 								<view class="goldCtx">
@@ -69,17 +69,17 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn">购买</view>
+						<view class="ItemBottomBtn">了解详情</view>
 					</view>
 				</view>
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<img src="@/static/img/logoBg.png" alt="">
+						<image src="@/static/img/logoBg.png" alt=""/>
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<img src="@/static/img/watches.png" alt="">
+							<image src="@/static/img/watches.png" alt=""/>
 							<view class="ItemBottomText">
 								<text>时尚手表</text>
 								<view class="goldCtx">
@@ -88,7 +88,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn">购买</view>
+						<view class="ItemBottomBtn">了解详情</view>
 					</view>
 				</view>
 			</view>
@@ -185,7 +185,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			img {
+			image {
 				width: 120rpx;
 				height: 120rpx;
 			}
@@ -198,7 +198,8 @@
 				margin-left: 18rpx;
 			}
 			.ItemBottomBtn {
-				width: 126rpx;
+				// width: 126rpx;
+				padding: 0 16rpx;
 				height: 48rpx;
 				background: #24743C;
 				border-radius: 24rpx 24rpx 24rpx 24rpx;
@@ -229,7 +230,7 @@
 			.ItemTitle {
 				margin-left: 22rpx;
 			}
-			img {
+			image {
 				width: 42rpx;
 				height: 42rpx;
 			}
@@ -285,7 +286,7 @@
 		width: 686rpx;
 		height: 130rpx;
 		margin-bottom: 10rpx;
-		img {
+		image {
 			width: 100%;
 			height: 100%;
 			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);

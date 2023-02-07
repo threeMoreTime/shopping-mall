@@ -11,12 +11,12 @@
 					<u-cell-item 
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
 						title="个人资料"
-						@click="changePath('../../../pages/user/setting/commonSetting',0)"
+						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 0})"
 						></u-cell-item>
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
 						title="安全设置"
-						@click="changePath('../../../pages/user/setting/commonSetting',1)"
+						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 1})"
 						></u-cell-item>
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
@@ -25,7 +25,7 @@
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
 						title="银行信息"
-						@click="changePath('../../../pages/user/setting/commonSetting',3)"
+						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 3})"
 						></u-cell-item>
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
@@ -42,12 +42,12 @@
 					<u-cell-item 
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
 						title="意见反馈"
-						@click="changePath('../../../pages/user/setting/commonSetting',2)"
+						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 2})"
 						></u-cell-item>
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
 						title="关于我们"
-						@click="changePath('../../../pages/user/setting/about')"
+						@click="changePath('../../../pages/user/setting/about',{})"
 						></u-cell-item>
 					<u-cell-item
 						:title-style="{'font-size': '28rpx','font-weight': '500'}" 
@@ -58,25 +58,21 @@
 						></u-cell-item>
 				</u-cell-group>
 			</view>
-			<view class="logout">退出登录</view>
+			<view class="logout" @click="logout">退出登录</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
+	import {changePath} from "@/utils/navigate.js"
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1
 		})
 	}
-	// 路由跳转
-	const changePath = (path,id) => {
-		if (path) {
-			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
-			})
-		}
+	const logout = () => {
+		changePath('/pages/login/index',{typeId: 0})
 	}
 </script>
 

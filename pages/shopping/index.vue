@@ -2,8 +2,8 @@
 	<view class="bg">
 		<view class="box">
 			<view class="search">
-				<view class="searchBox">
-					<u-search shape="round" v-model="keyword" :show-action="false" @search="changeCancel"></u-search>
+				<view class="searchBox" @click="changePath('/pages/home/search',{})">
+					<view class="searchBg"></view>
 				</view>
 			</view>
 			<view class="context">
@@ -24,14 +24,14 @@
 						<view class="itemBg3"></view>
 						<view class="itemText">商品分类</view>
 					</view>
-					<view class="fundomianItem">
+					<view class="fundomianItem" @click="changePath('/pages/shopping/shoppingCart',{})">
 						<view class="itemBg4"></view>
 						<view class="itemText">购物车</view>
 					</view>
 				</view>
 				<view class="BoxList">
-					<view class="BoxListItem" @click="navigateTo('../product/productDetail')">
-						<img src="@/static/img/watches.png" alt="">
+					<view class="BoxListItem">
+						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -45,7 +45,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/camera.png" alt="">
+						<image src="@/static/img/camera.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -59,7 +59,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/camera.png" alt="">
+						<image src="@/static/img/camera.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -73,7 +73,7 @@
 						</view>
 					</view>
 					<view class="BoxListItem">
-						<img src="@/static/img/watches.png" alt="">
+						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">
 							<view class="BoxListItemCtx">
@@ -93,16 +93,8 @@
 </template>
 
 <script setup>
-import { reactive, toRefs } from "vue";
-import {navigateTo} from "../../utils/navigate";
-
-navigateTo('../product/productDetail',{
-  id: 1,
-  name: 'test',
-	keyword: 'test',
-	type: 1
-})
-
+import { reactive, ref, toRefs } from "vue";
+import {changePath} from "@/utils/navigate.js"
 	const data = reactive({
 		keyword: '',
 		swiperList: [{
@@ -121,9 +113,9 @@ navigateTo('../product/productDetail',{
 	})
 	const {keyword,swiperList} = toRefs(data)
 	// 用户点击搜索后触发
-	const changeCancel = () => {
-		console.log(keyword.value)
-	}
+	// const changeCancel = () => {
+	// 	console.log(keyword.value)
+	// }
 	// 用户点击轮播图后触发
 	const changeSwiper = (index) => {
 		console.log(index)
@@ -194,7 +186,7 @@ navigateTo('../product/productDetail',{
 						color: #E60808;
 					}
 				}
-				img {
+				image {
 					width: 200rpx;
 					height: 200rpx;
 					margin: 0 auto;
@@ -267,6 +259,15 @@ navigateTo('../product/productDetail',{
 				width: 100%;
 				height: 64rpx;
 				margin-top: 132rpx;
+				background: #FFFFFF;
+				border-radius: 36rpx;
+			}
+			.searchBg {
+				width: 35rpx;
+				height: 36rpx;
+				background: url("@/static/img/search.png") 100% no-repeat;
+				background-size: 100% 100%;
+				margin: 14rpx 18rpx;
 			}
 		}
 	}

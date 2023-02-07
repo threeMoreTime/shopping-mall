@@ -5,6 +5,7 @@
 			<view class="search">
 				<u-search 
 					v-model="keyword" 
+					:show-action="false"
 					:action-style="{
 						'color': '#FFFFFF',
 						'font-size': '32rpx',
@@ -22,9 +23,21 @@
 				<text class="historyTitle">搜索历史</text>
 				<view class="historyBox">
 					<view class="boxText">
-						<text v-for="item,index in searchList" :key="index">{{item}}</text>
+						<text @click="changeKeyWord(item)" v-for="item,index in searchList" :key="index">{{item}}</text>
 					</view>
 					<view class="delBg" @click="changeDel"></view>
+				</view>
+			</view>
+			<view class="m-top-150">
+				<text class="historyTitle">热门搜索</text>
+				<view class="historyBox">
+					<view class="boxText">
+						<text>羽绒服</text>
+						<text>维生素</text>
+						<text>巧克力</text>
+						<text>热水袋</text>
+						<text>沐浴露</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -34,19 +47,36 @@
 <script setup>
 import { ref } from "vue";
 import { historyStore } from "@/store/index.js"
+import { changePath } from "@/utils/navigate.js"
 	const store = historyStore()
 	const keyword = ref('')
 	// 调用仓库的搜索记录
 	const searchList = ref(store.history || [])
 	// 点击搜索
 	const changeSearch = (value) => {
-		store.historyList(value)
-		searchList.value = store.history
+		if(value) {
+			store.historyList(value)
+			searchList.value = store.history
+			if (searchList.value.length > 15) {
+				store.history.splice(15,1)
+			}
+			changePath('/pages/home/searchList',{keyword: value})
+		} else {
+			return uni.showToast({
+				title: "输入内容不能为空",
+				icon: "error"
+			})
+		}
 	}
 	// 点击删除浏览器缓存搜索记录
 	const changeDel = () => {
 		store.delStorage()
 		searchList.value = []
+	}
+	// 点击搜索记录
+	const changeKeyWord = (keywordtext) => {
+		keyword.value = keywordtext
+		changePath('/pages/home/searchList',{keyword: keyword.value})
 	}
 	// 返回上一级
 	const navigateBack = () => {
@@ -62,6 +92,9 @@ import { historyStore } from "@/store/index.js"
 	height: 100vh;
 	background-color: #FBFBFB;
 	position: relative;
+	.m-top-150 {
+		margin-top: 150rpx;
+	}
 	.delBg {
 		width: 33rpx;
 		height: 31rpx;
@@ -69,9 +102,10 @@ import { historyStore } from "@/store/index.js"
 		background-size: 100% 100%;
 	}
 	.boxText {
-		width: 80%;
+		width: 95%;
 		text {
 			margin-right: 14rpx;
+			margin-bottom: 10rpx;
 			display: inline-block;
 			background: #E2E2E2;
 			border-radius: 22rpx;

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="tabBar">
 		<u-tabs :list="tabList" :is-scroll="false" inactive-color="#0A0A0A" active-color="#24743C"></u-tabs>
 	</view>
 </template>
@@ -19,5 +19,11 @@
 </script>
 
 <style lang="scss">
-
+	.tabBar {
+		height: 98rpx;
+		background: #FFFFFF;
+		box-shadow: 0px 3px 6px 1px rgba(0,0,0,0.16);
+		border-radius: 0px 0px 8px 8px;
+		opacity: 1;
+	}
 </style>

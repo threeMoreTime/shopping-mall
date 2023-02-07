@@ -228,7 +228,7 @@
             
         }
         ,{
-            "path" : "pages/transaction/index",
+            "path" : "pages/user/transaction",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "交易明细",
@@ -238,6 +238,17 @@
             }
             
         }
+		,{
+		    "path" : "pages/user/releaseGoods",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "发布商品",
+		        "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationBarTextStyle": "white"
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

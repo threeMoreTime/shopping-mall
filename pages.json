@@ -241,7 +241,7 @@
             "path" : "pages/product/productDetail",
             "style" :
             {
-                "navigationBarTitleText": "商品细节",
+                "navigationBarTitleText": "商品详情",
                 "enablePullDownRefresh": false,
                 "navigationStyle": "custom"
             }

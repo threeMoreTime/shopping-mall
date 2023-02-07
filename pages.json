@@ -309,6 +309,17 @@
             }
             
         }
+		,{
+		    "path" : "pages/user/myShop/index",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "我的店铺",
+		        "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationBarTextStyle": "white"
+		    }
+		    
+		}
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

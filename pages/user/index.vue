@@ -92,7 +92,7 @@
 						<u-grid :col="4" :border="false">
 							<u-grid-item>
 								<view class="itemBg selected1"></view>
-								<view class="grid-text">仓单交易</view>
+								<view class="grid-text" @click= "myCangKuJiaoYi('/pages/user/myCangKuJiaoYi')">仓单交易</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected2"></view>
@@ -202,6 +202,16 @@
 			})
 		}
 	}
+  
+  // 点击仓库交易
+  
+  const   myCangKuJiaoYi = (path,id) => {
+  	if (path) {
+  		uni.navigateTo({
+  			url: id? path + '?typeId=' + id : path
+  		})
+  	}
+  }
   
   
   

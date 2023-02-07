@@ -228,6 +228,24 @@
 				"navigationBarTextStyle": "white"
             }
             
+        },
+        {
+        	"path": "pages/user/mySheQu",
+        	"style": {
+        		"navigationBarTitleText": "我的挂单",
+        		"enablePullDownRefresh": false,
+        		"navigationStyle": "custom",
+        		"backgroundColor": "#24743C"
+        	}
+        }
+        ,{
+            "path" : "pages/user/myCangKuJiaoYi",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "仓库交易",
+                "enablePullDownRefresh": false,
+                      "navigationStyle": "custom"
+            }
         }
     ],
   "globalStyle": {

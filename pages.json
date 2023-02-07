@@ -298,6 +298,17 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/user/goodsManagement",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品管理",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationBarTextStyle": "white"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -11,7 +11,7 @@
 					<text>我的资产</text>
 					<text>账户余额(元)</text>
 					<text class="text-color-red">￥0.00</text>
-					<text class="text-color-gray" @click="changePath('/pages/transaction/index')">交易明细</text>
+					<text class="text-color-gray" @click="changePath('/pages/user/transaction')">交易明细</text>
 				</view>
 				<view class="bottomBox">
 					<view class="topBox">

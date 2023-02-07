@@ -179,54 +179,42 @@
         "enablePullDownRefresh": false,
         "navigationStyle": "custom"
       }
-
     },
-    {
-      "path": "pages/user/myGuaDan",
-      "style": {
-        "navigationBarTitleText": "我的挂单",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom",
-        "backgroundColor": "#24743C"
-      }
-    },
-    {
-      "path": "pages/home/searchList/searchList",
-      "style": {
-        "navigationBarTitleText": "搜索列表页",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom"
-      }
-    }, {
-      "path": "pages/user/mySheQu",
-     "style": {
-        "navigationBarTitleText": "我的社区",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path":"pages/user/project",
-      "style": {
-        "navigationBarTitleText": "我的项目",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom"
-      }
-    }, {
-      "path": "pages/user/planting",
-      "style": {
-        "navigationBarTitleText": "沉香树兑换",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom"
-      }
-    }
-      ,{
-            "path" : "pages/user/myJiaoYi",
-                    "style" :                                                                            
+    
+		{
+			"path": "pages/user/myGuaDan",
+			"style": {
+				"navigationBarTitleText": "我的挂单",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"backgroundColor": "#24743C"
+			}
+		},
+		{
+			"path": "pages/home/searchList",
+			"style": {
+				"navigationBarTitleText": "搜索列表页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		}
+        ,{
+            "path" : "pages/user/project",
+            "style" :                                                                                    
             {
                 "navigationBarTitleText": "我的交易",
                 "enablePullDownRefresh": false,
                         "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/shopping/shoppingCart",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "购物车",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
             }
             
         }

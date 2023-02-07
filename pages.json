@@ -319,6 +319,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/QueRenDingDan",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认订单",
+                "enablePullDownRefresh": false,
+                 "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

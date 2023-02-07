@@ -218,6 +218,17 @@
             }
             
         }
+        ,{
+            "path" : "pages/transaction/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "交易明细",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationBarTextStyle": "white"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

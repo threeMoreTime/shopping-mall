@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-	
+	import {navigateBack} from "@/utils/navigate.js"
 </script>
 
 <style lang="scss" scoped>

@@ -92,7 +92,7 @@
 						<u-grid :col="4" :border="false">
 							<u-grid-item>
 								<view class="itemBg selected1"></view>
-								<view class="grid-text">仓单交易</view>
+								<view class="grid-text" @click= "myCangKuJiaoYi('/pages/user/myCangKuJiaoYi')">仓单交易</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected2"></view>
@@ -100,11 +100,11 @@
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected3"></view>
-								<view class="grid-text">我的社区</view>
+								<view class="grid-text" @click="mySheQu('/pages/user/mySheQu')">我的社区</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg selected4"></view>
-								<view class="grid-text">我的交易</view>
+								<view class="grid-text" @click="myJiaoYi('/pages/user/myJiaoYi')">我的交易</view>
 							</u-grid-item>
 							<u-grid-item @click="changePath('/pages/user/promotion')">
 								<view class="itemBg selected5"></view>
@@ -151,7 +151,7 @@
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected7"></view>
-								<view class="grid-text" @click="myGuaDan">我的挂单</view>
+								<view class="grid-text" @click="myGuaDan('/pages/user/myGuaDan')">我的挂单</view>
 							</u-grid-item>
 							<u-grid-item>
 								<view class="itemBg1 selected8"></view>
@@ -176,13 +176,42 @@
 	}
   
   // 点击我的挂单跳转路由
-  const myGuaDan = () => {
-      // console.log(11);
+	const myGuaDan = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
+
+
+    // 点击我的社区跳转路由
+	const   mySheQu = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
+  
+// 点击我的交易
+	const   myJiaoYi = (path,id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id? path + '?typeId=' + id : path
+			})
+		}
+	}
+  
+  // 点击仓库交易
+  
+  const   myCangKuJiaoYi = (path,id) => {
+  	if (path) {
   		uni.navigateTo({
-  			url:'/pages/user/myGuaDan'
+  			url: id? path + '?typeId=' + id : path
   		})
-    
   	}
+  }
   
   
   

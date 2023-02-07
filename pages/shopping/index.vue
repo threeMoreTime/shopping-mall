@@ -30,7 +30,7 @@
 					</view>
 				</view>
 				<view class="BoxList">
-					<view class="BoxListItem">
+					<view class="BoxListItem" @click="navigateTo('../product/productDetail')">
 						<img src="@/static/img/watches.png" alt="">
 						<text>智能相机</text>
 						<view class="ItemCtx">
@@ -94,6 +94,15 @@
 
 <script setup>
 import { reactive, toRefs } from "vue";
+import {navigateTo} from "../../utils/navigate";
+
+navigateTo('../product/productDetail',{
+  id: 1,
+  name: 'test',
+	keyword: 'test',
+	type: 1
+})
+
 	const data = reactive({
 		keyword: '',
 		swiperList: [{

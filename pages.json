@@ -221,7 +221,15 @@
                 "enablePullDownRefresh": false,
 				"navigationStyle": "custom"
             }
-            
+        }
+        ,{
+            "path" : "pages/product/productDetail",
+            "style" :
+            {
+                "navigationBarTitleText": "商品细节",
+                "enablePullDownRefresh": false,
+                "navigationStyle": "custom"
+            }
         }
     ],
 	"globalStyle": {

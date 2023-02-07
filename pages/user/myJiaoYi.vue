@@ -168,7 +168,7 @@ line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
             </view>     
           </view>
           <view class="cardItem3">
-        <text class="item1">查看相请</text>
+        <text class="item1" @click="JiaoYiXiangQing('/pages/user/JiaoYiXiangQing')">查看相请</text>
           </view>
 
   </view>
@@ -210,9 +210,18 @@ line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
       delta: 1
     })
   }
-  // 点击改变样式
+  // 点击切换改变样式
   const changTitle = (index) => {
     titleIndex.value = index
+  }
+  
+  // 路由跳转
+  const JiaoYiXiangQing = (path,id) => {
+  	if (path) {
+  		uni.navigateTo({
+  			url: id? path + '?typeId=' + id : path
+  		})
+  	}
   }
 </script>
 <style lang="scss" scoped>

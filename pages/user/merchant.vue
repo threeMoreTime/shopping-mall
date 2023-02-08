@@ -37,7 +37,7 @@
 						<view class="ItemBg"></view>
 						<text>订单管理</text>
 					</view>
-					<view class="workingAllItem">
+					<view class="workingAllItem" @click="changePath('/pages/user/returnGoods')">
 						<view class="ItemBg"></view>
 						<text>退货/款</text>
 					</view>
@@ -50,7 +50,7 @@
 			<view class="workingArea">
 				<view class="top">
 					<text>数据统计</text>
-					<view class="topRigth">
+					<view class="topRigth" @click="changePath('/pages/user/dataStatistics')">
 						<text>经营分析</text>
 						<view class="arrBg"></view>
 					</view>
@@ -71,10 +71,30 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</view>>
+	<u-modal
+		v-model="showModal" 
+		:show-confirm-button="false"
+		mask-close-able
+		:show-title="false"
+	>
+		<view class="modalcontent">
+			店铺资料未完善，请完善店铺资料
+		</view>
+		<view class="modalBtn">
+			<u-button @click="changePath('/pages/user/myShop/index', 1)">确认</u-button>
+		</view>
+	</u-modal>
 </template>
 
 <script setup>
+	import { reactive, toRefs } from 'vue'
+	
+	const data = reactive({
+		showModal: true
+	})
+	
+	const { showModal } = toRefs(data)
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -336,6 +356,19 @@
 			height: 41rpx;
 			background: url("@/static/img/arrows.png") 100% no-repeat;
 			background-size: 100% 100%;
+		}
+	}
+	
+	.modalcontent {
+		padding: 74rpx 60rpx 58rpx;
+	}
+	
+	.modalBtn {
+		margin: 0 26rpx 38rpx;
+		
+		::v-deep .u-btn--default {
+			background: #24743C;
+			color: #FFFFFF;
 		}
 	}
 </style>

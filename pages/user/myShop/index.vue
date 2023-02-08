@@ -1,4 +1,9 @@
 <template>
+	<view class="tabs">
+		<view class="arrowsBg" @click="navigateBack"></view>
+		<view class="title">我的店铺</view>
+		<view class=""></view>
+	</view>
 	<view class="title" v-if="current == 1">店铺信息</view>
 	<u-form :labelWidth='200' class="form" v-if="current == 1">
 		<view class="card">
@@ -67,10 +72,39 @@
 			data.btnName = '保存'
 		}
 	})
+	
+	const navigateBack = () => {
+		uni.navigateBack({
+			delta: 1
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
+	.tabs {
+		width: 100%;
+		height: 176rpx;
+		padding: 20rpx 32rpx;
+		background-color: #1C6732;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
 	
+		.title {
+			font-size: 32rpx;
+			font-weight: 800;
+			color: #F5F5F5;
+			margin-bottom: 6rpx;
+		}
+	
+		.arrowsBg {
+			// transform: rotate(180deg);
+			width: 25rpx;
+			height: 48rpx;
+			background: url("@/static/img/arrows.png") 100% no-repeat;
+			background-size: 100% 100%;
+		}
+	}
 	
 	.title {
 		padding: 18rpx 0 0 32rpx;

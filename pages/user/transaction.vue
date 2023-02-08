@@ -1,4 +1,9 @@
 <template>
+	<view class="tabs">
+		<view class="arrowsBg" @click="navigateBack"></view>
+		<view class="title">交易明细</view>
+		<view class=""></view>
+	</view>
 	<view class="tabBar">
 		<u-tabs 
 			:list="tabList" 
@@ -6,6 +11,11 @@
 			inactive-color="#0A0A0A" 
 			active-color="#24743C"
 			:current="current"
+			:active-item-style="{
+				'font-size': '32rpx',
+				'color': '#0A0A0A',
+				'font-weight': 'bold'
+			}"
 			@change="tabsChange"
 		></u-tabs>
 	</view>
@@ -25,12 +35,44 @@
 	});
 	const { tabList, current } = toRefs(data)
 	
+	const navigateBack = () => {
+		uni.navigateBack({
+			delta: 1
+		})
+	}
+	
 	const tabsChange = (index) => {
 		data.current = index
 	}
 </script>
 
 <style lang="scss">
+	
+	.tabs {
+		width: 100%;
+		height: 176rpx;
+		padding: 20rpx 32rpx;
+		background-color: #1C6732;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	
+		.title {
+			font-size: 32rpx;
+			font-weight: 800;
+			color: #F5F5F5;
+			margin-bottom: 6rpx;
+		}
+	
+		.arrowsBg {
+			// transform: rotate(180deg);
+			width: 25rpx;
+			height: 48rpx;
+			background: url("@/static/img/arrows.png") 100% no-repeat;
+			background-size: 100% 100%;
+		}
+	}
+	
 	.tabBar {
 		height: 98rpx;
 		background: #FFFFFF;

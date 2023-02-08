@@ -1,7 +1,18 @@
 <template>
+	<view class="tabs">
+		<view class="arrowsBg" @click="navigateBack"></view>
+		<view class="title">商品管理</view>
+		<view class=""></view>
+	</view>
 	<view class="nav">
-		<view :class="['btn', current === 0  ? 'select' : '']" @click="switchNavigation">出售中</view>
-		<view :class="['btn', current === 1  ? 'select' : '']" @click="switchNavigation">仓库中</view>
+		<view 
+			:class="['btn', current === 0  ? 'select' : '']" 
+			@click="switchNavigation"
+		>出售中</view>
+		<view 
+			:class="['btn', current === 1  ? 'select' : '']" 
+			@click="switchNavigation"
+		>仓库中</view>
 	</view>
 	<view class="card">
 		<view class="cardHead">
@@ -47,6 +58,12 @@
 		data.current = data.current === 0 ? 1 : 0
 	}
 	
+	const navigateBack = () => {
+		uni.navigateBack({
+			delta: 1
+		})
+	}
+	
 	const changePath = () => {
 		uni.navigateTo({
 			url: "releaseGoods"
@@ -55,6 +72,32 @@
 </script>
 
 <style lang="scss">
+	
+	.tabs {
+		width: 100%;
+		height: 176rpx;
+		padding: 20rpx 32rpx;
+		background-color: #1C6732;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	
+		.title {
+			font-size: 32rpx;
+			font-weight: 800;
+			color: #F5F5F5;
+			margin-bottom: 6rpx;
+		}
+	
+		.arrowsBg {
+			// transform: rotate(180deg);
+			width: 25rpx;
+			height: 48rpx;
+			background: url("@/static/img/arrows.png") 100% no-repeat;
+			background-size: 100% 100%;
+		}
+	}
+	
 	.nav {
 		display: flex;
 		align-items: center;

@@ -394,6 +394,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/BianjiShoHuoDiZhi",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "编辑收货地址",
+                "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -168,7 +168,12 @@ line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
             </view>     
           </view>
           <view class="cardItem3">
-        <text class="item1" @click="JiaoYiXiangQing('/pages/user/JiaoYiXiangQing')">查看相请</text>
+        <text class="item1" @click="JiaoYiXiangQing('/pages/user/JiaoYiXiangQing')" style="
+color: #FFFFFF;
+font-size: 24rpx;
+font-weight: 400;
+padding-top: 4rpx;
+">查看详情</text>
           </view>
 
   </view>
@@ -491,8 +496,8 @@ line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
            height:120rpx;
     
 background: #FFFFFF;
-        border-top: 1rpx solid rgba(200,200,200,0.3) ;
-      border-bottom: 1rpx solid rgba(200,200,200,0.3) ;
+        border-top: 2rpx solid rgba(200,200,200,0.5) ;
+      border-bottom: 2rpx solid rgba(200,200,200,0.5) ;
       display: flex;
       flex-wrap: wrap;
       .Item1{

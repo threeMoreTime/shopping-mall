@@ -360,6 +360,22 @@
                  "navigationStyle": "custom"
             }
             
+        },{
+            "path" : "pages/user/project",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的项目",
+                "enablePullDownRefresh": false,
+                 "navigationStyle": "custom"
+            }
+        },{
+            "path" : "pages/user/planting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "复投沉香树",
+                "enablePullDownRefresh": false,
+                 "navigationStyle": "custom"
+            }
         }
     ],
   "globalStyle": {

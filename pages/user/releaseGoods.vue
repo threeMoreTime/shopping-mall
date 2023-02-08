@@ -1,4 +1,9 @@
 <template>
+	<view class="tabs">
+		<view class="arrowsBg" @click="navigateBack"></view>
+		<view class="title">发布商品</view>
+		<view class=""></view>
+	</view>
 	<view class="tabBar">
 		<u-tabs 
 			:list="tabBarList" 
@@ -7,6 +12,11 @@
 			active-color="#24743C"
 			:current="current"
 			@change="tabsChange"
+			:active-item-style="{
+				'font-size': '32rpx',
+				'color': '#0A0A0A',
+				'font-weight': 'bold'
+			}"
 		>
 		</u-tabs>
 	</view>
@@ -59,7 +69,7 @@
 			<u-form-item label="快递运费">
 				<u-input placeholder="元"></u-input>
 			</u-form-item>
-			<u-form-item label="包邮" :labelWidth='500'>
+			<u-form-item label="包邮">
 				<u-switch></u-switch>
 			</u-form-item>
 		</view>
@@ -129,6 +139,12 @@
 		data.current = index
 	}
 	
+	const navigateBack = () => {
+		uni.navigateBack({
+			delta: 1
+		})
+	}
+	
 	const openSelect = () => {
 		data.form.category = true;   
 	}
@@ -141,6 +157,31 @@
 </script>
 
 <style lang="scss" scoped>
+	
+	.tabs {
+		width: 100%;
+		height: 176rpx;
+		padding: 20rpx 32rpx;
+		background-color: #1C6732;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	
+		.title {
+			font-size: 32rpx;
+			font-weight: 800;
+			color: #F5F5F5;
+			margin-bottom: 6rpx;
+		}
+	
+		.arrowsBg {
+			// transform: rotate(180deg);
+			width: 25rpx;
+			height: 48rpx;
+			background: url("@/static/img/arrows.png") 100% no-repeat;
+			background-size: 100% 100%;
+		}
+	}
 	
 	
 	.tabBar {

@@ -13,11 +13,9 @@
       </view>
       
       <view class="qBOX">
-        <text class="item1">初夏111</text>
-        <text class="item2">&nbsp;&nbsp;17777k1177777</text>
+        <text class="item2">&nbsp;&nbsp;17777k1177771111117</text>
       </view>
       
-    <text class="address">11111111111111111111111</text>
       
       <!-- 箭头 -->
       <text class="youJianTou" @click="btnTo(1)">></text>
@@ -48,53 +46,7 @@
                   </view>
                    <!-- 第二个卡片盒子 -->
        
-                  <!-- 第三个卡片盒子 -->
-<view class="card-box3">
-  <text style="
-height: 40rpx;
-font-size: 28rpx;
-font-weight: 400;
-color: #000000;
-">提货方式</text>
-<view class="" @click="showPayWay = true">
-  
-
-  <text style="color: #949494;
-  font-weight: 400;
-height: 40rpx;
-  line-height: 24rpx;">{{payWayName}}</text>
-  <u-select
-    	cancel-color="#A4A4A4"
-    	confirm-color="#A4A4A4"
-    	v-model="showPayWay" 
-    	:list="list" 
-    	@confirm="changePayWay"></u-select>
-  <text class="text-tubiao">></text>
-</view>
-</view>
-
-                             <!-- 第三个卡片盒子 -->
    
-                 <!-- 第四个卡片盒子 -->
- 
- <view class="card-box4">
- <view class="item-Box1">
-   <text>订单类型</text>
-   <text>加工费用</text>
-   <text>保价类型</text>
-   <text>保价费用</text>
-   <text>运费</text>
- </view>
- 
- <view class="item-Box2">
-     <text>兑换订单</text>
-      <text>￥0</text>
-      <text>顺丰保价</text>
-      <text>到付</text>
-      <text>到付</text>
- </view>
- </view>
-                               <!-- 第四个卡片盒子 -->
                                                     
                                        <!-- 第五个卡片盒子 -->
                                        <view class="card-box5">
@@ -225,7 +177,7 @@ height: 40rpx;
     width: 35rpx;
     height: 35rpx;
     color:#111111;
-    font-size:40rpx;
+    font-size:45rpx;
     // opacity: 1;
   }
 
@@ -237,24 +189,15 @@ height: 40rpx;
   display: flex;
 justify-content:flex-start;
 position: absolute;
-top: 222rpx;
+top: 245rpx;
     margin-left: 100rpx;
 
-.item1{
-  // width: 80rpx;
-
-  height: 44rpx;
-
-  font-weight: 400;
-  color: #616161;
-}
 .item2{
-  // flex-grow: 1;
-  // margin-right: 10rpx;
-  font-size: 32rpx;
-  font-weight: 400;
-  color: #616161;
-  // text-align: right;
+height: 34rpx;
+font-size: 24rpx;
+
+font-weight: 400;
+color: #616161;
 }
 }
 
@@ -365,79 +308,14 @@ text-decoration:line-through; // 删除线
   }
 }
 
-.card-box3{
-  display: flex;
-  justify-content: space-between;
-  margin: 26rpx 0 0 32rpx;
-  width: 686rpx;
-  height: 80rpx;
-  background: #FFFFFF;
-  box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
-  border-radius: 16rpx 16rpx 16rpx 16rpx;
-  opacity: 1;
-  padding: 30rpx 60rpx 30rpx 30rpx;
-  // text-align: center;
-line-height: 24rpx;
-  .text-tubiao{
-    position: absolute;
-    top:794rpx ;
-    right: 54rpx;
-    // width: 11rpx;
-    height: 20rpx;
-    font-size: 40rpx;
-color: #949494;
-    // opacity: 1;
-  }
-}
+
     
-    .card-box4{
-      margin: 24rpx 0 0 32rpx;
-    width: 686rpx;
-    height: 350rpx;
-    background: #FFFFFF;
-    box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
-    border-radius: 16rpx 16rpx 16rpx 16rpx;
-    opacity: 1;
-    display: flex;
-    justify-content: space-between;
-    // align-items: center;
-    
-    .item-Box1{
-
-      margin-top: 28rpx;
-      margin-left: 42rpx;
-      display: flex;
-      flex-direction: column;
-      align-content: space-between;
-            // padding: 32rpx 0;
-      width: 50%;
-      height: 300rpx;
-      font-size: 28rpx;
-      // font-family: PingFang SC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #000000;
-      line-height: 60rpx
-
-    }
-    .item-Box2{
-                    width: 50%;
-                          height: 300rpx;
-            margin-left:360rpx;
-                margin-top: 28rpx;
-            display: flex;
-          flex-direction: column;
-
-              font-size: 28rpx;
-              font-family: PingFang SC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #ACACAC;
-              line-height: 60rpx;
-          // justify-content: flex-end;
-    }
-    }
     .card-box5{
+      // position: absolute;
+      // top:762rpx;
+      margin-top: 762rpx;
  position: relative;
-      margin-top: 282rpx;
+      // margin-top: 282rpx;
       width: 750rpx;
       height: 166rpx;
       // background: #FFFFFF;
@@ -465,6 +343,7 @@ color: #949494;
       .button{
 position: absolute;
 bottom:110rpx;
+// top: 1456rpx;
 right: 32rpx;
 width: 222rpx;
 height: 80rpx;

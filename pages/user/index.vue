@@ -3,7 +3,7 @@
 		<view class="box">
 			<view class="TopTitle">
 				<view class="set">
-					<view class="msgBg"></view>
+					<view class="msgBg" @click="changePath('/pages/user/systemBullestin')"></view>
 					<view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
 				</view>
 				<view class="userInfo">

@@ -44,11 +44,15 @@
 						<text class="text-bottom-18">请选择尺码.数量</text>
 					</view>
 				</view>
-				<view class="specification" v-for="item in productAttr" :key="item.id">
+				<view class="specification" v-for="item,index in productAttr" :key="item.id">
 					<text class="text-title">{{item.attrName}}</text>
 					<view class="specificationList">
 						<!-- ItemActivate -->
-						<text class="Item" v-for="itemQuc in item.attrValues">{{itemQuc}}</text>
+						<text class="Item" 
+							@click="changeItem(itemQuc,index ,index2)"
+							:class="[index2 === itemIndex[index] && !itemQuc.disabled? 'ItemActivate' : '',itemQuc.disabled ? 'disabled' : '']"
+							:key="index"
+							v-for="itemQuc, index2 in item.attrValues">{{itemQuc.lable}}</text>
 					</view>
 				</view>
 				<view class="numBox">
@@ -194,16 +198,26 @@
 			"isDel": false
 		}
 	])
-	console.log(productAttr,'productAttr');
 	productAttr.value.map(item => {
 		item.attrValues = item.attrValues.split(",")
+		if(item.attrValues instanceof Array) {
+			item.attrValues = item.attrValues.map(item => {
+				return {
+					lable: item,
+					disabled: false
+				}
+			})
+		}
 	})
+	for (let key in productValue.value) {
+	  // productValue.value[key].disabled = false
+	  // console.log(key + ": " + productValue.value[key].disabled);
+	}
 	const list = ref([
 		'https://cdn.uviewui.com/uview/swiper/1.jpg',
 		'https://cdn.uviewui.com/uview/swiper/2.jpg',
 		'https://cdn.uviewui.com/uview/swiper/3.jpg',
 	])
-	console.log(productValue.value, 'productValue');
 	const isShow = ref(false)
 	// 加入购物车(0) 立即购买(1)
 	const typeId = ref(0)
@@ -222,6 +236,20 @@
 		typeId.value = id
 		isShow.value = true
 		// 加入购物车(0) 立即购买(1)
+	}
+	const itemIndex = ref([])
+	for(let i = 0; i<productAttr.value.length; i++) {
+		itemIndex.value[i] = null
+	}
+	const changeItem = (optionName, index, index2) => {
+		console.log(optionName)
+		// itemIndex.value[index] = index2
+		if (itemIndex.value[index] !== index2) {
+			itemIndex.value[index] = index2
+		} else {
+			itemIndex.value[index] = null
+		}
+		console.log(itemIndex.value);
 	}
 </script>
 
@@ -278,7 +306,9 @@
 			.specification {
 				margin-top: 50rpx;
 				width: 80%;
-
+				.disabled {
+					background: #939393 !important;
+				}
 				.Item {
 					display: inline-block;
 					padding: 8rpx 30rpx;
@@ -291,7 +321,6 @@
 
 				.ItemActivate {
 					border: 2rpx solid orange;
-					background: orange;
 				}
 			}
 

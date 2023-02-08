@@ -15,7 +15,10 @@
 		>仓库中</view>
 	</view>
 	<view class="card">
-		<view class="cardHead">
+		<view 
+			class="cardHead" 
+			:style="[current === 0 ? 'border-bottom: none; padding-bottom: 0' : '']"
+		>
 			<view class="imag">
 				<image class="imag" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"></image>
 			</view>
@@ -31,7 +34,7 @@
 				</view>
 			</view>			
 		</view>
-		<view class="cardFooter">
+		<view class="cardFooter" v-show="current === 1">
 			<view>上架</view>
 			<view>编辑</view>
 			<view>删除</view>
@@ -56,6 +59,7 @@
 	
 	const switchNavigation = () => {
 		data.current = data.current === 0 ? 1 : 0
+		console.log(data.current)
 	}
 	
 	const navigateBack = () => {

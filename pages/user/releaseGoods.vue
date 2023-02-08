@@ -20,7 +20,13 @@
 		>
 		</u-tabs>
 	</view>
-	<u-form :model="form" ref="uform" :labelWidth='200' v-show="current === 0" clearable="form">
+	<u-form 
+		:model="form" 
+		ref="uform" 
+		:labelWidth='200' 
+		v-show="current === 0" 
+		clearable="form"
+	>
 		<view class="box">
 			<u-form-item label="商品名称">
 				<u-input v-model="form.name" placeholder="最多30字"></u-input>
@@ -30,15 +36,16 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<view @click="openSelect">
-				<u-form-item label="选择商品类目" right-icon="arrow-right">
-					<u-select 
-						v-model="form.category" 
-						cancel-color="#24743C" 
-						confirm-color="24743C"
-					></u-select>
-				</u-form-item>				
-			</view>
+			<u-form-item 
+				label="选择商品类目" 
+				right-icon="arrow-right" 
+				@click.capture="onCategory"
+			>
+				<u-select 
+					v-model="form.category" 
+					confirm-color="#24743C"
+				></u-select>
+			</u-form-item>				
 			<view @click="changePath('/pages/user/storeClass')">
 				<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
 					<u-select></u-select>
@@ -47,7 +54,12 @@
 		</view>
 		<view class="box">
 			<u-form-item label="商品图片0/1">
-				<u-upload></u-upload>
+				<u-upload 
+					ref="imageUpload"
+					:max-count="1" 
+					:file-list=form.fileList
+					:auto-upload="false"
+				></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
 				<u-upload></u-upload>
@@ -70,7 +82,7 @@
 				<u-input placeholder="元"></u-input>
 			</u-form-item>
 			<u-form-item label="包邮">
-				<u-switch></u-switch>
+				<u-switch v-model="form.freeMail" active-color="#24743C"></u-switch>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -81,7 +93,21 @@
 	</u-form>
 	<view class="box switch" v-show="current != 0">
 		<text>{{ switchName }}</text>
-		<u-switch></u-switch>
+		<u-switch 
+			v-model="specification" 
+			v-show="current === 1"
+			active-color="#24743C"
+		></u-switch>
+		<u-switch 
+			v-model="distribution" 
+			v-show="current === 2"
+			active-color="#24743C"
+		></u-switch>
+		<u-switch 
+			v-model="save" 
+			v-show="current === 3"
+			active-color="#24743C"
+		></u-switch>
 	</view>
 	<view class="footer" v-show="current === 0">
 		<view class="footerBtn">
@@ -94,9 +120,11 @@
 <script setup>
 	import {
 		reactive,
-		toRefs
+		toRefs,
+		ref
 	} from 'vue';
-
+	
+	const imageUpload = ref(null)
 	const data = reactive({
 		tabBarList: [{
 				name: '基本信息',
@@ -117,15 +145,24 @@
 			name: '',
 			title: '',
 			category: false,
-			classification: ''
-		}
+			classification: '',
+			freeMail: false,
+			fileList: []
+		},
+		specification: false,
+		distribution: false,
+		save: false,
 	});
 
 	const {
 		tabBarList,
 		form,
 		current,
-		switchName
+		switchName,
+		fileList,
+		specification,
+		distribution,
+		save
 	} = toRefs(data);
 
 	const tabsChange = (index)=> {
@@ -145,14 +182,16 @@
 		})
 	}
 	
-	const openSelect = () => {
-		data.form.category = true;   
-	}
 	
 	const changePath = (path) => {
 		uni.navigateTo({
 			url: path
 		})
+	}
+	
+	const onCategory = () => {
+		data.form.category = true;
+		console.log(imageUpload.value.lists[0].url)
 	}
 </script>
 
@@ -182,7 +221,6 @@
 			background-size: 100% 100%;
 		}
 	}
-	
 	
 	.tabBar {
 		padding: 0 32rpx;

@@ -355,9 +355,18 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/ShangPinXiangQing",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认订单",
+                "enablePullDownRefresh": false,
+                                 "navigationStyle": "custom"
+                                 }
+                 }         
 		,{
-		    "path" : "pages/user/systemBullestin",
-		    "style" :                                                                                    
+		    "path":"pages/user/systemBullestin",
+	      "style" :                                                                                  
 		    {
 		        "navigationBarTitleText": "系统公告",
 		        "enablePullDownRefresh": false,

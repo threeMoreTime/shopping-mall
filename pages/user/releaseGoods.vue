@@ -29,7 +29,7 @@
 					></u-select>
 				</u-form-item>				
 			</view>
-			<view @click="changePath()">
+			<view @click="changePath('/pages/user/storeClass')">
 				<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
 					<u-select></u-select>
 				</u-form-item>				

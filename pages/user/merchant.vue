@@ -71,10 +71,30 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</view>>
+	<u-modal
+		v-model="showModal" 
+		:show-confirm-button="false"
+		mask-close-able
+		:show-title="false"
+	>
+		<view class="modalcontent">
+			店铺资料未完善，请完善店铺资料
+		</view>
+		<view class="modalBtn">
+			<u-button @click="changePath('/pages/user/myShop/index')">确认</u-button>
+		</view>
+	</u-modal>
 </template>
 
 <script setup>
+	import { reactive, toRefs } from 'vue'
+	
+	const data = reactive({
+		showModal: true
+	})
+	
+	const { showModal } = toRefs(data)
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -336,6 +356,19 @@
 			height: 41rpx;
 			background: url("@/static/img/arrows.png") 100% no-repeat;
 			background-size: 100% 100%;
+		}
+	}
+	
+	.modalcontent {
+		padding: 74rpx 60rpx 58rpx;
+	}
+	
+	.modalBtn {
+		margin: 0 26rpx 38rpx;
+		
+		::v-deep .u-btn--default {
+			background: #24743C;
+			color: #FFFFFF;
 		}
 	}
 </style>

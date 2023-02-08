@@ -16,6 +16,9 @@
   <view class="bianji"></view>
 </view>
     </view>
+   <view class="NewaDdress">
+   <text class="address">新建地址+</text>
+   </view>
    
   </view>
 </template>
@@ -141,6 +144,26 @@ flex-direction: column;
   }
   
 }
-    
+    .NewaDdress{
+      margin-left: 32rpx;
+      margin-top: 1050rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 686rpx;
+      height: 72rpx;
+      background: #24743C;
+      border-radius: 16rpx 16rpx 16rpx 16rpx;
+      opacity: 1;
+      
+      .address{
+        // width: 130rpx;
+        height: 40rpx;
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 40rpx;
+      }
+    }
   }
 </style>

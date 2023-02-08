@@ -384,6 +384,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/shoHuoDiZhi",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "收货地址",
+                "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

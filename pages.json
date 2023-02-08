@@ -224,8 +224,7 @@
             {
                 "navigationBarTitleText": "交易明细",
                 "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#24743C",
-				"navigationBarTextStyle": "white"
+				"navigationStyle": "custom"
             }
         }
         ,{
@@ -262,8 +261,7 @@
 		    {
 		        "navigationBarTitleText": "发布商品",
 		        "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#24743C",
-				"navigationBarTextStyle": "white"
+				"navigationStyle": "custom"
 		    }
 		    
 		}
@@ -283,7 +281,7 @@
             {
                 "navigationBarTitleText": "我的社区",
                 "enablePullDownRefresh": false,
-                      "navigationStyle": "custom"
+                "navigationStyle": "custom"
             }
             
         },
@@ -293,8 +291,7 @@
 		    {
 		        "navigationBarTitleText": "数据统计",
 		        "enablePullDownRefresh": false,
-		        "navigationBarBackgroundColor": "#24743C",
-		        "navigationBarTextStyle": "white"
+		        "navigationStyle": "custom"
 		    }
 		    
 		}
@@ -305,7 +302,7 @@
                 "navigationBarTitleText": "商品管理",
                 "enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#24743C",
-				"navigationBarTextStyle": "white"
+				"navigationStyle": "custom"
             }
             
         }
@@ -315,8 +312,7 @@
 		    {
 		        "navigationBarTitleText": "我的店铺",
 		        "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#24743C",
-				"navigationBarTextStyle": "white"
+				"navigationStyle": "custom"
 		    }
 		    
 		}
@@ -326,7 +322,7 @@
             {
                 "navigationBarTitleText": "交易详情",
                 "enablePullDownRefresh": false,
-                      "navigationStyle": "custom"
+                "navigationStyle": "custom"
             }
             
         }
@@ -336,8 +332,7 @@
             {
                 "navigationBarTitleText": "退货/款",
                 "enablePullDownRefresh": false,
-                "navigationBarBackgroundColor": "#24743C",
-                "navigationBarTextStyle": "white"
+                "navigationStyle": "custom"
             }
             
         }
@@ -347,8 +342,7 @@
 		    {
 		        "navigationBarTitleText": "店铺分类",
 		        "enablePullDownRefresh": false,
-		        "navigationBarBackgroundColor": "#24743C",
-		        "navigationBarTextStyle": "white"
+				"navigationStyle": "custom"
 		    }
 		    
 		},{
@@ -368,6 +362,25 @@
                 "navigationBarTitleText": "确认订单",
                 "enablePullDownRefresh": false,
                                  "navigationStyle": "custom"
+                                 }
+                 }         
+		,{
+		    "path":"pages/user/systemBullestin",
+	      "style" :                                                                                  
+		    {
+		        "navigationBarTitleText": "系统公告",
+		        "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/user/bullestinDetails",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "公告详情",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
             }
             
         }

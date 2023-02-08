@@ -37,10 +37,10 @@
 		</view>
 		<view class="box">
 			<u-form-item label="商品图片0/1">
-				<u-upload upload-text=""></u-upload>
+				<u-upload></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
-				<u-upload upload-text=""></u-upload>
+				<u-upload></u-upload>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -154,19 +154,6 @@
 		box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 		opacity: 1;
-		
-		::v-deep .u-add-wrap {
-			width: 82rpx !important;
-			height: 82rpx !important;
-			line-height: 82rpx;
-			border: 1px dashed #707070;
-			border-radius: 16rpx;
-		}
-		
-		::v-deep .u-icon__icon {
-			top: 10rpx !important;
-			color: #B7B7B7;
-		}
 	}
 
 	.footer {

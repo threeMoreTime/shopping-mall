@@ -82,7 +82,7 @@
 			店铺资料未完善，请完善店铺资料
 		</view>
 		<view class="modalBtn">
-			<u-button @click="changePath('/pages/user/myShop/index')">确认</u-button>
+			<u-button @click="changePath('/pages/user/myShop/index', 1)">确认</u-button>
 		</view>
 	</u-modal>
 </template>

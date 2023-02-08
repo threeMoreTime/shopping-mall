@@ -1,6 +1,6 @@
 <template>
-	<view class="title">店铺信息</view>
-	<u-form :labelWidth='200' class="form">
+	<view class="title" v-if="current == 1">店铺信息</view>
+	<u-form :labelWidth='200' class="form" v-if="current == 1">
 		<view class="card">
 			<u-form-item label="店铺名称">
 				<u-input placeholder="请输入店铺名称"></u-input>
@@ -25,7 +25,7 @@
 			<u-form-item label="详细地址">
 				<u-input placeholder="请填写店铺具体地址"></u-input>
 			</u-form-item>
-			<u-form-item label="店铺简介">
+			<u-form-item label="店铺简介" label-position="top">
 				<u-input type="textarea" placeholder="了解你,从简介开始"></u-input>
 			</u-form-item>
 		</view>
@@ -45,21 +45,32 @@
 		</view>
 	</u-form>
 	<view class="btn">
-		<!-- <button type="primary">申请店铺</button> -->
-		<button type="primary">保存</button>
+		<button type="primary">{{ btnName }}</button>
 	</view>
-	<view></view>
+	<view style="height: 150rpx;"></view>
 </template>
 
 <script setup>
+	import { reactive, toRefs } from 'vue'
+	import { onLoad } from "@dcloudio/uni-app";
 	
+	const data = reactive({
+		current: 0,
+		btnName: ''
+	})
+	
+	const { current, btnName } = toRefs(data)
+	
+	onLoad((option) => {
+		if (option.typeId) {
+			data.current = option.typeId
+			data.btnName = '保存'
+		}
+	})
 </script>
 
 <style lang="scss" scoped>
 	
-	.form {
-		height: 2000rpx;
-	}
 	
 	.title {
 		padding: 18rpx 0 0 32rpx;
@@ -74,10 +85,6 @@
 		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
 		border-radius: 16rpx 16rpx 16rpx 16rpx;
 		font-size: 24rpx;
-		
-		&:nth-last-child(1) {
-			margin-bottom: 500rpx;
-		}
 	}
 	
 	

@@ -49,29 +49,28 @@
                    <!-- 第二个卡片盒子 -->
        
                   <!-- 第三个卡片盒子 -->
-<view class="card-box3" >
+<view class="card-box3">
   <text style="
 height: 40rpx;
 font-size: 28rpx;
 font-weight: 400;
 color: #000000;
 ">提货方式</text>
-<view class="" >
-  <text style="color: #949494;
-    font-weight: 400;
-  height: 40rpx;
-    line-height: 24rpx;">{{payWayName}}</text>
+<view class="" @click="showPayWay = true">
   
-    <u-select
-      	cancel-color="#A4A4A4"
-      	confirm-color="#A4A4A4"
-      	v-model="showPayWay" 
-      	:list="list" 
-      	@confirm="changePayWay"></u-select>
-    <text class="text-tubiao">></text>
+
+  <text style="color: #949494;
+  font-weight: 400;
+height: 40rpx;
+  line-height: 24rpx;">{{payWayName}}</text>
+  <u-select
+    	cancel-color="#A4A4A4"
+    	confirm-color="#A4A4A4"
+    	v-model="showPayWay" 
+    	:list="list" 
+    	@confirm="changePayWay"></u-select>
+  <text class="text-tubiao">></text>
 </view>
-
-
 </view>
 
                              <!-- 第三个卡片盒子 -->

@@ -29,9 +29,11 @@
 					></u-select>
 				</u-form-item>				
 			</view>
-			<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
-				<u-select></u-select>
-			</u-form-item>
+			<view @click="changePath()">
+				<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
+					<u-select></u-select>
+				</u-form-item>				
+			</view>
 		</view>
 		<view class="box">
 			<u-form-item label="商品图片0/1">
@@ -62,8 +64,8 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="图文详情" right-icon="arrow-right">
-				<u-select></u-select>
+			<u-form-item label="图文详情" label-position="top">
+				<u-input type="textarea"></u-input>
 			</u-form-item>
 		</view>
 	</u-form>
@@ -129,6 +131,12 @@
 	
 	const openSelect = () => {
 		data.form.category = true;   
+	}
+	
+	const changePath = (path) => {
+		uni.navigateTo({
+			url: path
+		})
 	}
 </script>
 

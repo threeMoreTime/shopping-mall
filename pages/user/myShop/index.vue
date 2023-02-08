@@ -3,7 +3,7 @@
 	<u-form :labelWidth='200' class="form">
 		<view class="card">
 			<u-form-item label="店铺名称">
-				<u-input></u-input>
+				<u-input placeholder="请输入店铺名称"></u-input>
 			</u-form-item>
 			<u-form-item label="店铺logo(0/1)">
 				<u-upload></u-upload>
@@ -12,30 +12,30 @@
 				<u-upload></u-upload>
 			</u-form-item>	
 			<u-form-item label="主营">
-				<u-input></u-input>
+				<u-input placeholder="请输入店铺主营业务"></u-input>
 			</u-form-item>
 		</view>
 		<view class="card">
-			<u-form-item label="店铺分类">
-				<u-input></u-input>
+			<u-form-item label="店铺分类" right-icon="arrow-right">
+				<u-select></u-select>
 			</u-form-item>
 			<u-form-item label="所在地区">
 				<u-input></u-input>
 			</u-form-item>
 			<u-form-item label="详细地址">
-				<u-input></u-input>
+				<u-input placeholder="请填写店铺具体地址"></u-input>
 			</u-form-item>
 			<u-form-item label="店铺简介">
-				<u-input type="textarea"></u-input>
+				<u-input type="textarea" placeholder="了解你,从简介开始"></u-input>
 			</u-form-item>
 		</view>
 		<view class="title" style="padding-top: 0;">店铺信息</view>
 		<view class="card">
 			<u-form-item label="联系人">
-				<u-input></u-input>
+				<u-input placeholder="昵称"></u-input>
 			</u-form-item>
 			<u-form-item label="联系电话">
-				<u-input></u-input>
+				<u-input placeholder="请输入电话号码"></u-input>
 			</u-form-item>
 		</view>
 		<view class="card">

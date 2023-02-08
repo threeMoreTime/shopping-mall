@@ -5,7 +5,9 @@
 	</view>
 	<view class="card">
 		<view class="cardHead">
-			<view class="imag">图片</view>
+			<view class="imag">
+				<image class="imag" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"></image>
+			</view>
 			<view>
 				<view class="title">标题标题标题标题标题标题标题标题</view>
 				<view class="text">
@@ -111,6 +113,7 @@
 		.imag {
 			width: 164rpx;
 			height: 164rpx;
+			margin-right: 30rpx;
 		}
 		
 		.title {

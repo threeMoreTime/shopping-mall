@@ -330,6 +330,28 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/returnGoods",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "退货/款",
+                "enablePullDownRefresh": false,
+                "navigationBarBackgroundColor": "#24743C",
+                "navigationBarTextStyle": "white"
+            }
+            
+        }
+		,{
+		    "path" : "pages/user/storeClass",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "店铺分类",
+		        "enablePullDownRefresh": false,
+		        "navigationBarBackgroundColor": "#24743C",
+		        "navigationBarTextStyle": "white"
+		    }
+		    
+		}
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

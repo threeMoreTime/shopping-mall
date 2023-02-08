@@ -37,7 +37,7 @@
 						<view class="ItemBg"></view>
 						<text>订单管理</text>
 					</view>
-					<view class="workingAllItem">
+					<view class="workingAllItem" @click="changePath('/pages/user/returnGoods')">
 						<view class="ItemBg"></view>
 						<text>退货/款</text>
 					</view>
@@ -50,7 +50,7 @@
 			<view class="workingArea">
 				<view class="top">
 					<text>数据统计</text>
-					<view class="topRigth">
+					<view class="topRigth" @click="changePath('/pages/user/dataStatistics')">
 						<text>经营分析</text>
 						<view class="arrBg"></view>
 					</view>

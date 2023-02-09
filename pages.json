@@ -410,6 +410,26 @@
             }
             
         }
+        ,{
+            "path" : "pages/shopping/goodsClass",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品分类",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/logistics",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "物流",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

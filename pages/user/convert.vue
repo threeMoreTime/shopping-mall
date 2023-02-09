@@ -60,14 +60,20 @@
     <view class="btn-box">
       <u-button :custom-style="customStyle">确认兑换</u-button>
     </view>
-    <u-action-sheet
-      :list="optionsOutputList"
+    <u-picker
+      mode="selector"
       v-model="optionsOutputIDShow"
-    ></u-action-sheet>
-    <u-action-sheet
-      :list="optionsinputList"
+      :default-selector="[0]"
+      :range="optionsOutputList"
+      range-key="text"
+    ></u-picker>
+    <u-picker
+      mode="selector"
       v-model="optionsInputIDShow"
-    ></u-action-sheet>
+      :default-selector="[0]"
+      :range="optionsOutputList"
+      range-key="text"
+    ></u-picker>
   </view>
 </template>
 

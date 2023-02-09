@@ -54,7 +54,7 @@
 			</view>
 		</view>
 		<view class="box">
-			<u-form-item label="商品图片0/1" prop="fileList">
+			<u-form-item label="商品图片0/1">
 				<u-upload 
 					ref="imageUpload"
 					:max-count="1" 
@@ -149,14 +149,14 @@
 			details: ''
 		},
 		rules: {
-			name: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change'] }],
-			title: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change'] }],
-			unitPrice: [{ required: true, message: '请输入商品单价', trigger: ['blur', 'change'] }],
-			price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change'] }],
-			marketPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change'] }],
-			inventory: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change'] }],
-			freight: [{ required: true, message: '请输入快递运费', trigger: ['blur', 'change'] }],
-			details: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change'] }],
+			name: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change' ]}],
+			title: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change' ]}],
+			unitPrice: [{ required: true, message: '请输入商品单价', trigger: ['blur', 'change' ]}],
+			price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change' ]}],
+			marketPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change' ]}],
+			inventory: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change' ]}],
+			freight: [{ required: true, message: '请输入快递运费', trigger: ['blur', 'change' ]}],
+			details: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change' ]}],
 		},
 		categoryValue: '',
 		specification: false,

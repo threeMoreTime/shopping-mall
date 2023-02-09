@@ -10,24 +10,34 @@
 <view class="BiaoDan">
 
   <u-form :model="form" ref="uForm" class="box-box">
-  		<u-form-item label="收货人" class="item" label-width="110">
+  		<u-form-item label="收货人" class="item" label-width="110" labelPosition="left" borderBottom="false">
         <u-input v-model="form.name"  class="item2" :customStyle="{'padding': '0 20rpx' ,'color': '#030303' }"/>
         </u-form-item>
-  		<u-form-item label="手机号" class="item" label-width="110">
-        <u-input v-model="form.ShoJi" class="item2"  :customStyle="{'padding': '0 20rpx'}"/>
+  		<u-form-item label="手机号" class="item" label-width="110" labelPosition="left" borderBottom="false">
+        <u-input v-model="form.ShoJi" class="item2"  :customStyle="{'padding': '0 20rpx' ,'color': '#030303'}"/>
         </u-form-item>
-  		<u-form-item label="所在地址" class="item" label-width="130">
-        <u-input v-model="form.diZhi"  class="item2"  :customStyle="{'padding': '0 15rpx'}"/>
+  		<u-form-item label="所在地址" class="item" label-width="130" labelPosition="left" borderBottom="false">
+        <u-input v-model="form.diZhi"  class="item2"  :customStyle="{'padding': '0 15rpx' ,'color': '#030303' }"/>
         </u-form-item>
-        <u-form-item label="详细地址" class="item" label-width="130">
-          <u-input v-model="form.XiangXiDizhi" type="textarea"  height="200" backgroundColor="#F1F1F1" class="oooo"/>
+        <u-form-item label="详细地址" class="item" label-width="130" labelPosition="left" borderBottom="false">
+          <u-input v-model="form.XiangXiDizhi" 
+          :customStyle="{'color': '#030303'}"
+          type="textarea"  height="200" backgroundColor="#F1F1F1" class="oooo"/>
  <!-- <   v-model="form.XiangXiDizhi"  class="aaaaaa"/> -->
           </u-form-item>
   	</u-form>
-   
+   <!-- 定位图标 -->
+   <text class="tuBiao"></text>
+      <!-- 定位图标 -->
 </view>
 <!-- 表单     -->
 
+
+<!-- 保存按钮 -->
+<view class="BOX-bottom">
+  <text>保存</text>
+</view>
+<!-- 保存按钮 -->
 	</view>
 </template>
 
@@ -49,11 +59,7 @@
     				diZhi: '广东xxxxxxx',
             XiangXiDizhi:'0000000000000000'
   })
-  const list=ref(
-  [{
-    
-  }]
-  )
+
   
   
 </script>
@@ -73,6 +79,7 @@
   height: 184rpx;
   background: #F1F1F1;
   border-radius: 16rpx 16rpx 16rpx 16rpx;
+
   // opacity: 1;
 }
 	
@@ -113,14 +120,10 @@ line-height: 24rpx;
     height: 616rpx;
     background: #FFFFFF;
     padding-left: 34rpx ;
-    // border-radius: 16rpx 16rpx 16rpx 16rpx;
-    // opacity: 1;
+  position: relative;
 .box-box{
 // padding: 0 0 0 50rpx;
       .item{
-        // margin:0rpx 10rpx ;
-  // padding-right: 5rpx;
-        // width: 150rpx;
         font-size: 20rpx;
         font-weight: 800;
         color: #030303;
@@ -131,12 +134,47 @@ line-height: 24rpx;
       width: 472rpx;
       height: 86rpx;
       background: #F1F1F1;
+line-height: 80rpx;
 
       border-radius: 16rpx 16rpx 16rpx 16rpx;
       // opacity: 1;
       
     }
+  
   }
+  
+  .tuBiao{
+    width: 30rpx;
+    height: 43rpx;
+    background: #24743C;
+    opacity: 1;
+    background:url('../../static/img/dizhi.png') 100% no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 275rpx;
+    left: 620rpx;
+    
+  }
+  }
+  
+  .BOX-bottom{
+    // margin: 682rpx 0 0 
+    position: absolute;
+    bottom: 22rpx;
+    left: 32rpx;
+    width: 686rpx;
+    height: 80rpx;
+    background: #24743C;
+    border-radius: 16rpx 16rpx 16rpx 16rpx;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text{
+      font-weight: 400;
+      color: #FFFFFF;
+      line-height: 24rpx;
+    }
   }
     }
 </style>

@@ -133,27 +133,27 @@
 								<view class="itemBg1 selected2"></view>
 								<view class="grid-text">能量值兑换</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/withdraw')">
 								<view class="itemBg1 selected3"></view>
 								<view class="grid-text">仓单提现</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/contract/myContract')">
 								<view class="itemBg1 selected4"></view>
 								<view class="grid-text">我的合同</view>
 							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg1 selected5"></view>
+							<u-grid-item @click="changePath('/pages/user/studio/studio')">
+								<view class="itemBg1 selected5" ></view>
 								<view class="grid-text">工作室</view>
 							</u-grid-item>
-							<u-grid-item>
-								<view class="itemBg1 selected6"></view>
+							<u-grid-item @click="changePath('/pages/user/releaseRecord')">
+								<view class="itemBg1 selected6" ></view>
 								<view class="grid-text">释放记录</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item >
 								<view class="itemBg1 selected7"></view>
 								<view class="grid-text" @click="myGuaDan('/pages/user/myGuaDan')">我的挂单</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/convert')">
 								<view class="itemBg1 selected8"></view>
 								<view class="grid-text" >我要转换</view>
 							</u-grid-item>

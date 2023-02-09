@@ -20,7 +20,7 @@
 						<view class="itemBg2"></view>
 						<view class="itemText">我的返利</view>
 					</view>
-					<view class="fundomianItem">
+					<view class="fundomianItem" @click="changePath('/pages/shopping/goodsClass', {})">
 						<view class="itemBg3"></view>
 						<view class="itemText">商品分类</view>
 					</view>
@@ -30,7 +30,7 @@
 					</view>
 				</view>
 				<view class="BoxList">
-					<view class="BoxListItem">
+					<view class="BoxListItem" @click="changePath('/pages/product/productDetail',{})">
 						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">

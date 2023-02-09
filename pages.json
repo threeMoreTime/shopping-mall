@@ -473,7 +473,17 @@
         "navigationStyle": "custom"
       }
     }
-  ],
+      ,{
+            "path" : "pages/user/myFarm",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "农场",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+    ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",

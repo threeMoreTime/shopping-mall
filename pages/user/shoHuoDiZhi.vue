@@ -13,7 +13,7 @@
       
 <view class="Box-right">
   <view class="shanchu"></view>
-  <view class="bianji"></view>
+  <view class="bianji" @click="changePath('/pages/user/BianjiShoHuoDiZhi')"></view>
 </view>
     </view>
    <view class="NewaDdress">
@@ -36,7 +36,14 @@
     })
   }
  
- 
+ // 路由跳转
+ const changePath = (path,id) => {
+ 	if (path) {
+ 		uni.navigateTo({
+ 			url: id? path + '?typeId=' + id : path
+ 		})
+ 	}
+ }
 </script>
 <style lang="scss" scoped>
   .bg {

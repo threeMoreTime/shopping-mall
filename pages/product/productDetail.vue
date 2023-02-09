@@ -60,7 +60,10 @@
 					<u-number-box v-model="numValue"></u-number-box>
 				</view>
 				<text style="margin-top: 20rpx;font-size: 16rpx;color: #D4D4D4;">图片仅供参考</text>
-				<view class="changeBtn" :class="[typeId ? 'backg-24743C' : '']">{{typeName}}</view>
+				<view class="changeBtn"
+				 :class="[typeId ? 'backg-24743C' : '']"
+				 @click="changePath('/pages/order/ZhiFuDingDan',{})"
+				 >{{typeName}}</view>
 			</view>
 		</u-popup>
 	</view>

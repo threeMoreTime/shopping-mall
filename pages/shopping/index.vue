@@ -12,7 +12,7 @@
 					</u-swiper>
 				</view>
 				<view class="fundomian">
-					<view class="fundomianItem">
+					<view class="fundomianItem" @click="changePath('/pages/order/order', {})">
 						<view class="itemBg1"></view>
 						<view class="itemText">我的订单</view>
 					</view>

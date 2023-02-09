@@ -21,7 +21,7 @@
 					<view class="itemBg1"></view>
 					<view class="itemText">积分</view>
 				</view>
-				<view class="fundomianItem">
+				<view class="fundomianItem" @click="changePath('/pages/user/myFarm')">
 					<view class="itemBg2"></view>
 					<view class="itemText">农场</view>
 				</view>
@@ -69,7 +69,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn">了解详情</view>
+						<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail')">了解详情</view>
 					</view>
 				</view>
 				<view class="ctxListItem">

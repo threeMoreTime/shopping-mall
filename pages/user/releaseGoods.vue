@@ -21,17 +21,17 @@
 		</u-tabs>
 	</view>
 	<u-form 
+		v-show="current === 0" 
 		:model="form" 
+		:rules="rules"
 		ref="uform" 
 		:labelWidth='200' 
-		v-show="current === 0" 
-		clearable="form"
 	>
 		<view class="box">
-			<u-form-item label="商品名称">
+			<u-form-item label="商品名称" prop="name">
 				<u-input v-model="form.name" placeholder="最多30字"></u-input>
 			</u-form-item>
-			<u-form-item label="商品副标题" :border-bottom="false">
+			<u-form-item label="商品副标题" prop="title" :border-bottom="false">
 				<u-input v-model="form.title" placeholder="最多50字"></u-input>
 			</u-form-item>
 		</view>
@@ -44,6 +44,7 @@
 				<u-select 
 					v-model="form.category" 
 					confirm-color="#24743C"
+					@confirm="activeCategory"
 				></u-select>
 			</u-form-item>				
 			<view @click="changePath('/pages/user/storeClass')">
@@ -53,7 +54,7 @@
 			</view>
 		</view>
 		<view class="box">
-			<u-form-item label="商品图片0/1">
+			<u-form-item label="商品图片0/1" prop="fileList">
 				<u-upload 
 					ref="imageUpload"
 					:max-count="1" 
@@ -66,28 +67,28 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="商品单价">
-				<u-input placeholder="个/件/包"></u-input>
+			<u-form-item label="商品单价" prop="unitPrice">
+				<u-input v-model="form.unitPrice" placeholder="个/件/包"></u-input>
 			</u-form-item>
-			<u-form-item label="商品价格">
-				<u-input placeholder="元"></u-input>
+			<u-form-item label="商品价格" prop="price">
+				<u-input v-model="form.price" placeholder="元"></u-input>
 			</u-form-item>
-			<u-form-item label="商品市场价">
-				<u-input placeholder="划线价"></u-input>
+			<u-form-item label="商品市场价" prop="marketPrice">
+				<u-input v-model="form.marketPrice" placeholder="划线价"></u-input>
 			</u-form-item>
-			<u-form-item label="商品库存">
-				<u-input placeholder="数量"></u-input>
+			<u-form-item label="商品库存" prop="inventory">
+				<u-input v-model="form.inventory" placeholder="数量"></u-input>
 			</u-form-item>
-			<u-form-item label="快递运费">
-				<u-input placeholder="元"></u-input>
+			<u-form-item label="快递运费" prop="freight">
+				<u-input v-model="form.freight" placeholder="元"></u-input>
 			</u-form-item>
 			<u-form-item label="包邮">
 				<u-switch v-model="form.freeMail" active-color="#24743C"></u-switch>
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="图文详情" label-position="top">
-				<u-input type="textarea"></u-input>
+			<u-form-item label="图文详情" prop="details" label-position="top">
+				<u-input v-model="form.details" type="textarea"></u-input>
 			</u-form-item>
 		</view>
 	</u-form>
@@ -118,26 +119,18 @@
 </template>
 
 <script setup>
-	import {
-		reactive,
-		toRefs,
-		ref
-	} from 'vue';
+	import {reactive, toRefs, ref} from 'vue';
+	import {onReady, onLoad} from "@dcloudio/uni-app";
 	
 	const imageUpload = ref(null)
+	const uform = ref()
+	
 	const data = reactive({
-		tabBarList: [{
-				name: '基本信息',
-			},
-			{
-				name: '规格参数',
-			},
-			{
-				name: '分销'
-			},
-			{
-				name: '自购省钱'
-			}
+		tabBarList: [
+			{ name: '基本信息' },
+			{ name: '规格参数' },
+			{ name: '分销' },
+			{ name: '自购省钱' }
 		],
 		current: 0,
 		switchName: '',
@@ -147,8 +140,25 @@
 			category: false,
 			classification: '',
 			freeMail: false,
-			fileList: []
+			fileList: [],
+			unitPrice: '',
+			price: '',
+			marketPrice: '',
+			inventory: '',
+			freight: '',
+			details: ''
 		},
+		rules: {
+			name: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change'] }],
+			title: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change'] }],
+			unitPrice: [{ required: true, message: '请输入商品单价', trigger: ['blur', 'change'] }],
+			price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change'] }],
+			marketPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change'] }],
+			inventory: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change'] }],
+			freight: [{ required: true, message: '请输入快递运费', trigger: ['blur', 'change'] }],
+			details: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change'] }],
+		},
+		categoryValue: '',
 		specification: false,
 		distribution: false,
 		save: false,
@@ -162,8 +172,13 @@
 		fileList,
 		specification,
 		distribution,
-		save
+		save,
+		rules
 	} = toRefs(data);
+	
+	onReady(() => {
+		uform.value.setRules(rules)
+	})
 
 	const tabsChange = (index)=> {
 		if (index === 1) {
@@ -191,8 +206,20 @@
 	
 	const onCategory = () => {
 		data.form.category = true;
-		console.log(imageUpload.value.lists[0].url)
 	}
+	
+	const activeCategory = (res) => {
+		console.log(categoryValue, res)
+	}
+	
+	const release = () => {
+		data.form.fileList = imageUpload.value.lists
+		uform.value.validate((valid) => {
+			console.log(data.form.fileList)
+			console.log(valid)
+		})
+	}
+	
 </script>
 
 <style lang="scss" scoped>

@@ -261,7 +261,7 @@
 		extra: {
 			line: {
 				type: "curve",
-				width: 5,
+				width: 2,
 				activeType: "hollow"
 			}
 		}

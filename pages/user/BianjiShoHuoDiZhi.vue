@@ -9,17 +9,17 @@
 <!-- 表单		 -->
 <view class="BiaoDan">
 
-  <u-form :model="form" ref="uForm" class="box-box">
-  		<u-form-item label="收货人" class="item" label-width="110" labelPosition="left" borderBottom="false">
+  <u-form :model="form" ref="uForm" class="box-box" :borderBottom="false" >
+  		<u-form-item label="收货人" class="item" label-width="110" labelPosition="left" :borderBottom="false">
         <u-input v-model="form.name"  class="item2" :customStyle="{'padding': '0 20rpx' ,'color': '#030303' }"/>
         </u-form-item>
-  		<u-form-item label="手机号" class="item" label-width="110" labelPosition="left" borderBottom="false">
+  		<u-form-item label="手机号" class="item" label-width="110" labelPosition="left" :borderBottom="false">
         <u-input v-model="form.ShoJi" class="item2"  :customStyle="{'padding': '0 20rpx' ,'color': '#030303'}"/>
         </u-form-item>
-  		<u-form-item label="所在地址" class="item" label-width="130" labelPosition="left" borderBottom="false">
+  		<u-form-item label="所在地址" class="item" label-width="130" labelPosition="left" :borderBottom="false">
         <u-input v-model="form.diZhi"  class="item2"  :customStyle="{'padding': '0 15rpx' ,'color': '#030303' }"/>
         </u-form-item>
-        <u-form-item label="详细地址" class="item" label-width="130" labelPosition="left" borderBottom="false">
+        <u-form-item label="详细地址" class="item" label-width="130" labelPosition="left" :borderBottom="false">
           <u-input v-model="form.XiangXiDizhi" 
           :customStyle="{'color': '#030303'}"
           type="textarea"  height="200" backgroundColor="#F1F1F1" class="oooo"/>

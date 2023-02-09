@@ -14,19 +14,21 @@
 				</view>
 			</view>
 			<!-- 二级 -->
-			<view class="classify-content">
-				<view class="classify-box" :id="'tab' + item.id" v-for="item in tabList">
-					<view class="classify-title">{{ item.name }}</view>
-					<view class="classify-wrapper">
-						<view class="classify-item" v-for="item2 in item.child">
-							<u-image width="138rpx" height="138rpx"
-								src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-								@click="handleClassifyClick(item2.id)"></u-image>
-							<view class="itemName">{{ item2.name }}</view>
+			<scroll-view scroll-y="true" :scroll-top="scrollTop" class="scroll-y">
+				<view class="classify-content">
+					<view class="classify-box" :id="'tab' + item.id" v-for="item in tabList">
+						<view class="classify-title">{{ item.name }}</view>
+						<view class="classify-wrapper">
+							<view class="classify-item" v-for="item2 in item.child">
+								<u-image width="138rpx" height="138rpx"
+									src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
+									@click="handleClassifyClick(item2.id)"></u-image>
+								<view class="itemName">{{ item2.name }}</view>
+							</view>
 						</view>
 					</view>
-				</view>
-			</view>
+				</view>				
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -36,21 +38,19 @@
 		ref,
 		reactive
 	} from 'vue'
-	// import { getLeftCategory } from '@/api/category'
 	import {
 		onLoad
 	} from '@dcloudio/uni-app'
-	// import {userStore} from '../../store/index';
-	// const store = userStore()
-
+	
 	let activeTabId = ref(0)
+	let scrollTop = ref(0)
 
 	let tabList = ref([{
 			id: 745,
 			pid: 0,
 			path: '/0/741',
 			name: '食品酒水',
-			child: [{ name: '卸妆'}]
+			child: [{ name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}]
 		},
 		{
 			id: 745,
@@ -113,6 +113,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.scroll-y {
+		height: 1100rpx;
+	}
+	
 	.tabs {
 		width: 100%;
 		height: 176rpx;
@@ -157,8 +161,10 @@
 				justify-content: flex-start;
 				align-items: center;
 				flex-direction: column;
+				position: fixed;
+				top: 200rpx;
 				background-color: #f8f8f8;
-				float: left;
+				// float: left;
 
 				.tab-item {
 					width: 182rpx;
@@ -172,8 +178,8 @@
 			}
 
 			.classify-content {
-				width: 70%;
-				// margin: 0 0 0 182rpx;
+				// width: 70%;
+				margin: 0 0 0 182rpx;
 
 				.classify-box {
 					.classify-title {

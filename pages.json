@@ -420,6 +420,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/ZhiFuDingDan",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "支付订单",
+                "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

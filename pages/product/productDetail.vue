@@ -50,7 +50,7 @@
 						<!-- ItemActivate -->
 						<text class="Item" 
 							@click="changeItem(itemQuc,index ,index2)"
-							:class="[index2 === itemIndex[index] && !itemQuc.disabled? 'ItemActivate' : '',itemQuc.disabled ? 'disabled' : '']"
+							:class="[index2 === itemIndex[index]?.indexValue && !itemQuc.disabled? 'ItemActivate' : '',itemQuc.disabled ? 'disabled' : '']"
 							:key="index"
 							v-for="itemQuc, index2 in item.attrValues">{{itemQuc.lable}}</text>
 					</view>
@@ -241,11 +241,16 @@
 	for(let i = 0; i<productAttr.value.length; i++) {
 		itemIndex.value[i] = null
 	}
+	
 	const changeItem = (optionName, index, index2) => {
-		console.log(optionName)
+		// console.log(optionName)
 		// itemIndex.value[index] = index2
-		if (itemIndex.value[index] !== index2) {
-			itemIndex.value[index] = index2
+		if (itemIndex.value[index]?.indexValue !== index2) {
+			itemIndex.value[index] = {
+				indexValue: index2,
+				optionName
+			}
+			
 		} else {
 			itemIndex.value[index] = null
 		}

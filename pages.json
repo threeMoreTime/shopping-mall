@@ -411,25 +411,45 @@
             
         }
         ,{
-            "path" : "pages/shopping/goodsClass",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "商品分类",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
+          "path" : "pages/shopping/goodsClass",
+          "style" :                                                                                    
+          {
+            "navigationBarTitleText": "商品分类",
+            "enablePullDownRefresh": false,
+            "navigationStyle": "custom"
+          }
+          
+      }
+      ,{
+        "path" : "pages/user/BianjiShoHuoDiZhi",
+        "style" :                                                                                    
+        {
+          "navigationBarTitleText": "编辑收货地址",
+          "enablePullDownRefresh": false,
+          "navigationStyle": "custom"
         }
-        ,{
-            "path" : "pages/order/logistics",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "物流",
-                "enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-            }
-            
-        }
+        
+    }
+    ,{
+      "path" : "pages/order/logistics",
+      "style" :                                                                                    
+      {
+        "navigationBarTitleText": "物流",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
+      }
+      
+  }
+  ,{
+    "path" : "pages/order/ZhiFuDingDan",
+    "style" :                                                                                    
+    {
+      "navigationBarTitleText": "支付订单",
+      "enablePullDownRefresh": false,
+      "navigationStyle": "custom"
+    }
+    
+}
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -430,6 +430,26 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/KeFu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "客服",
+                "enablePullDownRefresh": false,
+                  "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/TuiHuo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -29,6 +29,7 @@
 						'font-size': '32rpx',
 						'color': '#0A0A0A',
 						'font-weight': 'bold'
+<<<<<<< HEAD
 					}"
           :list="tabList"
           v-model="type"
@@ -340,6 +341,277 @@ const navigateBack = () => {
     delta: 1
   })
 }
+=======
+					}" :list="tabList" v-model="type" @change="changeTabs"></u-tabs>
+			</view>
+			<view class="orderList" v-show="type === 0">
+				<view class="orderListItem">
+					<view class="ItemTop">
+						<text>订单号：2302310251121221312_0</text>
+						<text class="redBg">代发货</text>
+					</view>
+					<view class="ItemMiddle">
+						<image src="../../static/img/clothing.png" alt=""/>
+						<view class="context">
+							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+							<view class="price">
+								<text class="redBg">￥30000.00</text>
+								<text class="miniCount">x2</text>
+							</view>
+							<view class="count">
+								<text>共计1件商品</text>
+								<text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+							</view>
+						</view>
+					</view>
+					<view class="ItemBottom">
+						<text>【种树专区】</text>
+					</view>
+				</view>
+			</view>
+			<view class="orderList" v-show="type === 1">
+				<view class="orderListItem">
+					<view class="ItemTop">
+						<text>订单号：2302310251121221312_0</text>
+						<text class="redBg">代发货</text>
+					</view>
+					<view class="ItemMiddle">
+						<image src="../../static/img/clothing.png" alt=""/>
+						<view class="context">
+							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+							<view class="price">
+								<text class="redBg">￥30000.00</text>
+								<text class="miniCount">x2</text>
+							</view>
+							<view class="count">
+								<text>共计1件商品</text>
+								<text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+							</view>
+						</view>
+					</view>
+					<view class="ItemBottom">
+						<text>【种树专区】</text>
+						<view class="btn">
+							<view class="btnItem1" @click="changePath('/pages/order/logistics')">查看物流</view>
+							<view class="btnItem2">待发货</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="orderList" v-show="type === 2">
+				<view class="orderListItem">
+					<view class="ItemTop">
+						<text>订单号：2302310251121221312_0</text>
+						<text class="redBg">待收货</text>
+					</view>
+					<view class="ItemMiddle">
+						<image src="../../static/img/clothing.png" alt=""/>
+						<view class="context">
+							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+							<view class="price">
+								<text class="redBg">￥30000.00</text>
+								<text class="miniCount">x2</text>
+							</view>
+							<view class="count">
+								<text>共计1件商品</text>
+								<text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+							</view>
+						</view>
+					</view>
+					<view class="ItemBottom">
+						<text>【种树专区】</text>
+						<view class="btn">
+							<view class="btnItem2">确认收货</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="orderList" v-show="type === 3">
+				<view class="orderListItem">
+					<view class="ItemTop">
+						<text>订单号：2302310251121221312_0</text>
+						<text class="redBg">已完成</text>
+					</view>
+					<view class="ItemMiddle">
+						<image src="../../static/img/clothing.png" alt=""/>
+						<view class="context">
+							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+							<view class="price">
+								<text class="redBg">￥30000.00</text>
+								<text class="miniCount">x2</text>
+							</view>
+							<view class="count">
+								<text>共计1件商品</text>
+								<text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+							</view>
+						</view>
+					</view>
+					<view class="ItemBottom">
+						<text>【种树专区】</text>
+					</view>
+				</view>
+			</view>
+			<view class="orderList" v-show="type === 4">
+				<view class="orderListItem">
+					<view class="ItemTop">
+						<text>订单号：2302310251121221312_0</text>
+						<text class="redBg">已提货</text>
+					</view>
+					<view class="ItemMiddle">
+						<image src="../../static/img/clothing.png" alt=""/>
+						<view class="context">
+							<text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+							<view class="price">
+								<text class="redBg">￥30000.00</text>
+								<text class="miniCount">x2</text>
+							</view>
+							<view class="count">
+								<text>共计1件商品</text>
+								<text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+							</view>
+						</view>
+					</view>
+					<view class="ItemBottom">
+						<text>【种树专区】</text>
+						<view class="btn">
+							<view class="btnItem2" @click="openShow">取消订单</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="popupBox">
+			<u-popup v-model="orderIsShow" mode="bottom" border-radius="20">
+				<view class="popupBoxList">
+					<view class="title">取消订单</view>
+					<view class="subheading">请选择订单原因</view>
+					<view class="checkboxList">
+						<u-checkbox-group 
+							class="checkboxListItem" 
+							size="29"
+							v-for="item in checkList" 
+							:key="item.name">
+							<text>{{item.name}}</text>
+							<u-checkbox
+								class="checkbox"
+								@change="checkboxChange"
+								shape="circle"
+								active-color="#24743C"
+								v-model="item.isShow"
+								:name="item.name"
+							></u-checkbox>
+						</u-checkbox-group>
+					</view>
+					<view class="btn">
+						<view class="btnChild" @click="changeShow(1)">暂不取消</view>
+						<view class="btnChild" @click="changeShow(2)">确定取消</view>
+					</view>
+				</view>
+			</u-popup>
+		</view>
+	</view>
+</template>
+
+<script setup>
+	import {
+		reactive,
+		ref,
+		toRefs
+	} from "vue";
+	import {
+	    onLoad
+	} from "@dcloudio/uni-app";
+	onLoad((option) => {
+		// console.log(option)
+		type.value = option?.typeId? parseInt(option.typeId) : 0
+	})
+	const checkList = ref([
+		{
+			isShow: false,
+			name: '价格有点贵'
+		},
+		{
+			isShow: false,
+			name: '收货地址拍错'
+		},
+		{
+			isShow: false,
+			name: '商家支持不了银行卡'
+		},
+		{
+			isShow: false,
+			name: '暂时不需要了'
+		},
+		{
+			isShow: false,
+			name: '其他'
+		}
+	])
+	const checkboxChange = (index) => {
+		// console.log(index);
+	}
+	const data = reactive({
+		tabList: [{
+				name: '全部订单'
+			},
+			{
+				name: '待发货'
+			},
+			{
+				name: '待收货'
+			},
+			{
+				name: '已完成'
+			},
+			{
+				name: '自提订单'
+			},
+		],
+		// 全部订单(0) 待发货(1) 待收货(2) 已完成(3) 自提订单(4)
+		type: 0,
+		orderIsShow: false,
+		orderCause: []
+	})
+	const {
+		tabList,
+		type,
+		orderIsShow,
+		orderCause
+	} = toRefs(data)
+	// 点击取消订单
+	const openShow = () => {
+		orderIsShow.value = true
+	}
+	// 取消订单的弹窗内容按钮
+	const changeShow = (id) => {
+		// id为1是暂不取消  2是确定取消
+		if(id === 1) {
+			orderIsShow.value = false
+			checkList.value.forEach(item => item.isShow = false)
+		} else {
+			orderIsShow.value = false
+			orderCause.value = checkList.value.filter(item => item.isShow)
+			console.log(orderCause.value);
+			checkList.value.forEach(item => item.isShow = false)
+		}
+	}
+	// 用户点击tabs后触发
+	const changeTabs = (index) => {
+		type.value = index
+	}
+	// 返回上一级
+	const navigateBack = () => {
+		uni.navigateBack({
+			delta: 1
+		})
+	}
+	
+	const changePath = (path) => {
+		uni.navigateTo({
+			url: path
+		})
+	}
+>>>>>>> fcf8c23d876484e658a808f40aa66b47fdd66a63
 </script>
 
 <style lang="scss" scoped>

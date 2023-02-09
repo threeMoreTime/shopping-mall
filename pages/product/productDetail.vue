@@ -209,10 +209,8 @@
 			})
 		}
 	})
-	for (let key in productValue.value) {
-	  // productValue.value[key].disabled = false
-	  // console.log(key + ": " + productValue.value[key].disabled);
-	}
+	
+	// console.log(productValue.value);
 	const list = ref([
 		'https://cdn.uviewui.com/uview/swiper/1.jpg',
 		'https://cdn.uviewui.com/uview/swiper/2.jpg',
@@ -241,7 +239,22 @@
 	for(let i = 0; i<productAttr.value.length; i++) {
 		itemIndex.value[i] = null
 	}
-	
+	// 对选中的数据进行处理
+	const changeListData = (listData) => {
+		let textList = listData.filter(item => item != null)
+		textList = Array.from(textList)
+		let textListName = []
+		textList.forEach(item => {
+			textListName.push(item.optionName.lable)
+		})
+		// console.log(textListName);
+		return textListName
+	}
+	// 对productValue数据的suk进行数组化
+	for (let key in productValue.value) {
+		productValue.value[key].suk = productValue.value[key].suk.split(',')
+	}
+	const listName = ref([])
 	const changeItem = (optionName, index, index2) => {
 		// console.log(optionName)
 		// itemIndex.value[index] = index2
@@ -250,11 +263,39 @@
 				indexValue: index2,
 				optionName
 			}
+			let textListName = changeListData(itemIndex.value)
+			console.log(textListName);
+			
+			for (let key in productValue.value) {
+				// console.log(productValue.value[key].suk);
+				if(productValue.value[key].suk instanceof Array) {
+					// console.log(textListName.toString());
+					textListName.forEach(item => {
+						if(productValue.value[key].suk.includes(item)) {
+							listName.value.push(productValue.value[key].suk)
+						}
+					})
+				}
+			}
+			console.log(listName.value,'listName');
 			
 		} else {
 			itemIndex.value[index] = null
+			let textListName = changeListData(itemIndex.value)
+			for (let key in productValue.value) {
+				// console.log(productValue.value[key].suk);
+				if(productValue.value[key].suk instanceof Array) {
+					// console.log(textListName.toString());
+					textListName.forEach(item => {
+						if(!productValue.value[key].suk.includes(item)) {
+							listName.value.push(productValue.value[key].suk)
+						}
+					})
+				}
+			}
+			console.log(listName.value.toString(),'listName');
 		}
-		console.log(itemIndex.value);
+		// console.log(itemIndex.value);
 	}
 </script>
 

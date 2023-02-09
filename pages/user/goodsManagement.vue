@@ -14,11 +14,11 @@
 			@click="switchNavigation"
 		>仓库中</view>
 	</view>
-	<view class="card">
+	<view class="card" v-show="current === 0">
 		<view 
 			class="cardHead" 
 			:style="[current === 0 ? 'border-bottom: none; padding-bottom: 0' : '']"
-		>
+			>
 			<view class="imag">
 				<image class="imag" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"></image>
 			</view>
@@ -40,7 +40,7 @@
 			<view>删除</view>
 		</view>
 	</view>
-	<view class="empty" v-if="false">
+	<view class="empty" v-if="current === 1">
 		<view>亲，还没有任何商品哦</view>
 		<view class="emptyFooter">
 			<view class="btn emptyBtn select" @click="changePath">发布商品</view>

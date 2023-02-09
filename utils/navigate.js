@@ -1,5 +1,5 @@
 // 路由跳转公共方法
-export const changePath = (path,{...obj})=>{
+export const changePath = (path,{...obj}={})=>{
   if(path) {
 	  let str = ''
 	  for(let key in obj){

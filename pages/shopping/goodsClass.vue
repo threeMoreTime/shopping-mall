@@ -50,7 +50,7 @@
 			pid: 0,
 			path: '/0/741',
 			name: '食品酒水',
-			child: [{ name: '卸妆'}]
+			child: [{ name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}, { name: '卸妆'}]
 		},
 		{
 			id: 745,

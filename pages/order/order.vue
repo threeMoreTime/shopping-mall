@@ -66,7 +66,7 @@
 					<view class="ItemBottom">
 						<text>【种树专区】</text>
 						<view class="btn">
-							<view class="btnItem1">查看物流</view>
+							<view class="btnItem1" @click="changePath('/pages/order/logistics')">查看物流</view>
 							<view class="btnItem2">待发货</view>
 						</view>
 					</view>
@@ -277,6 +277,12 @@
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1
+		})
+	}
+	
+	const changePath = (path) => {
+		uni.navigateTo({
+			url: path
 		})
 	}
 </script>

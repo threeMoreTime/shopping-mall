@@ -93,19 +93,19 @@
 					<view class="Title">项目功能</view>
 					<view class="">
 						<u-grid :col="4" :border="false">
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/promotion')">
 								<view class="itemBg selected5"></view>
 								<view class="grid-text">推广中心</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/studio/studio')">
 								<view class="itemBg1 selected5"></view>
 								<view class="grid-text">工作室</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/mySheQu')">
 								<view class="itemBg selected3"></view>
 								<view class="grid-text">我的社区</view>
 							</u-grid-item>
-							<u-grid-item>
+							<u-grid-item @click="changePath('/pages/user/contract/myContract')">
 								<view class="itemBg1 selected4"></view>
 								<view class="grid-text">我的合同</view>
 							</u-grid-item>

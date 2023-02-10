@@ -45,7 +45,7 @@
 						<view class="itemText">电器</view>
 					</view>
 				</view>
-				<view class="gameImg">
+				<view class="gameImg" @click="changePath('/pages/user/myFarm', {})">
 					<image src="@/static/img/gameImg.png" alt=""/>
 				</view>
 				<view class="ctxBox">
@@ -80,7 +80,7 @@
 									</view>
 								</view>
 							</view>
-							<view class="ItemBottomBtn">购买</view>
+							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail', {})">购买</view>
 						</view>
 						<view class="ctxListItem">
 							<view class="ItemBottomCtx">
@@ -124,7 +124,7 @@
 									<text class="market">已售2.6万</text>
 								</view>
 							</view>
-							<view class="ItemBottomBtn">兑换</view>
+							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail', {})">兑换</view>
 						</view>
 						<view class="ctxListItem border-bottom-70">
 							<view class="ItemBottomCtx">
@@ -149,6 +149,7 @@
 
 <script setup>
 import { reactive, ref, toRefs } from "vue";
+import {changePath} from "@/utils/navigate.js"
 	const isVideoshow = ref(true)
 	const showVideoTitle = (id) => {
 		isVideoshow.value = id

@@ -63,7 +63,6 @@
 				></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
-				<!-- <u-upload></u-upload> -->
 				<view class="upload" @click="uploadVideo" v-show="!videoSrc">
 					<view class="text">
 						<u-icon name="plus" size="40rpx"></u-icon>
@@ -128,6 +127,7 @@
 			<button type="primary" class="custom-style" @click="release">发布商品</button>			
 		</view>
 	</view>
+	<view style="height: 200rpx;"></view>
 </template>
 
 <script setup>
@@ -211,7 +211,6 @@
 		})
 	}
 	
-	
 	const changePath = (path) => {
 		uni.navigateTo({
 			url: path
@@ -227,7 +226,7 @@
 	}
 	
 	const release = () => {
-		data.form.fileList = imageUpload.value.lists
+		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
 			console.log(data.form.fileList)
 			console.log(valid)
@@ -335,8 +334,9 @@
 
 	.footer {
 		width: 100%;
-		// position: fixed;
-		// bottom: 0;
+		position: fixed;
+		bottom: 0;
+		z-index: 999;
 		padding-top: 22rpx;
 		padding-bottom: 61rpx;
 		background: #FFFFFF;

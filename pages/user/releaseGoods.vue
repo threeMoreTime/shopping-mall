@@ -29,10 +29,10 @@
 	>
 		<view class="box">
 			<u-form-item label="商品名称" prop="name">
-				<u-input v-model="form.name" placeholder="最多30字"></u-input>
+				<u-input v-model="form.name" placeholder="最多30字" maxlength="30"></u-input>
 			</u-form-item>
 			<u-form-item label="商品副标题" prop="title" :border-bottom="false">
-				<u-input v-model="form.title" placeholder="最多50字"></u-input>
+				<u-input v-model="form.title" placeholder="最多50字" maxlength="50"></u-input>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -63,7 +63,19 @@
 				></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
-				<u-upload></u-upload>
+				<!-- <u-upload></u-upload> -->
+				<view class="upload" @click="uploadVideo" v-show="!videoSrc">
+					<view class="text">
+						<u-icon name="plus" size="40rpx"></u-icon>
+						<view>选择视频</view>
+					</view>
+				</view>
+				<view class="videoBox" v-show="videoSrc">
+					<video class="video" :src="videoSrc"></video>
+					<view class="iconBox">
+						<u-icon class="icon" name="close" color="#ffff" @click="deleteVideo"></u-icon>	
+					</view>
+				</view>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -162,6 +174,7 @@
 		specification: false,
 		distribution: false,
 		save: false,
+		videoSrc: ''
 	});
 
 	const {
@@ -173,7 +186,8 @@
 		specification,
 		distribution,
 		save,
-		rules
+		rules,
+		videoSrc
 	} = toRefs(data);
 	
 	onReady(() => {
@@ -220,6 +234,20 @@
 		})
 	}
 	
+	const uploadVideo = () => {
+		uni.chooseVideo({
+			sourceType: ['album', 'camera'],
+			success: (res) => {
+				data.videoSrc = res.tempFilePath
+				console.log(res.tempFilePath)
+			}
+		})
+	}
+	
+	const deleteVideo = () => {
+		data.videoSrc = ''
+	}
+	
 </script>
 
 <style lang="scss" scoped>
@@ -260,6 +288,49 @@
 		box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
 		border-radius: 8px;
 		opacity: 1;
+		
+		.upload {
+			width: 220rpx;
+			height: 220rpx;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: #f4f5f6;
+		}
+		
+		.text {
+			text-align: center;
+			color: #606266;
+		}
+		
+		.videoBox {
+			position: relative;
+		}
+		
+		.video {
+			width: 220rpx;
+			height: 220rpx;
+		}
+		
+		.iconBox {
+			position: relative;
+			float: right;
+			top: -14rpx;
+			right: 26rpx;
+			width: 40rpx;
+			height: 40rpx;
+			border-radius: 50%;
+			background: red;
+			z-index: 999;
+		}
+		
+		.icon {
+			position: absolute;
+			top: 6rpx;
+			right: 5rpx;
+			z-index: 99999;
+		}
 	}
 
 	.footer {

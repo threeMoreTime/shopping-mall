@@ -45,7 +45,7 @@
 						<view class="itemText">电器</view>
 					</view>
 				</view>
-				<view class="gameImg">
+				<view class="gameImg" @click="changePath('/pages/user/myFarm', {})">
 					<image src="@/static/img/gameImg.png" alt=""/>
 				</view>
 				<view class="ctxBox">

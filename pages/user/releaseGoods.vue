@@ -64,13 +64,18 @@
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
 				<!-- <u-upload></u-upload> -->
-				<view class="upload">
+				<view class="upload" @click="uploadVideo" v-show="!videoSrc">
 					<view class="text">
 						<u-icon name="plus" size="40rpx"></u-icon>
 						<view>选择视频</view>
 					</view>
 				</view>
-				<!-- <video class="video" src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4"></video> -->
+				<view class="videoBox" v-show="videoSrc">
+					<video class="video" :src="videoSrc"></video>
+					<view class="iconBox">
+						<u-icon class="icon" name="close" color="#ffff" @click="deleteVideo"></u-icon>	
+					</view>
+				</view>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -169,6 +174,7 @@
 		specification: false,
 		distribution: false,
 		save: false,
+		videoSrc: ''
 	});
 
 	const {
@@ -180,7 +186,8 @@
 		specification,
 		distribution,
 		save,
-		rules
+		rules,
+		videoSrc
 	} = toRefs(data);
 	
 	onReady(() => {
@@ -225,6 +232,20 @@
 			console.log(data.form.fileList)
 			console.log(valid)
 		})
+	}
+	
+	const uploadVideo = () => {
+		uni.chooseVideo({
+			sourceType: ['album', 'camera'],
+			success: (res) => {
+				data.videoSrc = res.tempFilePath
+				console.log(res.tempFilePath)
+			}
+		})
+	}
+	
+	const deleteVideo = () => {
+		data.videoSrc = ''
 	}
 	
 </script>
@@ -283,9 +304,32 @@
 			color: #606266;
 		}
 		
+		.videoBox {
+			position: relative;
+		}
+		
 		.video {
 			width: 220rpx;
 			height: 220rpx;
+		}
+		
+		.iconBox {
+			position: relative;
+			float: right;
+			top: -14rpx;
+			right: 26rpx;
+			width: 40rpx;
+			height: 40rpx;
+			border-radius: 50%;
+			background: red;
+			z-index: 999;
+		}
+		
+		.icon {
+			position: absolute;
+			top: 6rpx;
+			right: 5rpx;
+			z-index: 99999;
 		}
 	}
 

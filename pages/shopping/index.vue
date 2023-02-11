@@ -30,7 +30,7 @@
 					</view>
 				</view>
 				<view class="BoxList">
-					<view class="BoxListItem" @click="changePath('/pages/product/productDetail',{})">
+					<view class="BoxListItem" @click="changePath('/pages/product/productDetail2',{})">
 						<image src="@/static/img/watches.png" alt=""/>
 						<text>智能相机</text>
 						<view class="ItemCtx">

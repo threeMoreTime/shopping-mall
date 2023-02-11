@@ -494,7 +494,17 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/product/productDetail2",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+    ],
 
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

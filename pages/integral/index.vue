@@ -80,7 +80,7 @@
 									</view>
 								</view>
 							</view>
-							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail', {})">购买</view>
+							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail2', {})">购买</view>
 						</view>
 						<view class="ctxListItem">
 							<view class="ItemBottomCtx">
@@ -124,7 +124,7 @@
 									<text class="market">已售2.6万</text>
 								</view>
 							</view>
-							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail', {})">兑换</view>
+							<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail2', {})">兑换</view>
 						</view>
 						<view class="ctxListItem border-bottom-70">
 							<view class="ItemBottomCtx">

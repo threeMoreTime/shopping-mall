@@ -69,7 +69,7 @@
 								</view>
 							</view>
 						</view>
-						<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail')">了解详情</view>
+						<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail2')">了解详情</view>
 					</view>
 				</view>
 				<view class="ctxListItem">

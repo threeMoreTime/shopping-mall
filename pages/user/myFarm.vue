@@ -1,6 +1,12 @@
 <template>
 	<view class="bg">
 		<view class="box">
+			<view class="watering">
+				<view class="wateringBg"></view>
+				<text>1000</text>
+				<view class="fertilizationBg"></view>
+				<text>1000</text>
+			</view>
 			<view class="integralList">
 				<view 
 					class="integralItem" 
@@ -72,6 +78,7 @@
 		},500)
 		changeTreeName()
 	},600)
+	// 能量到达某个区间就gen
 	const changeTreeName = () => {
 		if (treeIntegra.value >= 0 && treeIntegra.value <= 99) {
 			return 'treeBg'
@@ -81,7 +88,6 @@
 			return 'treeBg3'
 		}
 	}
-	
 </script>
 
 <style lang="scss" scoped>
@@ -96,6 +102,37 @@
 			height: 100%;
 			// background: url("@/static/img/farmGame.png") 100% no-repeat;
 			// background-size: 100% 100%;
+			.watering {
+				width: 133rpx;
+				position: absolute;
+				right: 30rpx;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 182rpx;
+				text {
+					background-color: #fff;
+					border-radius: 16rpx 16rpx 16rpx 16rpx;
+					padding: 4rpx 12rpx;
+					font-weight: 800;
+					font-size: 28rpx;
+					color: #028836;
+				}
+			}
+			.wateringBg {
+				transform: translateY(20rpx);
+				width: 140rpx;
+				height: 140rpx;
+				background: url("@/static/img/watering.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+			.fertilizationBg {
+				margin-top: 50rpx;
+				width: 110rpx;
+				height: 110rpx;
+				background: url("@/static/img/fertilization.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
 			.integralList {
 				width: 100%;
 				height: 300rpx;
@@ -159,19 +196,19 @@
 			}
 			
 			.treeBg2 {
-				top: 67vh;
-				left: 268rpx;
-				width: 226rpx;
-				height: 316rpx;
+				top: 63vh;
+				left: 245rpx;
+				width: 286rpx;
+				height: 376rpx;
 				background: url("@/static/img/treeBg2.png") 100% no-repeat;
 				background-size: 100% 100%;
 			}
 			
 			.treeBg3 {
-				top: 67vh;
-				left: 290rpx;
-				width: 226rpx;
-				height: 316rpx;
+				top: 61vh;
+				left: 255rpx;
+				width: 326rpx;
+				height: 416rpx;
 				background: url("@/static/img/treeBg3.png") 100% no-repeat;
 				background-size: 100% 100%;
 			}

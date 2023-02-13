@@ -12,7 +12,7 @@
 			<view class="QRcode"><image src="@/static/img/QRcode.png" /></view>
 			<view class="InvitationCode">
 				<text style="font-size: 28rpx;color: #AAAAAA;margin-bottom: 10rpx;">邀请码</text>
-				<text style="font-size: 40rpx;color: #000000;">9D2Q34</text>
+				<text style="font-size: 40rpx;color: #000000;" @click="handlCode">{{code}}</text>
 			</view>
 		</view>
 	</view>
@@ -20,6 +20,11 @@
 
 <script setup>
 	import {navigateBack} from "@/utils/navigate.js"
+import { ref } from "vue";
+	const code = ref('9D2Q34')
+	const handlCode = () => {
+		uni.setClipboardData({data: code.value});
+	}
 </script>
 
 <style lang="scss" scoped>

@@ -3,7 +3,12 @@ import { reactive, ref } from 'vue'
 
 export const userStore = defineStore('user', () => {
 	const userInfo = reactive({})
-	return { userInfo };
+	const token = ref(uni.getStorageSync('token') || '')
+	function setToken(data) {
+		token.value = data;
+		uni.setStorageSync('token', data)
+	} 
+	return { userInfo,token,setToken };
 });
 
 export const historyStore = defineStore('history', () => {

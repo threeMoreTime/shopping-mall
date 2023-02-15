@@ -187,6 +187,11 @@
 				uni.switchTab({
 					url:'/pages/home/index'
 				})
+			}).catch(err => {
+				uni.showToast({
+					title:err,
+					icon:"error"
+				})
 			})
 		}
 	}

@@ -9,12 +9,12 @@
 				<view class="userInfo">
 					<view class="headAndUser">
 						<view class="headPortrait">
-							<image src="https://ts1.cn.mm.bing.net/th/id/R-C.bf504fbc3ae59e60dd8e6e90291ebc49?rik=3lJID6j%2b4WOgIQ&riu=http%3a%2f%2fe0.ifengimg.com%2f01%2f2019%2f0128%2f987B6893026017BF116335D3F0D6B512498C37CF_size82_w900_h608.jpeg&ehk=OhGESBk%2feiwZo22m0IFV1kZXrOPX46lJEgNnqoFfcdk%3d&risl=&pid=ImgRaw&r=0"
+							<image :src="store.userInfo.avatar"
 								alt=""/>
 						</view>
 						<view class="nameAndId">
 							<view class="name">
-								<text>李白</text>
+								<text>{{store.userInfo.nickname || '未登录'}}</text>
 								<view class="vip">
 									<view class="vipBg"></view>
 									<text>1</text>
@@ -166,6 +166,14 @@
 </template>
 
 <script setup>
+	import {userStore} from "@/store/index.js"
+	import {info} from "@/api/user.js"
+	const store = userStore()
+	if(!userStore().userInfo.uid) {
+		info().then(res => {
+			userStore().userInfo = res
+		})
+	}
 	// 路由跳转
 	const changePath = (path,id) => {
 		if (path) {

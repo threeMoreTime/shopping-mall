@@ -17,18 +17,18 @@
 				</view>
 				<u-input v-model="userForm.inviteCode" height=96 placeholder="请输入推荐码" />
 			</view>
-			<!-- <view class="userItem flex-space-between">
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.name" height=96 placeholder="请输入姓名" />
-			</view> -->
-			<!-- <view class="userItem flex-space-between">
+				<u-input v-model="userForm.realName" height=96 placeholder="请输入姓名" />
+			</view>
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.idcard" height=96 type="idcard" placeholder="请输入身份证号" />
-			</view> -->
+				<u-input v-model="userForm.cardId" height=96 type="idcard" placeholder="请输入身份证号" />
+			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="phone" size="32"></u-icon>
@@ -62,18 +62,18 @@
 				</view>
 				<u-input v-model="userForm.againPassword" type="password" height=96 placeholder="请再次输入登录密码" />
 			</view>
-			<!-- <view class="userItem flex-space-between">
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.payPassword" type="password" height=96 placeholder="请输入支付密码" />
-			</view> -->
-			<!-- <view class="userItem flex-space-between">
+			</view>
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.againPayPassword" type="password" height=96 placeholder="请再次输入支付密码" />
-			</view> -->
+			</view>
 		</view>
 		<view class="agreement" v-show="isNext === 1">
 			<u-checkbox-group width="45rpx">
@@ -125,8 +125,8 @@
 	const userForm = reactive({
 		account: '',
 		verificationCode: '123456',
-		name: '',
-		idcard: '',
+		realName: '',
+		cardId: '',
 		phone: '18320498763',
 		inviteCode: 'jZ69uc',
 		password: '',
@@ -204,9 +204,7 @@
 					info().then(res => {
 						userStore().userInfo = res
 					})
-					uni.switchTab({
-						url:'/pages/home/index'
-					})
+					uni.navigateBack()
 				})
 			}).catch(err => {
 				uni.showToast({
@@ -218,6 +216,10 @@
 	}
 	// 返回上一级
 	const navigateBack = () => {
+		if(isNext.value !== 0){
+			isNext.value = 0;
+			return false;
+		}
 		uni.navigateBack({
 			delta: 1
 		})

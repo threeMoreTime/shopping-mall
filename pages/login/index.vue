@@ -181,6 +181,7 @@
 			}
 			login(userForm).then(res => {
 				userStore().setToken(res)
+				uni.setStorage({ key:'phone', data: userForm.phone })
 				info().then(res => {
 					userStore().userInfo = res
 				})

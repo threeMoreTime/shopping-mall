@@ -31,3 +31,19 @@ export const info = () => {
 		method: 'GET'
 	})
 }
+
+// 修改密码
+export const updatePwd = (data) => {
+	return request({
+		url: '/client/user/updatePwd',
+		method: 'POST'
+	}, data)
+}
+
+// 验证验证码是否正确
+export const verificationCode = (data) => {
+	return request({
+		url: '/client/user/verificationCode',
+		method: 'POST'
+	}, data)
+}

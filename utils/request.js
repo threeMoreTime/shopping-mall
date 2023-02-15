@@ -1,4 +1,5 @@
 import { userStore } from "../store/index.js"
+import {info} from "@/api/user.js"
 const httpTokenRequest = (opts = {}, data = {}) => {
 	if (!opts.url) {
 		console.error('!url');
@@ -40,6 +41,11 @@ const httpTokenRequest = (opts = {}, data = {}) => {
 			} = res?.data || {};
 			switch(code) {
 				case 200:
+					if(!userStore().token) {
+						info().then(res => {
+							userStore().userInfo = res
+						})
+					}
 					resolve(data)
 					break;
 				case 401:

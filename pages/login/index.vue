@@ -95,6 +95,8 @@
 	    onLoad
 	  } from "@dcloudio/uni-app";
 	import _ from 'lodash'
+	import {login,info} from "@/api/user.js"
+	import {userStore} from "@/store/index.js"
 	let customStyle = {
 		'width': '144rpx',
 		'line-height': '46rpx',
@@ -107,7 +109,8 @@
 		'color': '#FFFFFF',
 	}
 	const userForm = reactive({
-		phone: ''
+		phone: '',
+		password: ''
 	})
 	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4) 请输入手机号码(5)
 	const type = ref(0)
@@ -154,6 +157,37 @@
 			changePath('index',{typeId: 1})
 		} else if(type.value === 1) {
 			changePath('index',{typeId: 2})
+		} else if(type.value === 0) {
+			// 登录的逻辑
+			const pattern = /^1[3-9]\d{9}$/;
+			const pawPatttern = /^[a-zA-Z]\w{5,17}$/;
+			if (!pattern.test(userForm.phone)) {
+				return uni.showToast({
+					title: "输入正确手机号码",
+					icon: "error"
+				})
+			}
+			if (!pawPatttern.test(userForm.password)) {
+				return uni.showToast({
+					title: "密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线",
+					icon: "error"
+				})
+			}
+			if (!agreement.checked) {
+				return uni.showToast({
+					title: "请勾选协议",
+					icon: "error"
+				})
+			}
+			login(userForm).then(res => {
+				userStore().setToken(res)
+				info().then(res => {
+					userStore().userInfo = res
+				})
+				uni.switchTab({
+					url:'/pages/home/index'
+				})
+			})
 		}
 	}
 	// 返回上一级

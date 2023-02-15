@@ -9,8 +9,8 @@
 				<view class="userInfo">
 					<view class="headAndUser">
 						<view class="headPortrait">
-							<img src="https://ts1.cn.mm.bing.net/th/id/R-C.bf504fbc3ae59e60dd8e6e90291ebc49?rik=3lJID6j%2b4WOgIQ&riu=http%3a%2f%2fe0.ifengimg.com%2f01%2f2019%2f0128%2f987B6893026017BF116335D3F0D6B512498C37CF_size82_w900_h608.jpeg&ehk=OhGESBk%2feiwZo22m0IFV1kZXrOPX46lJEgNnqoFfcdk%3d&risl=&pid=ImgRaw&r=0"
-								alt="">
+							<image src="https://ts1.cn.mm.bing.net/th/id/R-C.bf504fbc3ae59e60dd8e6e90291ebc49?rik=3lJID6j%2b4WOgIQ&riu=http%3a%2f%2fe0.ifengimg.com%2f01%2f2019%2f0128%2f987B6893026017BF116335D3F0D6B512498C37CF_size82_w900_h608.jpeg&ehk=OhGESBk%2feiwZo22m0IFV1kZXrOPX46lJEgNnqoFfcdk%3d&risl=&pid=ImgRaw&r=0"
+								alt=""/>
 						</view>
 						<view class="nameAndId">
 							<view class="name">
@@ -520,7 +520,7 @@
 					height: 104rpx;
 					margin-right: 50rpx;
 
-					img {
+					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 50%;

@@ -5,30 +5,30 @@
 		</view>
 		<view class="registerTitle">注册</view>
 		<view class="userForm" v-show="isNext === 0">
-			<view class="userItem flex-space-between">
+			<!-- <view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="man-add" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.account" height=96 placeholder="请输入账号" />
-			</view>
+			</view> -->
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="man-add" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.InvitationCode" height=96 placeholder="请输入推荐码" />
+				<u-input v-model="userForm.inviteCode" height=96 placeholder="请输入推荐码" />
 			</view>
-			<view class="userItem flex-space-between">
+			<!-- <view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.name" height=96 placeholder="请输入姓名" />
-			</view>
-			<view class="userItem flex-space-between">
+			</view> -->
+			<!-- <view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.idcard" height=96 type="idcard" placeholder="请输入身份证号" />
-			</view>
+			</view> -->
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="phone" size="32"></u-icon>
@@ -40,11 +40,12 @@
 					<view class="ItemBg">
 						<u-icon name="lock" size="32"></u-icon>
 					</view>
-					<u-input v-model="userForm.code" height=96 type="number" placeholder="请输入验证码" />
+					<u-input v-model="userForm.verificationCode" height=96 type="number" placeholder="请输入验证码" />
 				</view>
 				<view class="code">
 					<u-button :disabled="isDisabled" hover-class="none" :custom-style="customStyle" @click="setTimer">
-						{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}</u-button>
+						{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
+					</u-button>
 				</view>
 			</view>
 		</view>
@@ -61,32 +62,28 @@
 				</view>
 				<u-input v-model="userForm.againPassword" type="password" height=96 placeholder="请再次输入登录密码" />
 			</view>
-			<view class="userItem flex-space-between">
+			<!-- <view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.payPassword" type="password" height=96 placeholder="请输入支付密码" />
-			</view>
-			<view class="userItem flex-space-between">
+			</view> -->
+			<!-- <view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.againPayPassword" type="password" height=96 placeholder="请再次输入支付密码" />
-			</view>
+			</view> -->
 		</view>
 		<view class="agreement" v-show="isNext === 1">
 			<u-checkbox-group width="45rpx">
-				<u-checkbox 
-					@change="checkboxChange" 
-					v-model="agreement.checked"
-					:name="agreement.name"
-					shape="circle"
-					iconSize="24"
-				></u-checkbox>
+				<u-checkbox @change="checkboxChange" v-model="agreement.checked" :name="agreement.name" shape="circle"
+					iconSize="24"></u-checkbox>
 			</u-checkbox-group>
 			<text>登录即代表阅读并同意用户协议与隐私政策</text>
 		</view>
-		<view class="nextBtn" @click="changeInp">{{changeInpName}}</view>
+		<view class="nextBtn" v-if="isNext === 0" @click="changeInpNext">下一步</view>
+		<view class="nextBtn" v-else @click="changeInp">完成</view>
 	</view>
 </template>
 
@@ -96,6 +93,14 @@
 		reactive,
 		ref
 	} from "vue";
+	import {
+		sendCode,
+		register,
+		login,
+		info
+	} from "@/api/user.js"
+	import regex from "@/utils/regex.js"
+	import {userStore} from "@/store/index.js"
 	const isNext = ref(0)
 	const agreement = reactive({
 		name: 'agreement',
@@ -119,11 +124,11 @@
 	}
 	const userForm = reactive({
 		account: '',
-		code: '',
+		verificationCode: '123456',
 		name: '',
 		idcard: '',
-		phone: '',
-		InvitationCode: '',
+		phone: '18320498763',
+		inviteCode: 'jZ69uc',
 		password: '',
 		againPassword: '',
 		payPassword: '',
@@ -132,6 +137,12 @@
 	const codeNumber = ref(60)
 	const isDisabled = ref(false)
 	const setTimer = _.throttle(() => {
+		if (!(/^1[3-9]\d{9}$/).test(userForm.phone)) {
+			return uni.showToast({
+					title:"请输入正确手机号码",
+					icon:"error"
+				})
+			}
 		let timer = setInterval(() => {
 			codeNumber.value--
 			isDisabled.value = true
@@ -140,17 +151,69 @@
 				codeNumber.value = 60
 				isDisabled.value = false
 			}
-		}, 1000)
-	}, 500)
-	const changeInpName = ref('下一步')
-	const changeInp = () => {
-		if(isNext.value === 0) {
-			isNext.value = 1
-			changeInpName.value = '立即注册'
+		}, 500)
+		if(codeNumber.value == 60) {
+			sendCode(userForm).then(res => {
+				uni.showToast({
+					title: "发送成功",
+					icon:"success"
+				})
+			}).catch(err => {
+				uni.showToast({
+					title: err,
+					icon:'error'
+				})
+			})
 		}
+	}, 1000)
+	const changeInpNext = () => {
+		if (regex(userForm)) {
+			isNext.value = 1
+		}
+	}
+	const changeInp = () => {
 		// 在这发请求
-		if(isNext.value === 1) {
-			
+		if (isNext.value === 1) {
+			if (userForm.password !== userForm.againPassword) {
+				return uni.showToast({
+					title: "两次密码不一致",
+					icon: "error"
+				})
+			}
+			// 6到18位数字类型
+			const pawPatttern = /^[a-zA-Z]\w{5,17}$/;
+			if (!pawPatttern.test(userForm.password)) {
+				return uni.showToast({
+					title: "密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线",
+					icon: "error"
+				})
+			}
+			if (!agreement.checked) {
+				return uni.showToast({
+					title: "请勾选协议",
+					icon: "error"
+				})
+			}
+			register(userForm).then(res => {
+				uni.showToast({
+					title: "注册成功",
+					icon:"success"
+				})
+				login(userForm).then(res => {
+					userStore().setToken(res)
+					info().then(res => {
+						userStore().userInfo = res
+					})
+					uni.switchTab({
+						url:'/pages/home/index'
+					})
+				})
+			}).catch(err => {
+				uni.showToast({
+					title: err,
+					icon:'error'
+				})
+			})
 		}
 	}
 	// 返回上一级
@@ -165,6 +228,7 @@
 	.box {
 		padding-bottom: 100rpx;
 	}
+
 	.agreement {
 		width: 100%;
 		padding-bottom: 40rpx;
@@ -175,6 +239,7 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.nextBtn {
 		margin: 0 auto;
 		width: 630rpx;

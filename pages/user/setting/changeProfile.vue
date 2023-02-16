@@ -10,7 +10,7 @@
 				<u-form-item :style="{'padding': '10rpx 0'}">
 					<u-input height="68" placeholder="请输入姓名" :custom-style="customStyle" v-model="dataform.name" />
 				</u-form-item>
-				<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+				<u-button @click='updateInfo' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
 		<view class="pad-32 m-t-48" v-if="type === 1">
@@ -29,7 +29,6 @@
 				<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
-
 	</view>
 </template>
 
@@ -58,6 +57,7 @@
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
+	import {updateUserInfo} from "@/api/user.js"
 	onLoad((option) => {
 		type.value = option?.typeId ? parseInt(option.typeId) : 0
 	})
@@ -77,6 +77,31 @@
 		}
 	})
 	const dataform = reactive({})
+	
+	// updateUserInfo
+	const updateInfo = () => {
+		console.log("dataform: ",dataform)
+		if(Object.keys(dataform).length == 0){
+			uni.showToast({
+				title: '输入框内容不能为空！',
+				icon:'error'
+			})
+			return false
+		}
+		updateUserInfo(dataform).then(res => {
+			uni.showToast({
+				title: '修改成功！',
+				icon:"success"
+			})
+		}).catch(err => {
+			uni.showToast({
+				title: err,
+				icon:'error'
+			})
+		})
+	}
+	
+	
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({

@@ -55,3 +55,19 @@ export const verificationCode = (data) => {
 		method: 'POST'
 	}, data)
 }
+
+// 修改用户信息
+export const updateUserInfo = (data) => {
+	return request({
+		url: '/client/user/updateUserInfo',
+		method: 'POST'
+	}, data)
+}
+
+// 修改用户信息
+export const updateBindingPhone = (data) => {
+	return request({
+		url: '/client/user/updateBindingPhone',
+		method: 'POST'
+	}, data)
+}

@@ -122,6 +122,9 @@
 		reactive,
 		ref
 	} from "vue";
+	import {userStore} from "@/store/index.js"
+	import {updateUserInfo} from "@/api/user.js"
+	const store = userStore()
 	let customStyle = {
 		'background': '#FFF',
 		'border-radius': '16rpx',
@@ -180,24 +183,40 @@
 			sizeType: ['original', 'compressed'],
 			sourceType: ['camera', 'album'],
 			success: async function(res) {
-				// uni.showLoading({
-				// 	title: '图片上传中',
-				// })
+				uni.showLoading({
+					title: '图片上传中',
+				})
+				// console.log(res);
 				const tempFiles = res.tempFiles[0];
 				uni.uploadFile({
-					url: '/dev' + '/client/user/system/image', //仅为示例，非真实的接口地址
+					url: '/dev/client/user/system/image', //仅为示例，非真实的接口地址
 					file: tempFiles,
+					header: {
+						'token': store.token,
+					},
 					name: 'multipart',
+					formData: {
+						"model": "user"
+					},
 					success: (uploadFileRes) => {
-						console.log(uploadFileRes);
+						const {code = 500,data = {}} = JSON.parse(uploadFileRes.data)
+						if(code === 200) {
+							uni.hideLoading()
+							store.userInfo.avatar = data.url
+							updateUserInfo(store.userInfo).then(res => {
+								uni.showToast({
+									title:"修改成功",
+									icon:"success"
+								})
+							}).catch(err => {
+								uni.showToast({
+									title:"修改失败",
+									icon:"error"
+								})
+							})
+						}
 					}
 				});
-				// console.log(tempFiles);
-				// const result = await uploadFilePromise(tempFiles)
-				// console.log(result);
-				// console.log("tempFilePaths: ", res);
-				// const result = await uploadFilePromise(tempFiles[0])
-				// console.log("result: ", result);
 			}
 		});
 	}

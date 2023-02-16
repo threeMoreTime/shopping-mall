@@ -9,7 +9,7 @@
 				<view class="userInfo">
 					<view class="headAndUser">
 						<view class="headPortrait" @click="changeLogin">
-							<image :src="store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
+							<image :src="store.systemConfig.picWKP + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
 								alt=""/>
 						</view>
 						<view class="nameAndId">

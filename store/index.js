@@ -11,7 +11,8 @@ export const userStore = defineStore('user', () => {
 	const systemConfig = reactive({
 		appAliPay: false,
 		appWxPay: false,
-		picUrlPre: 'https://manghemini.oss-cn-shenzhen.aliyuncs.com/'
+		picUrlPre: 'https://manghemini.oss-cn-shenzhen.aliyuncs.com/',
+		picWKP: 'http://192.168.1.28:8860'
 	});
 	return { userInfo,token,setToken,systemConfig };
 });

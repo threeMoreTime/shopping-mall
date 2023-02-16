@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-	import { updateBindingPhone } from "@/api/user.js"
+	import { verificationCode,updateBindingPhone } from "@/api/user.js"
 	import _ from 'lodash'
 	let customStyle = {
 		'background': '#FFF',
@@ -174,10 +174,21 @@
 			})
 			return false
 		}
-		updateBindingPhone(dataform).then(res => {
-			uni.showToast({
-				title: '换绑成功！',
-				icon:"success"
+		let param = {
+			phone: dataform.newPhone,
+			code: dataform.verificationCode
+		}
+		verificationCode(param).then(res => {
+			updateBindingPhone(dataform).then(res => {
+				uni.showToast({
+					title: '换绑成功！',
+					icon:"success"
+				})
+			}).catch(err => {
+				uni.showToast({
+					title: err,
+					icon:'error'
+				})
 			})
 		}).catch(err => {
 			uni.showToast({
@@ -185,6 +196,7 @@
 				icon:'error'
 			})
 		})
+	
 	}
 	
 </script>

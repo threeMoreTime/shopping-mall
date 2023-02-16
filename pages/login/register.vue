@@ -194,31 +194,15 @@
 						icon: "error"
 					})
 				}
-				register(userForm).then(res => {
-					uni.showToast({
-						title: "注册成功",
-						icon:"success"
-					})
-					login(userForm).then(res => {
-						userStore().setToken(res)
-						info().then(res => {
-							userStore().userInfo = res
-						})
-						uni.switchTab({
-							url:'/pages/home/index'
-						})
-					})
-				}).catch(err => {
-					uni.showToast({
-						title: err,
-						icon:'error'
-					})
-				})
 			}
 		}
 	}
 	// 返回上一级
 	const navigateBack = () => {
+		if(isNext.value !== 0){
+			isNext.value = 0;
+			return false;
+		}
 		uni.navigateBack({
 			delta: 1
 		})

@@ -1,13 +1,5 @@
 import request from "@/utils/request.js"
 
-// 验证验证码
-export const verificationCode = (data) => {
-	return request({
-		url: '/client/user/verificationCode',
-		method: 'POST'
-	}, data)
-}
-
 // 手机号码注册
 export const register = (data) => {
 	return request({
@@ -38,4 +30,20 @@ export const info = () => {
 		url: '/client/user/info',
 		method: 'GET'
 	})
+}
+
+// 修改密码
+export const updatePwd = (data) => {
+	return request({
+		url: '/client/user/updatePwd',
+		method: 'POST'
+	}, data)
+}
+
+// 验证验证码是否正确
+export const verificationCode = (data) => {
+	return request({
+		url: '/client/user/verificationCode',
+		method: 'POST'
+	}, data)
 }

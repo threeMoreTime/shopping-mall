@@ -72,6 +72,7 @@
 		})
 	}
 	const logout = () => {
+		uni.clearStorage()
 		changePath('/pages/login/index',{typeId: 0})
 	}
 </script>

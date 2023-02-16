@@ -8,9 +8,9 @@
 		<view class="pad-32 m-t-48" v-if="type === 0">
 			<u-form :model="dataform">
 				<u-form-item :style="{'padding': '10rpx 0'}">
-					<u-input height="68" placeholder="请输入姓名" :custom-style="customStyle" v-model="dataform.name" />
+					<u-input height="68" placeholder="请输入姓名" :custom-style="customStyle" v-model="dataform.realName" />
 				</u-form-item>
-				<u-button @click='updateInfo' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+				<u-button @click='updateInfo(1)' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
 		<view class="pad-32 m-t-48" v-if="type === 1">
@@ -24,9 +24,9 @@
 		<view class="pad-32 m-t-48" v-if="type === 2">
 			<u-form :model="dataform">
 				<u-form-item :style="{'padding': '10rpx 0'}">
-					<u-input height="68" placeholder="请输入身份证号码" :custom-style="customStyle" v-model="dataform.name" />
+					<u-input height="68" placeholder="请输入身份证号码" :custom-style="customStyle" v-model="dataform.cardId" />
 				</u-form-item>
-				<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+				<u-button @click='updateInfo' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
 	</view>

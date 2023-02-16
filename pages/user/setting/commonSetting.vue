@@ -12,7 +12,7 @@
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="头像"
 							:value-style="{'display': 'flex','align-items': 'center','justify-content': 'flex-end'}"
 							@click="changeAvatar">
-							<u-avatar size="70" src="https://cdn.uviewui.com/uview/swiper/1.jpg"></u-avatar>
+							<u-avatar size="70" :src="store.userInfo.avatar"></u-avatar>
 						</u-cell-item>
 					</u-cell-group>
 				</view>

@@ -23,7 +23,7 @@
 			</view>
 			<view class="userForm" v-if="type === 1">
 				<view style="font-size: 24rpx;font-weight: 400;color: #747474;">请先验证身份</view>
-				<view class="userPhone">+86 1731542410</view>
+				<view class="userPhone">+86 {{userForm.phone}}</view>
 				<view class="userItem flex-space-between position-relative">
 					<u-input v-model="userForm.code" height=96 placeholder="验证码" />
 					<view class="code">
@@ -59,7 +59,7 @@
 			</view>
 			<view class="userForm" v-if="type === 4">
 				<view style="font-size: 24rpx;font-weight: 400;color: #747474;">请先验证身份</view>
-				<view class="userPhone">+86 1731542410</view>
+				<view class="userPhone">+86 {{userForm.phone}}</view>
 				<view class="userItem flex-space-between position-relative">
 					<u-input v-model="userForm.code" height=96 placeholder="验证码" />
 					<view class="code">
@@ -95,8 +95,9 @@
 	    onLoad
 	  } from "@dcloudio/uni-app";
 	import _ from 'lodash'
-	import {login,info} from "@/api/user.js"
+	import {login,info,sendCode,verificationCode} from "@/api/user.js"
 	import {userStore} from "@/store/index.js"
+	import {phoneRegex,pawRegex,inviteCodeRegex} from "@/utils/regex.js"
 	let customStyle = {
 		'width': '144rpx',
 		'line-height': '46rpx',
@@ -110,7 +111,8 @@
 	}
 	const userForm = reactive({
 		phone: '',
-		password: ''
+		password: '',
+		code: ''
 	})
 	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4) 请输入手机号码(5)
 	const type = ref(0)
@@ -142,6 +144,15 @@
 	const isDisabled = ref(false)
 	const codeNumber = ref(60)
 	const setTimer = _.throttle(() => {
+		if(codeNumber.value === 60)
+		if(userForm.phone != "") {
+			sendCode(userForm).then(() => {
+				uni.showToast({
+					title: "发送成功",
+					icon:"success"
+				})
+			})
+		}
 		let timer = setInterval(() => {
 			codeNumber.value--
 			isDisabled.value = true
@@ -154,45 +165,40 @@
 	}, 500)
 	const changeInp = () => {
 		if(type.value === 5) {
-			changePath('index',{typeId: 1})
+			if(phoneRegex(userForm.phone))
+			// changePath('index',{typeId: 1})
+			type.value = 1
 		} else if(type.value === 1) {
-			changePath('index',{typeId: 2})
+			if(inviteCodeRegex(userForm.code,"验证码"))
+			verificationCode(userForm).then(res => {
+				// changePath('index',{typeId: 2})
+				type.value = 2
+			})
 		} else if(type.value === 0) {
 			// 登录的逻辑
-			const pattern = /^1[3-9]\d{9}$/;
-			const pawPatttern = /^[a-zA-Z]\w{5,17}$/;
-			if (!pattern.test(userForm.phone)) {
-				return uni.showToast({
-					title: "输入正确手机号码",
-					icon: "error"
+			if(phoneRegex(userForm.phone))
+			if(pawRegex(userForm.password)) {
+				if (!agreement.checked) {
+					return uni.showToast({
+						title: "请勾选协议",
+						icon: "error"
+					})
+				}
+				login(userForm).then(res => {
+					userStore().setToken(res)
+					info().then(res => {
+						userStore().userInfo = res
+					})
+					uni.switchTab({
+						url:'/pages/home/index'
+					})
+				}).catch(err => {
+					uni.showToast({
+						title:err,
+						icon:"error"
+					})
 				})
 			}
-			if (!pawPatttern.test(userForm.password)) {
-				return uni.showToast({
-					title: "密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线",
-					icon: "error"
-				})
-			}
-			if (!agreement.checked) {
-				return uni.showToast({
-					title: "请勾选协议",
-					icon: "error"
-				})
-			}
-			login(userForm).then(res => {
-				userStore().setToken(res)
-				info().then(res => {
-					userStore().userInfo = res
-				})
-				uni.switchTab({
-					url:'/pages/home/index'
-				})
-			}).catch(err => {
-				uni.showToast({
-					title:err,
-					icon:"error"
-				})
-			})
 		}
 	}
 	// 返回上一级

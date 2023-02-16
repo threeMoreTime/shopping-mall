@@ -17,18 +17,18 @@
 				</view>
 				<u-input v-model="userForm.inviteCode" height=96 placeholder="请输入推荐码" />
 			</view>
-			<!-- <view class="userItem flex-space-between">
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.name" height=96 placeholder="请输入姓名" />
-			</view> -->
-			<!-- <view class="userItem flex-space-between">
+				<u-input v-model="userForm.realName" height=96 placeholder="请输入姓名" />
+			</view>
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.idcard" height=96 type="idcard" placeholder="请输入身份证号" />
-			</view> -->
+				<u-input v-model="userForm.cardId" height=96 type="idcard" placeholder="请输入身份证号" />
+			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="phone" size="32"></u-icon>
@@ -62,18 +62,18 @@
 				</view>
 				<u-input v-model="userForm.againPassword" type="password" height=96 placeholder="请再次输入登录密码" />
 			</view>
-			<!-- <view class="userItem flex-space-between">
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.payPassword" type="password" height=96 placeholder="请输入支付密码" />
-			</view> -->
-			<!-- <view class="userItem flex-space-between">
+			</view>
+			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
 				<u-input v-model="userForm.againPayPassword" type="password" height=96 placeholder="请再次输入支付密码" />
-			</view> -->
+			</view>
 		</view>
 		<view class="agreement" v-show="isNext === 1">
 			<u-checkbox-group width="45rpx">
@@ -99,7 +99,14 @@
 		login,
 		info
 	} from "@/api/user.js"
-	import regex from "@/utils/regex.js"
+	import { 
+		inviteCodeRegex,
+		empty,
+		idCardRegex,
+		phoneRegex,
+		pawRegex,
+		comparison
+		} from "@/utils/regex.js"
 	import {userStore} from "@/store/index.js"
 	const isNext = ref(0)
 	const agreement = reactive({
@@ -125,8 +132,8 @@
 	const userForm = reactive({
 		account: '',
 		verificationCode: '123456',
-		name: '',
-		idcard: '',
+		realName: '',
+		cardId: '',
 		phone: '18320498763',
 		inviteCode: 'jZ69uc',
 		password: '',
@@ -167,53 +174,47 @@
 		}
 	}, 1000)
 	const changeInpNext = () => {
-		if (regex(userForm)) {
-			isNext.value = 1
-		}
+		if(inviteCodeRegex(userForm.inviteCode,"邀请码"))
+		if(empty(userForm.realName,"姓名"))
+		if(idCardRegex(userForm.cardId))
+		if(phoneRegex(userForm.phone))
+		if(inviteCodeRegex(userForm.verificationCode,"验证码"))
+		isNext.value = 1
 	}
 	const changeInp = () => {
 		// 在这发请求
 		if (isNext.value === 1) {
-			if (userForm.password !== userForm.againPassword) {
-				return uni.showToast({
-					title: "两次密码不一致",
-					icon: "error"
-				})
-			}
-			// 6到18位数字类型
-			const pawPatttern = /^[a-zA-Z]\w{5,17}$/;
-			if (!pawPatttern.test(userForm.password)) {
-				return uni.showToast({
-					title: "密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线",
-					icon: "error"
-				})
-			}
-			if (!agreement.checked) {
-				return uni.showToast({
-					title: "请勾选协议",
-					icon: "error"
-				})
-			}
-			register(userForm).then(res => {
-				uni.showToast({
-					title: "注册成功",
-					icon:"success"
-				})
-				login(userForm).then(res => {
-					userStore().setToken(res)
-					info().then(res => {
-						userStore().userInfo = res
+			if(pawRegex(userForm.password))
+			if(comparison(userForm.password,userForm.againPassword))
+			if(inviteCodeRegex(userForm.payPassword,"数字支付密码"))
+			if(comparison(userForm.payPassword,userForm.againPayPassword)) {
+				if (!agreement.checked) {
+					return uni.showToast({
+						title: "请勾选协议",
+						icon: "error"
 					})
-					uni.switchTab({
-						url:'/pages/home/index'
+				}
+				register(userForm).then(res => {
+					uni.showToast({
+						title: "注册成功",
+						icon:"success"
+					})
+					login(userForm).then(res => {
+						userStore().setToken(res)
+						info().then(res => {
+							userStore().userInfo = res
+						})
+						uni.switchTab({
+							url:'/pages/home/index'
+						})
+					})
+				}).catch(err => {
+					uni.showToast({
+						title: err,
+						icon:'error'
 					})
 				})
-			}).catch(err => {
-				uni.showToast({
-					title: err,
-					icon:'error'
-				})
-			})
+			}
 		}
 	}
 	// 返回上一级

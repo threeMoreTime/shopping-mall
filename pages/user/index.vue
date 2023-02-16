@@ -8,8 +8,8 @@
 				</view>
 				<view class="userInfo">
 					<view class="headAndUser">
-						<view class="headPortrait">
-							<image :src="store.userInfo.avatar"
+						<view class="headPortrait" @click="changeLogin">
+							<image :src="store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
 								alt=""/>
 						</view>
 						<view class="nameAndId">
@@ -169,10 +169,16 @@
 	import {userStore} from "@/store/index.js"
 	import {info} from "@/api/user.js"
 	const store = userStore()
-	if(!userStore().userInfo.uid) {
+	if(!store.userInfo.uid) {
 		info().then(res => {
 			userStore().userInfo = res
 		})
+	}
+	// 未登录情况下点击头像跳转到登录页
+	const changeLogin = () => {
+		if(!store.userInfo.uid) {
+			changePath("/pages/login/index")
+		}
 	}
 	// 路由跳转
 	const changePath = (path,id) => {

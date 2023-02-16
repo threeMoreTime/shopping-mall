@@ -51,7 +51,7 @@ const httpTokenRequest = (opts = {}, data = {}) => {
 				case 401:
 					uni.clearStorageSync();
 					uni.navigateTo({
-						url: '/pages/login/login'
+						url: '/pages/login/index'
 					})
 					reject(message)
 					break;

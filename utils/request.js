@@ -41,11 +41,6 @@ const httpTokenRequest = (opts = {}, data = {}) => {
 			} = res?.data || {};
 			switch(code) {
 				case 200:
-					if(!userStore().token) {
-						info().then(res => {
-							userStore().userInfo = res
-						})
-					}
 					resolve(data)
 					break;
 				case 401:

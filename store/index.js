@@ -8,7 +8,12 @@ export const userStore = defineStore('user', () => {
 		token.value = data;
 		uni.setStorageSync('token', data)
 	} 
-	return { userInfo,token,setToken };
+	const systemConfig = reactive({
+		appAliPay: false,
+		appWxPay: false,
+		picUrlPre: 'https://manghemini.oss-cn-shenzhen.aliyuncs.com/'
+	});
+	return { userInfo,token,setToken,systemConfig };
 });
 
 export const historyStore = defineStore('history', () => {

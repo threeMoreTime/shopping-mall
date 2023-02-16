@@ -8,12 +8,12 @@
 		</view>
 		<view class="context">
 			<view class="wrap">
-				<u-swiper :list="swiperList" name="image" border-radius="20" height="278" @click="changeSwiper">
+				<u-swiper :list="swiperList" name="pic" border-radius="20" height="278" @click="changeSwiper">
 				</u-swiper>
 			</view>
 			<view class="news">
 				<view class="newstitle">新闻</view>
-				<view class="newstext">农场发展新模式-向往生活</view>
+				<view class="newstext">{{rollText}}</view>
 				<view class="newsdite">通知</view>
 			</view>
 			<view class="fundomian">
@@ -99,8 +99,13 @@
 <script setup>
 	import {
 		reactive,
+		ref,
 		toRefs
 	} from "vue";
+	import {homeIndex} from "@/api/homepage.js"
+	import {userStore} from "@/store/index.js"
+	const store = userStore()
+	const rollText = ref(null)
 	const data = reactive({
 		tabList: [
 			{name: '全部'},
@@ -108,25 +113,21 @@
 			{name: '电子'},
 		],
 		current: 0,
-		swiperList: [{
-				image: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
-				title: '昨夜星辰昨夜风，画楼西畔桂堂东'
-			},
-			{
-				image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
-				title: '身无彩凤双飞翼，心有灵犀一点通'
-			},
-			{
-				image: 'https://cdn.uviewui.com/uview/swiper/3.jpg',
-				title: '谁念西风独自凉，萧萧黄叶闭疏窗，沉思往事立残阳'
-			}
-		],
+		swiperList: [],
 	})
 	const {
 		swiperList,
 		tabList,
 		current
 	} = toRefs(data)
+	// 获取首页数据
+	homeIndex().then(({banner = [],roll = []}) => {
+		swiperList.value = banner
+		rollText.value = roll[0].info
+		swiperList.value.map(item => {
+			item.pic = store.systemConfig.picUrlPre + item.pic
+		})
+	})
 	// 用户点击搜索后触发
 	// const changeCancel = () => {
 	// 	console.log(keyword.value)

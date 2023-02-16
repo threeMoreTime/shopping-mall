@@ -195,9 +195,15 @@
 					})
 				}
 				register(userForm).then(() => {
-					uni.switchTab({
-						url: '/pages/home/index'
-					});
+					uni.showLoading({
+						title:"注册成功"
+					})
+					setTimeout(()=>{
+						uni.switchTab({
+							url: '/pages/home/index'
+						});
+						uni.hideLoading();
+					},3000)
 				})
 			}
 		}

@@ -194,6 +194,11 @@
 						icon: "error"
 					})
 				}
+				register(userForm).then(() => {
+					uni.switchTab({
+						url: '/pages/home/index'
+					});
+				})
 			}
 		}
 	}

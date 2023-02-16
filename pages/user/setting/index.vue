@@ -76,6 +76,11 @@
 		logout().then(() => {
 			uni.clearStorage()
 			changePath('/pages/login/index',{typeId: 0})
+		}).catch(() => {
+			uni.showToast({
+				title: "退出登录失败",
+				icon:"error"
+			})
 		})
 	}
 </script>

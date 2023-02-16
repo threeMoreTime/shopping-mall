@@ -10,16 +10,16 @@
 				<u-cell-group :style="{'border-radius': '20px'}">
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入旧的手机号码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.oldPhone" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入新的手机号码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.newPhone" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" 
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
 						<u-input height="68" placeholder="请输入验证码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.verificationCode" />
 						<view class="code">
 							<u-button 
 								:disabled="isDisabled" 
@@ -66,12 +66,13 @@
 					</u-cell-item>
 				</u-cell-group>
 			</view>
-			<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">保存</u-button>
+			<u-button @click="save" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">保存</u-button>
 		</view>
 	</view>
 </template>
 
 <script setup>
+	import { updateBindingPhone } from "@/api/user.js"
 	import _ from 'lodash'
 	let customStyle = {
 		'background': '#FFF',
@@ -123,7 +124,11 @@
 		// console.log(option)
 		type.value = option?.typeId ? parseInt(option.typeId) : 0
 	})
-	const dataform = reactive({})
+	const dataform = reactive({
+		oldPhone: '',
+		newPhone: '',
+		verificationCode: 914262
+	})
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -146,6 +151,42 @@
 				break;
 		}
 	})
+	
+	// updateBindingPhone
+	const save = () => {
+		console.log("dataform: ",dataform)
+		if(dataform.oldPhone.length == 0){
+			uni.showToast({
+				title: '旧手机号不能为空！',
+				icon:'error'
+			})
+			return false
+		}if(dataform.newPhone.length == 0){
+			uni.showToast({
+				title: '新手机号不能为空！',
+				icon:'error'
+			})
+			return false
+		}if(dataform.oldPhone.length == 0){
+			uni.showToast({
+				title: '验证码不能为空！',
+				icon:'error'
+			})
+			return false
+		}
+		updateBindingPhone(dataform).then(res => {
+			uni.showToast({
+				title: '换绑成功！',
+				icon:"success"
+			})
+		}).catch(err => {
+			uni.showToast({
+				title: err,
+				icon:'error'
+			})
+		})
+	}
+	
 </script>
 
 <style lang="scss" scoped>

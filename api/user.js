@@ -1,5 +1,13 @@
 import request from "@/utils/request.js"
 
+// 退出登录
+export const logout = () => {
+	return request({
+		url: '/client/user/logout',
+		method: 'GET'
+	})
+}
+
 // 手机号码注册
 export const register = (data) => {
 	return request({

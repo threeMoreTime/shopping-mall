@@ -58,22 +58,25 @@
 						></u-cell-item>
 				</u-cell-group>
 			</view>
-			<view class="logout" @click="logout">退出登录</view>
+			<view class="logout" @click="logoutInp">退出登录</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import {changePath} from "@/utils/navigate.js"
+	import {logout} from "@/api/user.js"
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1
 		})
 	}
-	const logout = () => {
-		uni.clearStorage()
-		changePath('/pages/login/index',{typeId: 0})
+	const logoutInp = () => {
+		logout().then(() => {
+			uni.clearStorage()
+			changePath('/pages/login/index',{typeId: 0})
+		})
 	}
 </script>
 

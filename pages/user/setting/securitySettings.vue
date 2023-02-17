@@ -16,15 +16,12 @@
 						<u-input height="68" placeholder="请输入新的手机号码" :custom-style="customStyle"
 							v-model="dataform.newPhone" />
 					</u-cell-item>
-					<u-cell-item hover-class="none" :arrow="false" 
+					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
 						<u-input height="68" placeholder="请输入验证码" :custom-style="customStyle"
 							v-model="dataform.verificationCode" />
 						<view class="code">
-							<u-button 
-								:disabled="isDisabled" 
-								hover-class="none" 
-								:custom-style="customCodeStyle"
+							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
 								@click="setTimer">
 								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
 							</u-button>
@@ -36,16 +33,27 @@
 				<u-cell-group>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入原密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.oldPassword" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入新的密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.newPassword" />
 					</u-cell-item>
-					<u-cell-item hover-class="none" :arrow="false" 
+					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
 						<u-input height="68" placeholder="请再次输入新的密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.newPassword2" />
+					</u-cell-item>
+					<u-cell-item hover-class="none" :arrow="false"
+						:style="{'padding':'10rpx 26rpx','position':'relative'}">
+						<u-input height="68" placeholder="请输入验证码" :custom-style="customStyle"
+							v-model="dataform.verificationCode" />
+						<view class="code">
+							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
+								@click="setTimer">
+								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
+							</u-button>
+						</view>
 					</u-cell-item>
 				</u-cell-group>
 			</view>
@@ -53,16 +61,27 @@
 				<u-cell-group>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入原密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.oldPayCode" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入新的密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.newPayCode" />
 					</u-cell-item>
-					<u-cell-item hover-class="none" :arrow="false" 
+					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
 						<u-input height="68" placeholder="请再次输入新的密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.newPayCode2" />
+					</u-cell-item>
+					<u-cell-item hover-class="none" :arrow="false"
+						:style="{'padding':'10rpx 26rpx','position':'relative'}">
+						<u-input height="68" placeholder="请输入验证码" :custom-style="customStyle"
+							v-model="dataform.verificationCode" />
+						<view class="code">
+							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
+								@click="setTimer">
+								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
+							</u-button>
+						</view>
 					</u-cell-item>
 				</u-cell-group>
 			</view>
@@ -72,7 +91,11 @@
 </template>
 
 <script setup>
-	import { verificationCode,updateBindingPhone } from "@/api/user.js"
+	import {
+		verificationCode,
+		updateBindingPhone,
+		updatePwd
+	} from "@/api/user.js"
 	import _ from 'lodash'
 	let customStyle = {
 		'background': '#FFF',
@@ -127,7 +150,13 @@
 	const dataform = reactive({
 		oldPhone: '',
 		newPhone: '',
-		verificationCode: 914262
+		verificationCode: '',
+		oldPassword: '',
+		newPassword: '',
+		newPassword2: '',
+		oldPayCode: '',
+		newPayCode: '',
+		newPayCode2: '',
 	})
 	// 返回上一级
 	const navigateBack = () => {
@@ -141,64 +170,150 @@
 	const typeName = computed(() => {
 		switch (type.value) {
 			case 0:
+				dataform.verificationCode = '322549'
 				return '换绑手机号'
 				break;
 			case 1:
+				dataform.verificationCode = '257613'
 				return '修改密码'
 				break;
 			case 2:
+				dataform.verificationCode = '943227'
 				return '修改支付密码'
 				break;
 		}
 	})
-	
-	// updateBindingPhone
+
 	const save = () => {
-		console.log("dataform: ",dataform)
-		if(dataform.oldPhone.length == 0){
-			uni.showToast({
-				title: '旧手机号不能为空！',
-				icon:'error'
-			})
-			return false
-		}if(dataform.newPhone.length == 0){
-			uni.showToast({
-				title: '新手机号不能为空！',
-				icon:'error'
-			})
-			return false
-		}if(dataform.oldPhone.length == 0){
+		let params = {}
+		switch (type.value) {
+			case 0:
+				if (dataform.oldPhone.length == 0) {
+					uni.showToast({
+						title: '旧手机号不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPhone.length == 0) {
+					uni.showToast({
+						title: '新手机号不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPhone == dataform.oldPhone) {
+					uni.showToast({
+						title: '新旧手机号不能相同！',
+						icon: 'error'
+					})
+					return false
+				}
+				params = {
+					oldPhone: dataform.oldPhone,
+					newPhone: dataform.newPhone,
+					verificationCode: dataform.verificationCode,
+				}
+				break;
+			case 1:
+				if (dataform.oldPassword.length == 0) {
+					uni.showToast({
+						title: '旧密码不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPassword.length == 0) {
+					uni.showToast({
+						title: '新密码不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPassword2.length == 0) {
+					uni.showToast({
+						title: '请再次输入新密码！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPassword != dataform.newPassword2) {
+					uni.showToast({
+						title: '两次新密码不一致！',
+						icon: 'error'
+					})
+					return false
+				}
+				params = {
+					oldPassword: dataform.oldPassword,
+					newPassword: dataform.newPassword,
+					verificationCode: dataform.verificationCode,
+				}
+				break;
+			case 2:
+				if (dataform.oldPayCode.length == 0) {
+					uni.showToast({
+						title: '旧密码不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPayCode.length == 0) {
+					uni.showToast({
+						title: '新密码不能为空！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPayCode2.length == 0) {
+					uni.showToast({
+						title: '请再次输入新密码！',
+						icon: 'error'
+					})
+					return false
+				}
+				if (dataform.newPayCode != dataform.newPayCode2) {
+					uni.showToast({
+						title: '两次新密码不一致！',
+						icon: 'error'
+					})
+					return false
+				}
+				params = {
+					oldPassword: dataform.oldPayCode,
+					newPassword: dataform.newPayCode,
+					verificationCode: dataform.newPayCode2,
+				}
+				break;
+		}
+		if (dataform.verificationCode.length == 0) {
 			uni.showToast({
 				title: '验证码不能为空！',
-				icon:'error'
+				icon: 'error'
 			})
 			return false
 		}
-		let param = {
-			phone: dataform.newPhone,
-			code: dataform.verificationCode
-		}
+		// console.log("params: ", params)
 		verificationCode(param).then(res => {
 			updateBindingPhone(dataform).then(res => {
 				uni.showToast({
 					title: '换绑成功！',
-					icon:"success"
+					icon: "success"
 				})
 			}).catch(err => {
 				uni.showToast({
 					title: err,
-					icon:'error'
+					icon: 'error'
 				})
 			})
 		}).catch(err => {
 			uni.showToast({
 				title: err,
-				icon:'error'
+				icon: 'error'
 			})
 		})
-	
+
 	}
-	
 </script>
 
 <style lang="scss" scoped>
@@ -208,15 +323,18 @@
 		background-color: #EFEFEF;
 		position: relative;
 	}
+
 	.u-cell-item-box {
 		border-radius: 20rpx;
 	}
+
 	.code {
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
 		right: 34rpx;
 	}
+
 	.box {
 		padding: 32rpx;
 	}

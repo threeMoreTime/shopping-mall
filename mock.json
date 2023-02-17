@@ -1,0 +1,381 @@
+[
+  {
+    "id": 741,
+    "pid": 0,
+    "path": "/0/",
+    "name": "产品特区(酒窖)",
+    "type": 1,
+    "url": "wwww",
+    "extra": "crmebimage/public/maintain/2021/12/25/e91ccd7e37294221bfdb7b43a42d8ed5hghg7nw0qb.jpg",
+    "status": true,
+    "sort": 99999,
+    "child": [
+      {
+        "id": 745,
+        "pid": 741,
+        "path": "/0/741/",
+        "name": "活动专区",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/store/2021/12/25/de35d545523448db9f3636e34ca085b29qw11rescg.png",
+        "status": true,
+        "sort": 4
+      },
+      {
+        "id": 744,
+        "pid": 741,
+        "path": "/0/741/",
+        "name": "兑换专区",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/store/2021/12/25/de35d545523448db9f3636e34ca085b29qw11rescg.png",
+        "status": true,
+        "sort": 3
+      },
+      {
+        "id": 743,
+        "pid": 741,
+        "path": "/0/741/",
+        "name": "金钻区",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/store/2021/12/25/de35d545523448db9f3636e34ca085b29qw11rescg.png",
+        "status": true,
+        "sort": 2
+      },
+      {
+        "id": 742,
+        "pid": 741,
+        "path": "/0/741/",
+        "name": "银钻区",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/maintain/2021/12/25/fb364676ea364297b7441638f9e0f557dckg4t2rds.jpgcrmebimage/public/maintain/2021/12/25/fb364676ea364297b7441638f9e0f557dckg4t2rds.jpg",
+        "status": true,
+        "sort": 1
+      }
+    ]
+  },
+  {
+    "id": 515,
+    "pid": 0,
+    "path": "/0/",
+    "name": "每日新品",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/a272fcefed804cf2b1e6785d5662c29ejqjxha0eow.jpg",
+    "status": true,
+    "sort": 10,
+    "child": [
+      {
+        "id": 534,
+        "pid": 515,
+        "path": "/0/515/",
+        "name": "玩偶",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/maintain/2021/12/25/fb364676ea364297b7441638f9e0f557dckg4t2rds.jpg",
+        "status": true,
+        "sort": 4
+      }
+    ]
+  },
+  {
+    "id": 245,
+    "pid": 0,
+    "path": "/0/272/",
+    "name": "热门推荐",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/3a395df3d79a40a08cbc938c35e2dc35b84sujo2yn.png",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 246,
+        "pid": 245,
+        "path": "/0/272/245/",
+        "name": "新品上市",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/maintain/2021/12/25/8f9eca84e2b14752ad4afb1ab8d06974xua9ambm9y.jpg",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 248,
+        "pid": 245,
+        "path": "/0/272/245/",
+        "name": "热卖商品",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/maintain/2021/12/25/1618a47e11e745ff90c70f752c204e17qi6vjngrcd.jpg",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 258,
+        "pid": 245,
+        "path": "/0/272/245/",
+        "name": "折扣专区",
+        "type": 1,
+        "url": "www",
+        "extra": "crmebimage/public/maintain/2021/12/25/73f9c6c1b14445b5bb477e8c05d8a2763sfij1gamk.jpg",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 488,
+        "pid": 245,
+        "path": "/0/272/245/",
+        "name": "精品首发",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/maintain/2021/12/25/9dcafbf40f4a43909ef991338583e633qh2zl6rdwi.jpg",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  },
+  {
+    "id": 280,
+    "pid": 0,
+    "path": "/0/",
+    "name": "家装家具",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/86f83bdc35534eeda2fb4daeb51dbb28pizkxqnzap.jpg",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 285,
+        "pid": 280,
+        "path": "/0/280/",
+        "name": "智能门锁",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/8b665c20edef4d61a508de9395eb40c4ln34d0f3i5.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 286,
+        "pid": 280,
+        "path": "/0/280/",
+        "name": "居家照明",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/24119aa4d48e4c7a95b21ece82a41715uns67350bd.jpg",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 287,
+        "pid": 280,
+        "path": "/0/280/",
+        "name": "家装建材",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/7b4c8af47e414f62a5d7b26d95504cbafw13ela5i7.png",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  },
+  {
+    "id": 281,
+    "pid": 0,
+    "path": "/0/",
+    "name": "户外出行",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/55014ffb17b74d039b5670298e1047fcyw64lmyzlj.jpg",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 288,
+        "pid": 281,
+        "path": "/0/281/",
+        "name": "健身运动",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/0f419f2a65844ae5a00c20e22dc9b92env32uvr4dy.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 289,
+        "pid": 281,
+        "path": "/0/281/",
+        "name": "户外装备",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/bf8bc87d525844b68ca17ca60c567233hkh2h9c2un.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 290,
+        "pid": 281,
+        "path": "/0/281/",
+        "name": "骑行配件",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/ef98f38ef1cd4083a91fb62b1dd8362cmran1psnmc.png",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  },
+  {
+    "id": 282,
+    "pid": 0,
+    "path": "/0/",
+    "name": "美妆个护",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/2eef89b403dd47619e349e3edb057ce4g2clr5d4xn.jpg",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 291,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "美妆工具",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/1ccac5f9f62646ba930000ad70f741efpfgagvhrzh.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 292,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "口腔清洁",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/0705b0fad3884eddb31745e453de6503atuqud1tr3.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 293,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "彩妆香氛",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/0e13333fdf2841a2a886a9595bebc855q5jgkr8b66.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 294,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "面部护肤",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/6246abff834b4d2fb1edad2a8927c8a3yes6irrqfw.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 295,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "身体护理",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/090f2f83e9b343c38c7c7b4ebc860a352r8u8adjsq.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 296,
+        "pid": 282,
+        "path": "/0/282/",
+        "name": "其他工具",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/fbc798bf3c91493f95c97be7d6cbaa5akhcpo5ent3.png",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  },
+  {
+    "id": 283,
+    "pid": 0,
+    "path": "/0/",
+    "name": "3C数码",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/maintain/2021/12/25/432cb941d4f64f4c88d2d3a8b784f282kqlp2cu55l.jpg",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 297,
+        "pid": 283,
+        "path": "/0/283/",
+        "name": "手机",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/maintain/2021/12/25/73f9c6c1b14445b5bb477e8c05d8a2763sfij1gamk.jpg",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 298,
+        "pid": 283,
+        "path": "/0/283/",
+        "name": "平板电脑",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/maintain/2021/12/25/4811fe50a33f48309337e67c3d36318exseuh6qys6.jpg",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  },
+  {
+    "id": 284,
+    "pid": 0,
+    "path": "/0/283/",
+    "name": "日用文创",
+    "type": 1,
+    "url": "",
+    "extra": "crmebimage/public/store/2021/12/25/d813cbdd98b148c99885652234ad43b1m1aewwn8wd.jpg",
+    "status": true,
+    "sort": 0,
+    "child": [
+      {
+        "id": 301,
+        "pid": 284,
+        "path": "/0/283/284/",
+        "name": "纸品湿巾",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/ae2a9db4d74a4a56bddb971d3df9e60fljwxe9z3lh.png",
+        "status": true,
+        "sort": 0
+      },
+      {
+        "id": 302,
+        "pid": 284,
+        "path": "/0/283/284/",
+        "name": "办公文具",
+        "type": 1,
+        "url": "",
+        "extra": "crmebimage/public/store/2021/12/25/de35d545523448db9f3636e34ca085b29qw11rescg.png",
+        "status": true,
+        "sort": 0
+      }
+    ]
+  }
+]

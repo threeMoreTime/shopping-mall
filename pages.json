@@ -498,7 +498,7 @@
             "path" : "pages/product/productDetail2",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "购物规格页面",
                 "enablePullDownRefresh": false,
 				"navigationStyle": "custom"
             }

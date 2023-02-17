@@ -199,11 +199,11 @@
 						title:"注册成功"
 					})
 					setTimeout(()=>{
-						uni.switchTab({
-							url: '/pages/home/index'
+						uni.redirectTo({
+							url: '/pages/login/index'
 						});
 						uni.hideLoading();
-					},3000)
+					},2000)
 				})
 			}
 		}

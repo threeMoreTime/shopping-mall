@@ -7,3 +7,11 @@ export const homeIndex = () => {
 		method: 'GET'
 	})
 }
+
+// 首页商品列表
+export const productType = (type) => {
+	return request({
+		url: `/client/homepage/index/product/${type}`,
+		method: 'GET'
+	})
+}

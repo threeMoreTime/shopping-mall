@@ -1,5 +1,13 @@
 import request from "@/utils/request.js"
 
+// 找回密码
+export const findBackPwd = (data) => {
+	return request({
+		url: '/client/user/findBackPwd',
+		method: 'POST'
+	}, data)
+}
+
 // 退出登录
 export const logout = () => {
 	return request({

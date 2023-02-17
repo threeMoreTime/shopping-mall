@@ -35,7 +35,7 @@
 				</view>
 			</view>
 			<view class="userForm" v-if="type === 2">
-				<view class="userPhone">+86 1731542410</view>
+				<view class="userPhone">+86 {{userForm.phone}}</view>
 				<view class="userItem flex-space-between">
 					<u-input v-model="userForm.password" height=96 placeholder="输入密码" />
 				</view>
@@ -95,7 +95,7 @@
 	    onLoad
 	  } from "@dcloudio/uni-app";
 	import _ from 'lodash'
-	import {login,info,sendCode,verificationCode} from "@/api/user.js"
+	import {login,info,sendCode,verificationCode,findBackPwd} from "@/api/user.js"
 	import {userStore} from "@/store/index.js"
 	import {phoneRegex,pawRegex,inviteCodeRegex} from "@/utils/regex.js"
 	let customStyle = {
@@ -174,7 +174,22 @@
 				// changePath('index',{typeId: 2})
 				type.value = 2
 			})
-		} else if(type.value === 0) {
+		} else if (type.value === 2) {
+			findBackPwd(userForm).then(res => {
+				uni.showToast({
+					title:"修改成功",
+					icon:"success"
+				})
+				type.value = 0
+			}, err => {
+				uni.showToast({
+					title:"修改失败",
+					icon:"error"
+				})
+				type.value = 5
+			})
+		}
+		 else if(type.value === 0) {
 			// 登录的逻辑
 			if(phoneRegex(userForm.phone))
 			if(pawRegex(userForm.password)) {

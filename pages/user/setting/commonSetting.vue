@@ -20,18 +20,18 @@
 					<u-cell-group>
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="姓名"
 							@click="changePath('../../../pages/user/setting/changeProfile',0)">
-							<text>李泽希</text>
+							<text>{{store.userInfo.realName}}</text>
 						</u-cell-item>
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="手机号码"
 							@click="changePath('../../../pages/user/setting/changeProfile',1)">
-							<text>13265664589</text>
+							<text>{{store.userInfo.phone}}</text>
 						</u-cell-item>
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="会员等级">
 							<text>v1</text>
 						</u-cell-item>
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="身份证号"
 							@click="changePath('../../../pages/user/setting/changeProfile',2)">
-							<text>4415232199811207979</text>
+							<text>{{store.userInfo.cardId}}</text>
 						</u-cell-item>
 					</u-cell-group>
 				</view>
@@ -59,26 +59,28 @@
 				<u-form :model="dataform">
 					<u-form-item label="联系方式" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}">
-						<u-input height="68" placeholder="手机/邮箱" :custom-style="customStyle" v-model="dataform.phone" />
+						<u-input height="68" placeholder="手机/邮箱" :custom-style="customStyle"
+							v-model="dataform.mobile" />
 					</u-form-item>
 					<u-form-item label="问题和意见" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}">
 						<u-input height="248" placeholder="请输入内容" type="textarea" maxlength="999"
-							:custom-style="customStyle" v-model="dataform.context" />
+							:custom-style="customStyle" v-model="dataform.content" />
 					</u-form-item>
-					<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+					<u-button @click="present" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交
+					</u-button>
 				</u-form>
 			</view>
 			<view class="dataform pad-32" v-if="type === 3">
-				<view class="cellView">
-					<u-cell-group title="卡1"
+				<view class="cellView" v-for="(item,index) in bankCardInfo" :key='item.id'>
+					<u-cell-group :title="'卡'+ (index + 1)"
 						:title-style="{'font-size': '28rpx','font-weight': '500','padding':'5rpx 26rpx'}">
-						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="张斌"
+						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="item.userName"
 							:arrow="false" :style="{'height':'104rpx'}">
-							<text>中国农业银行</text>
+							<text>{{item.bankName}}</text>
 						</u-cell-item>
-						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}"
-							title="6228480039363319573" :arrow="false" :style="{'height':'104rpx'}">
+						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="item.bankCardNo"
+							:arrow="false" :style="{'height':'104rpx'}">
 						</u-cell-item>
 					</u-cell-group>
 				</view>
@@ -90,23 +92,25 @@
 					<u-form-item label="银行" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
 						<u-input height="68" placeholder="请输入银行名称" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.bankName" />
 					</u-form-item>
 					<u-form-item label="持卡人" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
 						<u-input height="68" placeholder="请输入持卡人" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.userName" />
 					</u-form-item>
 					<u-form-item label="账号" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
-						<u-input height="68" placeholder="请输入账号" :custom-style="customStyle" v-model="dataform.phone" />
+						<u-input height="68" placeholder="请输入账号" :custom-style="customStyle"
+							v-model="dataform.bankCardNo" />
 					</u-form-item>
 					<u-form-item label="支付密码" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
 						<u-input height="68" placeholder="请输入支付密码" :custom-style="customStyle"
-							v-model="dataform.phone" />
+							v-model="dataform.payPassword" />
 					</u-form-item>
-					<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+					<u-button @click="bankSubmit" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">
+						提交</u-button>
 				</u-form>
 			</view>
 		</view>
@@ -122,8 +126,15 @@
 		reactive,
 		ref
 	} from "vue";
-	import {userStore} from "@/store/index.js"
-	import {updateUserInfo} from "@/api/user.js"
+	import {
+		userStore
+	} from "@/store/index.js"
+	import {
+		updateUserInfo,
+		addFeedback,
+		findBankCard,
+		addBankCard
+	} from "@/api/user.js"
 	const store = userStore()
 	let customStyle = {
 		'background': '#FFF',
@@ -160,6 +171,7 @@
 				return '意见反馈'
 				break;
 			case 3:
+				gainBankCard()
 				return '银行信息'
 				break;
 			case 4:
@@ -167,14 +179,108 @@
 				break;
 		}
 	})
-	const dataform = reactive({})
+	const dataform = reactive({
+		content: "",
+		mobile: "",
+		bankName: '',
+		userName: '',
+		bankCardNo: '',
+		payPassword: '',
+	})
+	const bankCardInfo = ref([])
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1
 		})
 	}
+	// 获取银行卡信息
+	const gainBankCard = () => {
+		findBankCard().then(res => {
+			bankCardInfo.value = res
+			console.log('bankCardInfo', bankCardInfo.value)
+		})
+	}
 
+	// 添加银行卡
+	const bankSubmit = () => {
+		let params = {
+			bankName: dataform.bankName,
+			bankCardNo: dataform.bankCardNo,
+			userName: dataform.userName,
+			payPassword: dataform.payPassword,
+		}
+		if (!params.bankName) {
+			uni.showToast({
+				title: '请输入银行名称！',
+				icon: 'error'
+			})
+			return false
+		}
+		if (!params.bankCardNo) {
+			uni.showToast({
+				title: '请输入银行卡号！',
+				icon: 'error'
+			})
+			return false
+		}
+		if (!params.userName) {
+			uni.showToast({
+				title: '请输入用户名！',
+				icon: 'error'
+			})
+			return false
+		}
+		if (!params.payPassword) {
+			uni.showToast({
+				title: '请输入支付密码！',
+				icon: 'error'
+			})
+			return false
+		}
+		if (!/^[0-9]\d{5}$/.test(params.payPassword)) {
+			uni.showToast({
+				title: '密码只能是6位数字！',
+				icon: 'error'
+			})
+			return false
+		}
+		addBankCard(params).then(res => {
+			uni.showToast({
+				title: '银行卡成功！',
+				icon: "success"
+			})
+		})
+	}
+
+	// 提交意见
+	const present = () => {
+		let params = {
+			content: dataform.content,
+			mobile: dataform.mobile
+		}
+		if (!params.mobile) {
+			uni.showToast({
+				title: '请输入联系方式！',
+				icon: 'error'
+			})
+			return false
+		}
+		if (!params.content) {
+			uni.showToast({
+				title: '请填写问题和意见！',
+				icon: 'error'
+			})
+			return false
+		}
+		// console.log(params,'params')
+		addFeedback(params).then(res => {
+			uni.showToast({
+				title: '意见反馈成功！',
+				icon: "success"
+			})
+		})
+	}
 
 	// 更新头像
 	const changeAvatar = () => {
@@ -199,19 +305,21 @@
 						"model": "user"
 					},
 					success: (uploadFileRes) => {
-						const {code = 500,data = {}} = JSON.parse(uploadFileRes.data)
-						if(code === 200) {
+						const {
+							code = 500, data = {}
+						} = JSON.parse(uploadFileRes.data)
+						if (code === 200) {
 							uni.hideLoading()
 							store.userInfo.avatar = data.url
 							updateUserInfo(store.userInfo).then(res => {
 								uni.showToast({
-									title:"修改成功",
-									icon:"success"
+									title: "修改成功",
+									icon: "success"
 								})
 							}).catch(err => {
 								uni.showToast({
-									title:"修改失败",
-									icon:"error"
+									title: "修改失败",
+									icon: "error"
 								})
 							})
 						}

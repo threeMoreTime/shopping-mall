@@ -79,3 +79,35 @@ export const updateBindingPhone = (data) => {
 		method: 'POST'
 	}, data)
 }
+
+// 添加意见和反馈
+export const addFeedback = (data) => {
+	return request({
+		url: '/client/user/addFeedback',
+		method: 'POST'
+	}, data)
+}
+
+// 添加银行卡
+export const addBankCard = (data) => {
+	return request({
+		url: '/client/user/addBankCard',
+		method: 'POST'
+	}, data)
+}
+
+// 查询银行卡
+export const findBankCard = (query) => {
+	return request({
+		method: 'GET',
+    url: '/client/user/findBankCard',
+	});
+};
+
+// 删除银行卡
+export const delBankCard = (query) => {
+	return request({
+		method: 'GET',
+    url: `/client/user/delBankCard/${id}`,
+	});
+};

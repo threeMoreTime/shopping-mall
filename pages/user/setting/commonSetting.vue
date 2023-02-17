@@ -247,7 +247,7 @@
 		}
 		addBankCard(params).then(res => {
 			uni.showToast({
-				title: '银行卡成功！',
+				title: '添加银行卡成功！',
 				icon: "success"
 			})
 		})

@@ -24,8 +24,21 @@
 </template>
 
 <script setup>
+     import { onLoad} from "@dcloudio/uni-app"
+        import { ref ,reactive } from 'vue'
 import { changePath, navigateBack } from '@/utils/navigate.js'
+
+
+
+
+
+
 </script>
+
+
+
+
+
 
 <style lang="scss" scoped>
 .container {

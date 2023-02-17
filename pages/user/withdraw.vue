@@ -6,7 +6,7 @@
         <view class="tabsText">提现</view>
         <view
           class="right-text"
-          @click="changePath('/pages/user/studio/studioApply')"
+          @click="changePath('/pages/user/record',{typeId: 0})"
           >提现记录</view
         >
       </view>
@@ -15,27 +15,27 @@
       <view class="info-box">
         <view class="bank-box u-flex u-row-between">
           <view class="bank-tag">收款银行</view>
-          <view class="bank-name">农业银行</view>
+          <view class="bank-name">{{FormData.extractType}}</view>
         </view>
         <view class="bank-box u-flex u-row-between">
           <view class="bank-tag">银行卡号</view>
-          <view class="bank-name">6222 2222 2222 2222 222</view>
+          <view class="bank-name">{{FormData.extractTarget}}</view>
         </view>
         <view class="bank-box u-flex u-row-between">
           <view class="bank-tag">开户名</view>
-          <view class="bank-name">张飞</view>
+          <view class="bank-name">{{FormData.name}}</view>
         </view>
       </view>
 
       <view class="withdraw-box">
         <view class="tips">请输入提现的金额</view>
-        <u-input v-model="money" type="number" placeholder="请输入提现的金额" />
+        <u-input v-model.number="FormData.money" type="number" placeholder="请输入提现的金额" />
         <u-line color="#707070" />
       </view>
       <view class="password-box">
         <text class="tips">支付密码</text>
         <u-input
-          v-model="password"
+          v-model="FormData.qrcodeUrl"
           type="password"
           placeholder="请输入支付密码"
         />
@@ -45,16 +45,48 @@
       </view>
     </view>
     <view class="btn-box">
-      <u-button :custom-style="customStyle">立即提现</u-button>
+      <u-button :custom-style="customStyle" @click="btnPost">立即提现</u-button>
     </view>
   </view>
 </template>
 
 <script setup>
+  name:'user1111111'
+   import { onLoad} from "@dcloudio/uni-app"
+   import { ref ,reactive } from 'vue'
 import { changePath, navigateBack } from '@/utils/navigate.js'
-import { ref } from 'vue'
-const money = ref('')
-const password = ref('')
+import {  tixianshenqing} from '@/api/userWithdraw.js'  //  * 前台-用户-提现 api
+  import { userStore}from '@/store/index.js'  // 导入用户信息  store 
+   const  store=userStore()
+
+
+onLoad(()=>{
+  console.log(store.userInfo)
+}
+)
+// 表单数据
+const FormData=reactive({
+ // extractType: 'weixin', //收款银行
+ extractType: '微信', //收款银行
+ extractTarget: 1, // 银行卡号
+ name: store.userInfo.realName,// 开户名
+ qrcodeUrl:'' ,//密码
+ money:null //金额
+
+})
+
+ // 立即提现 btnPost
+const btnPost=async()=>{
+try{
+  const res= await tixianshenqing(FormData)
+  console.log(res); 
+}catch(e){
+console.log(e);
+}
+}
+
+
+
 const customStyle = {
   width: '100%',
   height: '72rpx',

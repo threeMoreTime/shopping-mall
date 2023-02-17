@@ -25,7 +25,7 @@
 		        <u-image
 		          width="138rpx"
 		          height="138rpx"
-		          src="@/static/img/NoPath1.png"
+		          :src="item2.extra"
 		          @click="handleClassifyClick(item2.id)"
 		        ></u-image>
 		        <view class="itemName">{{ item2.name }}</view>
@@ -38,17 +38,23 @@
 
 <script setup>
 import { ref } from "vue";
-import mock from "@/mock.json"
-import {navigateBack} from "@/utils/navigate.js"
+import {navigateBack,changePath} from "@/utils/navigate.js"
+import {leftcategory} from "@/api/category.js"
+import {userStore} from "@/store/index.js"
+	const store = userStore()
 	const tabsIndex = ref(null)
 	const tabsList = ref([])
-	new Promise((resolve, reject) => {
-		tabsList.value = mock
-		resolve(tabsList)
-	}).then(res => {
-		tabsIndex.value = res.value[0].id
+	leftcategory().then(res => {
+		tabsList.value = res
+		tabsList.value.forEach(item => {
+			item.child.map(childItem => {
+				childItem.extra = store.systemConfig.picUrlPre + childItem.extra
+			})
+		})
+		// console.log(tabsList.value);
+		tabsIndex.value = tabsList.value[0].id
 	})
-	// console.log(tabsList.value);
+	// 点击一级列表触发
 	const changeTabs = (id) => {
 		if(id) {
 			tabsIndex.value = id
@@ -56,6 +62,12 @@ import {navigateBack} from "@/utils/navigate.js"
 				selector: '#tab' + id,
 				duration: 100,
 			})
+		}
+	}
+	// 点击二级列表触发
+	const handleClassifyClick = (id) => {
+		if(id) {
+			changePath("/pages/home/searchList",{id})
 		}
 	}
 </script>

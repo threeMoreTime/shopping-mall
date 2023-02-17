@@ -56,6 +56,16 @@
 	import { changePath,navigateBack } from "@/utils/navigate.js"
 	import { historyStore } from "@/store/index.js"
 	import { ref } from "vue";
+	import { onLoad } from "@dcloudio/uni-app";
+	
+	onLoad((option) => {
+		
+	})
+	
+	const getListById = (id) => {
+		console.log(id);
+	}
+	
 	const tabText = ref([
 		{id: 1,name: '热销'},
 		{id: 2,name: '综合'},

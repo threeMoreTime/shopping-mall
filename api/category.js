@@ -1,5 +1,13 @@
 import request from "@/utils/request.js"
 
+// 商品详情
+export const productDetail = (id) => {
+	return request({
+		url: `/client/category/product/detail/${id}`,
+		method: 'GET'
+	})
+}
+
 // 获取商品分类
 export const leftcategory = () => {
 	return request({

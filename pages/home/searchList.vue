@@ -24,27 +24,15 @@
 				v-for="item in tabText" :key="item.id" @click="changeTabs(item.id)">{{item.name}}</view>
 		</view>
 		<view class="ctxBox">
-			<view class="ctxBoxItem">
-				<image src="@/static/img/camera.png" mode=""></image>
+			<view class="ctxBoxItem" v-for="item in shopList" :key="item.id" @click="clickShop(item.id)">
+				<image :src="item.image" mode=""></image>
 				<view class="contextBox">
-					<text class="ctxTitle u-line-2">美特斯邦威羽绒服保暖冬季防风保暖美特斯邦威羽绒服保暖冬季防风保暖</text>
-					<text class="t-size-20rpx" style="text-decoration: line-through;color: #A8A8A8;">￥350.00</text>
-					<text class="ctxTitle">￥315.00</text>
+					<text class="ctxTitle u-line-2">{{item.storeName}}</text>
+					<text class="t-size-20rpx" style="text-decoration: line-through;color: #A8A8A8;">￥{{item.otPrice}}</text>
+					<text class="ctxTitle">￥{{item.price}}</text>
 					<view class="shopName">
 						<text class="t-size-20rpx" style="color: #A20505;">天猫超市</text>
-						<text class="t-size-20rpx" style="color: #A8A8A8;">已售2.6万</text>
-					</view>
-				</view>
-			</view>
-			<view class="ctxBoxItem">
-				<image src="@/static/img/camera.png" mode=""></image>
-				<view class="contextBox">
-					<text class="ctxTitle u-line-2">美特斯邦威羽绒服保暖冬季防风保暖美特斯邦威羽绒服保暖冬季防风保暖</text>
-					<text class="t-size-20rpx" style="text-decoration: line-through;color: #A8A8A8;">￥350.00</text>
-					<text class="ctxTitle">￥315.00</text>
-					<view class="shopName">
-						<text class="t-size-20rpx" style="color: #A20505;">天猫超市</text>
-						<text class="t-size-20rpx" style="color: #A8A8A8;">已售2.6万</text>
+						<text class="t-size-20rpx" style="color: #A8A8A8;">已售 {{item.ficti}} {{item.unitName}}</text>
 					</view>
 				</view>
 			</view>
@@ -54,18 +42,40 @@
 
 <script setup>
 	import { changePath,navigateBack } from "@/utils/navigate.js"
-	import { historyStore } from "@/store/index.js"
-	import { ref } from "vue";
+	import { historyStore,userStore } from "@/store/index.js"
+	import { products } from "@/api/category.js"
+	import { reactive, ref } from "vue";
 	import { onLoad } from "@dcloudio/uni-app";
 	
 	onLoad((option) => {
-		
+		getListById(option.id)
 	})
 	
+	const dataForm = reactive({
+		keyword: '',
+		cid: null,
+		priceOrder: '',
+		salesOrder: ''
+	})
+	const shopList = ref([])
+	// 根据id获取商品列表
 	const getListById = (id) => {
-		console.log(id);
+		if(id) {
+			dataForm.cid = id
+			products(dataForm).then(res => {
+				shopList.value = res.list
+				shopList.value.map(item => {
+					item.image = userStore().systemConfig.picUrlPre
+				})
+			})
+		}
 	}
-	
+	// 点击商品跳转到商品详情页
+	const clickShop = (id) => {
+		if(id) {
+			changePath("/pages/product/productDetail2",{id})
+		}
+	}
 	const tabText = ref([
 		{id: 1,name: '热销'},
 		{id: 2,name: '综合'},

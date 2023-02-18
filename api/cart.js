@@ -15,3 +15,11 @@ export const cartSave = (data) => {
 		method: 'POST'
 	},data)
 }
+
+// 删除购物车
+export const cartDelete = (data) => {
+	return request({
+		url: '/client/user/cart/delete?ids=' + data,
+		method: 'POST'
+	})
+}

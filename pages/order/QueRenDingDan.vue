@@ -14,7 +14,7 @@
 
 			<view class="qBOX">
 				<text class="item1">初夏111</text>
-				<text class="item2">&nbsp;&nbsp;17777k1177777</text>
+				<text class="item2">&nbsp;&nbsp;{{store.userInfo?.phone}}</text>
 			</view>
 
 			<text class="address">11111111111111111111111</text>
@@ -116,7 +116,16 @@ height: 40rpx;
 		ref,
 		toRefs
 	} from "vue";
-
+	import { userStore } from "@/store/index.js"
+	import { info } from "@/api/user.js"
+	const store = userStore()
+	if(!store.userInfo?.uid) {
+		info().then(res => {
+			store.userInfo = res
+			console.log(store.userInfo);
+		})
+	}
+	
 	// 返回上一级
 	function navigateBack() {
 		wx.navigateBack({

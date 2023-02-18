@@ -110,6 +110,7 @@
 	// 按钮类型 结算(0) 删除(1)
 	const changeBtn = () => {
 		if(typeId.value === 0) {
+			changePath("/pages/order/QueRenDingDan",{})
 			console.log('结算');
 		} else {
 			console.log('删除');

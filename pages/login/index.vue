@@ -35,9 +35,9 @@
 				</view>
 			</view>
 			<view class="userForm" v-if="type === 2">
-				<view class="userPhone">+86 1731542410</view>
+				<view class="userPhone">+86 {{userForm.phone}}</view>
 				<view class="userItem flex-space-between">
-					<u-input v-model="userForm.password" height=96 placeholder="输入密码" />
+					<u-input v-model="userForm.newPassword" height=96 placeholder="输入密码" />
 				</view>
 				<view class="userItem flex-space-between">
 					<u-input v-model="userForm.twicePassword" height=96 placeholder="再次输密码" />
@@ -95,9 +95,9 @@
 	    onLoad
 	  } from "@dcloudio/uni-app";
 	import _ from 'lodash'
-	import {login,info,sendCode,verificationCode} from "@/api/user.js"
+	import {login,info,sendCode,verificationCode,findBackPwd} from "@/api/user.js"
 	import {userStore} from "@/store/index.js"
-	import {phoneRegex,pawRegex,inviteCodeRegex} from "@/utils/regex.js"
+	import {phoneRegex,pawRegex,inviteCodeRegex,comparison} from "@/utils/regex.js"
 	let customStyle = {
 		'width': '144rpx',
 		'line-height': '46rpx',
@@ -110,8 +110,13 @@
 		'color': '#FFFFFF',
 	}
 	const userForm = reactive({
+<<<<<<< HEAD
 		phone: '17730856654',
 		password: 'm123456',
+=======
+		phone: '',
+		newPassword: '',
+>>>>>>> 314d52340d6c553ccf806d716976f6234e9c6851
 		code: ''
 	})
 	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4) 请输入手机号码(5)
@@ -165,6 +170,7 @@
 	}, 500)
 	const changeInp = () => {
 		if(type.value === 5) {
+			// 找回密码逻辑
 			if(phoneRegex(userForm.phone))
 			// changePath('index',{typeId: 1})
 			type.value = 1
@@ -174,7 +180,26 @@
 				// changePath('index',{typeId: 2})
 				type.value = 2
 			})
-		} else if(type.value === 0) {
+		} else if (type.value === 2) {
+			// 校验密码格式
+			if(pawRegex(userForm.newPassword))
+			// 判断两次密码是否一致
+			if(comparison(userForm.newPassword,userForm.twicePassword))
+			findBackPwd(userForm).then(res => {
+				uni.showToast({
+					title:"修改成功",
+					icon:"success"
+				})
+				type.value = 0
+			}, err => {
+				uni.showToast({
+					title:"修改失败",
+					icon:"error"
+				})
+				type.value = 5
+			})
+		}
+		 else if(type.value === 0) {
 			// 登录的逻辑
 			if(phoneRegex(userForm.phone))
 			if(pawRegex(userForm.password)) {

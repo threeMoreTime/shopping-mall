@@ -40,7 +40,7 @@
 			<view class="tabBox">
 				<u-tabs 
 					height="70" 
-					bg-color="#FBFBFB" duration="0.3" gutter="15" active-color="#3A2A08" bar-width="60"
+					bg-color="#FBFBFB" duration="0.3" gutter="10" active-color="#3A2A08" bar-width="60"
 					bar-height="8" :bar-style="{
 						'background-color': '#1FA848',
 						'color': '#3A2A08',
@@ -102,16 +102,12 @@
 		ref,
 		toRefs
 	} from "vue";
-	import {homeIndex} from "@/api/homepage.js"
+	import {homeIndex,productType} from "@/api/homepage.js"
 	import {userStore} from "@/store/index.js"
 	const store = userStore()
 	const rollText = ref(null)
 	const data = reactive({
-		tabList: [
-			{name: '全部'},
-			{name: '康养'},
-			{name: '电子'},
-		],
+		tabList: [],
 		current: 0,
 		swiperList: [],
 	})
@@ -121,11 +117,17 @@
 		current
 	} = toRefs(data)
 	// 获取首页数据
-	homeIndex().then(({banner = [],roll = []}) => {
+	homeIndex().then(({banner = [],roll = [],categorys = []}) => {
 		swiperList.value = banner
+		tabList.value = categorys
+		// console.log(tabList.value);
 		rollText.value = roll[0].info
 		swiperList.value.map(item => {
 			item.pic = store.systemConfig.picUrlPre + item.pic
+		})
+		// 默认发送一次请求商品类型请求
+		productType(tabList.value[0].id).then(res => {
+			console.log(res);
 		})
 	})
 	// 用户点击搜索后触发
@@ -136,9 +138,12 @@
 	const changeSwiper = (index) => {
 		console.log(index)
 	}
+	
 	// 用户点击tabs后触发
-	const changeTabs = (index) => {
-		console.log(index)
+	const changeTabs = (index = 0) => {
+		productType(tabList.value[index].id).then(res => {
+			console.log(res);
+		})
 	}
 	// 路由跳转
 	const changePath = (path,id) => {

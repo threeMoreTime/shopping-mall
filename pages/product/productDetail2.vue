@@ -11,7 +11,7 @@
 		<view class="product-info-box">
 			<view class="info-box">
 				<view class="info-box-top">
-					<view class="product-title">美特斯邦威羽绒服保暖冬季防风保暖...</view>
+					<view class="product-title">{{shopInfo.storeName}}</view>
 					<view class="product-price">760.00</view>
 					<view class="product-originPrice">￥350.00</view>
 				</view>
@@ -37,6 +37,13 @@
 				v-model="isShow" 
 				border-radius="20" 
 				:localdata="goodsInfo"
+				goods-id-name="id"
+				sku-id-name="id"
+				sku-list-name="skuList"
+				spec-list-name="specList"
+				stock-name="stock"
+				sku-arr-name="attrValues"
+				goods-thumb-name="image"
 				:mode="skuMode" 
 				@open="shopAndBuy"
 				@buy-now="buyNow"
@@ -56,9 +63,24 @@
 		navigateBack,
 		changePath
 	} from "@/utils/navigate.js"
-
-	const skuMode = ref(1)
+	import { onLoad } from "@dcloudio/uni-app";
+	import { productDetail } from "@/api/category.js"
+	onLoad((option) => {
+		getList(option?.id)
+	})
 	const goodsInfo = ref({})
+	const shopInfo = reactive({})
+	const getList = (id) => {
+		if(id) {
+			productDetail(id).then(res => {
+				shopInfo.storeName = res.storeName
+				goodsInfo.value = res
+				console.log(goodsInfo.value);
+			})
+		}
+	}
+	
+	const skuMode = ref(1)
 	// console.log(productValue.value);
 	const list = ref([
 		'https://cdn.uviewui.com/uview/swiper/1.jpg',
@@ -83,47 +105,6 @@
 		typeId.value = id
 		isShow.value = true
 		// 加入购物车(0) 立即购买(1)
-		goodsInfo.value = {
-			"_id": "002",
-			"name": "迪奥香水",
-			"goods_thumb": "https://res.lancome.com.cn/resources/2020/9/11/15998112890781924_920X920.jpg?version=20200917220352530",
-			"sku_list": [{
-					"_id": "004",
-					"goods_id": "002",
-					"goods_name": "迪奥香水",
-					"image": "https://res.lancome.com.cn/resources/2020/9/11/15998112890781924_920X920.jpg?version=20200917220352530",
-					"price": 19800,
-					"sku_name_arr": ["50ml/瓶"],
-					"stock": 100
-				},
-				{
-					"_id": "005",
-					"goods_id": "002",
-					"goods_name": "迪奥香水",
-					"image": "https://res.lancome.com.cn/resources/2020/9/11/15998112890781924_920X920.jpg?version=20200917220352530",
-					"price": 9800,
-					"sku_name_arr": ["70ml/瓶"],
-					"stock": 100
-				},
-				{
-					"_id": "006",
-					"goods_id": "002",
-					"goods_name": "迪奥香水",
-					"image": "https://res.lancome.com.cn/resources/2020/9/11/15998112890781924_920X920.jpg?version=20200917220352530",
-					"price": 9800,
-					"sku_name_arr": ["20ml/瓶","90"],
-					"stock": 100
-				}
-			],
-			"spec_list": [{
-				"list": [{"name": "20ml/瓶"},{"name": "50ml/瓶"},{"name": "70ml/瓶"}],
-				"name": "规格"
-			},
-			{
-				"list": [{"name": "90"},{"name": "59"},{"name": "74"}],
-				"name": "大小"
-			}]
-		}
 	}
 	// 选完规格后点击购买
 	const buyNow = (selectShop) => {

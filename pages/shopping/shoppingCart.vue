@@ -50,6 +50,7 @@
 	import {
 	    onLoad
 	  } from "@dcloudio/uni-app";
+	import { cartList } from "@/api/cart.js";
 	const customStyle = {
 		background: '#C4814C',
 		borderRadius: '48rpx',
@@ -132,7 +133,9 @@
 			})
 			return count
 		}
-		
+	})
+	cartList({isValid: true}).then(res => {
+		console.log(res);
 	})
 </script>
 

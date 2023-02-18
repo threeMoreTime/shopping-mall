@@ -9,12 +9,13 @@
 			<view class="item" v-for="item in productList">
 				<view class="checkboxBg" :class="[item.selected ? 'checkboxBg2' : '']"
 					@click="item.selected = !item.selected"></view>
-				<u-image width="150rpx" height="150rpx" :src="item.img"></u-image>
+				<u-image width="150rpx" height="150rpx" :src="item.image"></u-image>
 				<view class="right-desc">
-					<view class="desc-title u-line-2">{{ item.name }}</view>
+					<view class="desc-title u-line-2">{{ item.storeName }}</view>
+					<view class="count">规格：{{item.suk}}</view>
 					<view class="nowPrice">
-						<text class="price">￥{{ item.nowPrice.toFixed(2) }}</text>
-						<text class="count">x{{ item.count }}</text>
+						<text class="price">￥{{ item.price.toFixed(2) }}</text>
+						<text class="count">x{{ item.cartNum }}</text>
 					</view>
 				</view>
 			</view>
@@ -51,6 +52,7 @@
 	    onLoad
 	  } from "@dcloudio/uni-app";
 	import { cartList } from "@/api/cart.js";
+	import {userStore} from "@/store/index.js"
 	const customStyle = {
 		background: '#C4814C',
 		borderRadius: '48rpx',
@@ -70,23 +72,21 @@
 				img: '../../static/img/clothing.png',
 				selected: false
 			},
-			{
-				id: 2,
-				name: 'COACH|Studio 漆皮法腋下包',
-				price: 350,
-				nowPrice: 315,
-				count: 1,
-				status: 0,
-				tips: '三个月最低价',
-				img: '../../static/img/clothing.png',
-				selected: false
-			},
 		]
 	})
 	const {
 		productList,
 		allSelected
 	} = toRefs(data)
+	cartList({isValid: true}).then(res => {
+		// console.log(res);
+		productList.value = res?.list
+		productList.value.map(item => {
+			item.image = userStore().systemConfig?.picUrlPre + item.image
+			item.selected = false
+		})
+		console.log(productList.value);
+	})
 	const selectedCount = computed(() => productList.value.filter((product) => product.selected).length)
 	const selecteds = computed(() => selectedCount.value === productList.value.length)
 	const changeAllSelected = () => {
@@ -128,15 +128,13 @@
 			let count = null
 			productList.value.forEach(item => {
 				if(item.selected) {
-					count += item.nowPrice
+					count += item.price
 				}
 			})
 			return count
 		}
 	})
-	cartList({isValid: true}).then(res => {
-		console.log(res);
-	})
+	
 </script>
 
 <style lang="scss" scoped>
@@ -229,7 +227,7 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-			height: 140rpx;
+			height: 180rpx;
 			.desc-title {
 				width: 400rpx;
 				background-color: #fff;

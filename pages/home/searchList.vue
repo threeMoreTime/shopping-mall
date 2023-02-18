@@ -65,7 +65,7 @@
 			products(dataForm).then(res => {
 				shopList.value = res.list
 				shopList.value.map(item => {
-					item.image = userStore().systemConfig.picUrlPre
+					item.image = userStore().systemConfig.picUrlPre + item.image
 				})
 			})
 		}

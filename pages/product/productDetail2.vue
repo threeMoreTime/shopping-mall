@@ -12,8 +12,8 @@
 			<view class="info-box">
 				<view class="info-box-top">
 					<view class="product-title">{{shopInfo.storeName}}</view>
-					<view class="product-price">760.00</view>
-					<view class="product-originPrice">￥350.00</view>
+					<view class="product-price">￥{{shopInfo.price?.toFixed(2)}}</view>
+					<view class="product-originPrice">￥{{shopInfo.otPrice}}</view>
 				</view>
 				<u-line color="#ccc" />
 				<view class="info-box-bottom">
@@ -22,6 +22,7 @@
 				</view>
 			</view>
 			<view class="info-box m-top-20">详情介绍</view>
+			<view class="contentImg" style="width: 750rpx;" v-html="shopInfo.content"></view>
 		</view>
 		<view class="bottom">
 			<view class="shopCart" @click="changePath('/pages/shopping/shoppingCart',{})">
@@ -66,20 +67,29 @@
 	import { onLoad } from "@dcloudio/uni-app";
 	import { productDetail } from "@/api/category.js"
 	import { cartSave } from "@/api/cart.js"
+	import { userStore } from "@/store/index.js"
 	onLoad((option) => {
 		getList(option?.id)
 	})
 	const goodsInfo = ref({})
-	const shopInfo = reactive({})
+	const shopInfo = ref({})
 	const addCartForm = reactive({
 		productId: 0,
 		productAttrUnique: "",
 		cartNum: 0
 	})
+	const list = ref([])
 	const getList = (id) => {
 		if(id) {
 			productDetail(id).then(res => {
-				shopInfo.storeName = res.storeName
+				shopInfo.value = res.productInfo
+				// 对content标签img改成image
+				shopInfo.value.content = shopInfo.value.content.replace(/<img\b/gi, '<image');
+				// 对content的src拼接上userStore().systemConfig.picUrlPre
+				shopInfo.value.content = shopInfo.value.content.replace(/(<image[^>]+src=")([^"]+)(")/, `$1${userStore().systemConfig.picUrlPre}$2$3`);
+				shopInfo.value.image = userStore().systemConfig.picUrlPre + shopInfo.value.image
+				// 目前只有一个图片，直接push
+				list.value.push(shopInfo.value.image)
 				goodsInfo.value = res
 				console.log(goodsInfo.value);
 			})
@@ -88,11 +98,6 @@
 	
 	const skuMode = ref(1)
 	// console.log(productValue.value);
-	const list = ref([
-		'https://cdn.uviewui.com/uview/swiper/1.jpg',
-		'https://cdn.uviewui.com/uview/swiper/2.jpg',
-		'https://cdn.uviewui.com/uview/swiper/3.jpg',
-	])
 	const isShow = ref(false)
 	// 加入购物车(0) 立即购买(1)
 	const typeId = ref(0)
@@ -141,12 +146,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.contentImg {
+		width: 750rpx;
+	}
 	.container {
 		background: #f1f1f1;
 		height: 100vh;
 		width: 100%;
 		position: relative;
-
+		
 		.backg-24743C {
 			background: #24743C !important;
 		}

@@ -14,7 +14,7 @@
 
 			<view class="qBOX">
 				<text class="item1">初夏111</text>
-				<text class="item2">&nbsp;&nbsp;17777k1177777</text>
+				<text class="item2">&nbsp;&nbsp;{{store.userInfo?.phone}}</text>
 			</view>
 
 			<text class="address">11111111111111111111111</text>
@@ -27,8 +27,8 @@
 
 		<!-- 第二个卡片盒子 -->
 		<!-- 图片 -->
-		<view class="card-box2">
-			<image src="../../static/img/clothing.png" class="image" mode=""></image>
+		<view class="card-box2" v-for="item in orderList" :key="item.attrValueId">
+			<image :src="item.image" class="image" mode=""></image>
 
 
 			<view class="Msg-kuaidi">
@@ -39,12 +39,12 @@
 			</view>
 
 			<view class="Msg-right">
-				<text class="item1">美特司邦威羽绒服保暖冬季防风保暖...</text>
-				<text class="item2">￥350.00</text>
-				<text class="item3">￥350.00</text>
+				<text class="item1">{{item.productName}}</text>
+				<text class="item2">规格：{{item.sku}}</text>
+				<text class="item3">￥{{item.price}}</text>
 			</view>
 
-			<text class="text-text">x1111</text>
+			<text class="text-text">x{{item.payNum}}</text>
 		</view>
 		<!-- 第二个卡片盒子 -->
 
@@ -96,7 +96,7 @@ height: 40rpx;
 		<view class="card-box5">
 			<view class="item1">
 				<text class="item1-1">总金额:</text>
-				<text class="item1-2">￥11111</text>
+				<text class="item1-2">￥{{countNum}}</text>
 			</view>
 			<view class="button">
 				<view class="button-button" style="color: #FFF1F1;">
@@ -116,7 +116,35 @@ height: 40rpx;
 		ref,
 		toRefs
 	} from "vue";
-
+	import { userStore } from "@/store/index.js"
+	import { info } from "@/api/user.js"
+	import { onLoad } from "@dcloudio/uni-app";
+	import { getPreOrderList } from "@/api/order.js"
+	onLoad((option) => {
+		getOrderList(option?.preOrderNo)
+	})
+	const store = userStore()
+	if(!store.userInfo?.uid) {
+		info().then(res => {
+			store.userInfo = res
+		})
+	}
+	// 保存preOrderNo获取当前商品列表
+	const orderList = ref([])
+	// 总金额
+	const countNum = ref(0)
+	// 根据preOrderNo获取当前商品详情
+	const getOrderList = (preOrderNo) => {
+		getPreOrderList(preOrderNo).then(res => {
+			console.log(res);
+			orderList.value = res.orderInfoVo?.orderDetailList
+			orderList.value.map(item => {
+				item.image = store.systemConfig.picUrlPre + item.image
+			})
+			countNum.value = res.orderInfoVo?.payFee
+		})
+	}
+	
 	// 返回上一级
 	function navigateBack() {
 		wx.navigateBack({

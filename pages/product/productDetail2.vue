@@ -68,6 +68,7 @@
 	import { productDetail } from "@/api/category.js"
 	import { cartSave } from "@/api/cart.js"
 	import { userStore } from "@/store/index.js"
+	import { preOrder } from "@/api/order.js"
 	onLoad((option) => {
 		getList(option?.id)
 	})
@@ -119,9 +120,20 @@
 	}
 	// 选完规格后点击购买
 	const buyNow = (selectShop) => {
-		console.log(selectShop);
-		isShow.value = false
-		changePath('/pages/order/QueRenDingDan',{})
+		// console.log(selectShop);
+		let data = {}
+		data.productId = selectShop.productId
+		data.attrValueId = selectShop.id
+		data.productNum = selectShop.buy_num
+		preOrder({preOrderType: 'buyNow',orderDetails: [data]}).then(({preOrderNo}) => {
+			isShow.value = false
+			changePath('/pages/order/QueRenDingDan',{preOrderNo})
+		},() => {
+			uni.showToast({
+				title:"购买失败",
+				icon:'error'
+			})
+		})
 	}
 	// 选完规格后点击加入购物车
 	const addCart = (selectShop) => {

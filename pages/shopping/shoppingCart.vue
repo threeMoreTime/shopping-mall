@@ -49,9 +49,10 @@
 		watch
 	} from "vue";
 	import {
-	    onLoad
+	    onLoad,
+		onShow
 	  } from "@dcloudio/uni-app";
-	import { cartList } from "@/api/cart.js";
+	import { cartList,cartDelete } from "@/api/cart.js";
 	import {userStore} from "@/store/index.js"
 	const customStyle = {
 		background: '#C4814C',
@@ -61,31 +62,28 @@
 	}
 	const data = reactive({
 		allSelected: false,
-		productList: [{
-				id: 1,
-				name: 'COACH|Studio 漆皮法腋下包COACH|Studio 漆皮法腋下包COACH|Studio 漆皮法腋下包漆皮法腋下包COACH|Studio 漆皮法腋下包',
-				price: 350,
-				nowPrice: 315,
-				count: 1,
-				status: 0,
-				tips: '三个月最低价',
-				img: '../../static/img/clothing.png',
-				selected: false
-			},
-		]
+		productList: []
 	})
 	const {
 		productList,
 		allSelected
 	} = toRefs(data)
-	cartList({isValid: true}).then(res => {
-		// console.log(res);
-		productList.value = res?.list
-		productList.value.map(item => {
-			item.image = userStore().systemConfig?.picUrlPre + item.image
-			item.selected = false
+	const getList = () => {
+		cartList({isValid: true}).then(res => {
+			// console.log(res);
+			productList.value = res?.list
+			// 给每一个项添加一个selected属性
+			productList.value.map(item => {
+				item.image = userStore().systemConfig?.picUrlPre + item.image
+				item.selected = false
+			})
+			// console.log(productList.value);
 		})
-		console.log(productList.value);
+	}
+	getList()
+	// 删除完成返回刷新列表
+	onShow(() => {
+		getList()
 	})
 	const selectedCount = computed(() => productList.value.filter((product) => product.selected).length)
 	const selecteds = computed(() => selectedCount.value === productList.value.length)
@@ -112,9 +110,28 @@
 	// 按钮类型 结算(0) 删除(1)
 	const changeBtn = () => {
 		if(typeId.value === 0) {
+			changePath("/pages/order/QueRenDingDan",{})
 			console.log('结算');
 		} else {
 			console.log('删除');
+			// 筛选出打上钩的每一项
+			let ids = productList.value.filter(item => item.selected)
+			// 拿打上钩的每一项的id
+			ids = ids.map(item => item.id)
+			if(ids.length > 0) {
+				cartDelete(ids).then(res => {
+					uni.showToast({
+						title:"删除成功",
+						icon:"success"
+					})
+					getList()
+				},err => {
+					uni.showToast({
+						title:"删除失败",
+						icon:"error"
+					})
+				})
+			}
 		}
 	}
 	onLoad((option) => {

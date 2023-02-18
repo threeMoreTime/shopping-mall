@@ -12,7 +12,9 @@
 						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 0})"></u-cell-item>
 					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="安全设置"
 						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 1})"></u-cell-item>
-					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="地址管理"></u-cell-item>
+					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="地址管理"
+						@click="changePath('../../../pages/user/shoHuoDiZhi',{})"
+					></u-cell-item>
 					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="银行信息"
 						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 3})"></u-cell-item>
 					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="微信收款码"></u-cell-item>

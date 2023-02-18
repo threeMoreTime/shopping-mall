@@ -110,13 +110,8 @@
 		'color': '#FFFFFF',
 	}
 	const userForm = reactive({
-<<<<<<< HEAD
 		phone: '17730856654',
 		password: 'm123456',
-=======
-		phone: '',
-		newPassword: '',
->>>>>>> 314d52340d6c553ccf806d716976f6234e9c6851
 		code: ''
 	})
 	// type值类型 登录(0)  修改密码(1) 设置新密码(2) 绑定手机号(3) 更换手机号(4) 请输入手机号码(5)

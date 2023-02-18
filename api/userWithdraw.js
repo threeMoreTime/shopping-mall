@@ -23,10 +23,10 @@ export const tixianjilu = (params) => {
 }
 
 
-// 提现申请相关金额  体现中  已提现
-export const tixianxiangguanjiner = () => {
-  return request({
-    url: '/client/user/extract/getExtractMoneyInfo'
+// // 提现申请相关金额  体现中  已提现
+// export const tixianxiangguanjiner = () => {
+//   return request({
+//     url: '/client/user/extract/getExtractMoneyInfo'
 
-  })
-}
+//   })
+// }

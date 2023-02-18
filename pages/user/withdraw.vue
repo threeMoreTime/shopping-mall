@@ -51,6 +51,7 @@
 </template>
 
 <script setup>
+import { nextTick } from "vue";
   name:'user1111111'
    import { onLoad} from "@dcloudio/uni-app"
    import { ref ,reactive } from 'vue'
@@ -67,9 +68,9 @@ onLoad(()=>{
 // 表单数据
 const FormData=reactive({
  // extractType: 'weixin', //收款银行
- extractType: '微信', //收款银行
+ extractType: 'alipay', //收款银行
  extractTarget: 1, // 银行卡号
- name: store.userInfo.realName,// 开户名
+name: store.userInfo.realName,// 开户名,
  qrcodeUrl:'' ,//密码
  money:null //金额
 

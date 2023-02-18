@@ -13,7 +13,7 @@
         </view>
         <view class="listBox">
           <!-- for -->
-          <view class="listItem"  v-for="(item,index) in list">
+          <view class="listItem" v-for="(item,index) in list">
             <view class="flex-col">
               <text class="title-color-000">{{`${item.status}`}}</text>
               <text class="text-color">{{item.createTime}}</text>
@@ -72,7 +72,7 @@
   import {
     tixianjilu
   } from '@/api/userWithdraw.js' //  * 前台-用户-提现 api
-  
+
   onLoad((option) => {
     // console.log(option)
     type.value = option?.typeId ? parseInt(option.typeId) : 0
@@ -95,52 +95,50 @@
 
 
 
-// 传的参数
+  // 传的参数
   let GETpageForm = reactive({
     page: 1, //页码
-    limit: 20,// 限制数量
-    total:null ,//总数
-    totalPage:null
+    limit: 20, // 限制数量
+    total: null, //总数
+    totalPage: null
   })
-   let list=ref([]) //list 数据
+  let list = ref([]) //list 数据
   // 获取 提现记录数据
   const GETtixianjilu = async () => {
     try {
       const res = await tixianjilu(GETpageForm)
       // console.log(res);
-    GETpageForm.limit= res.limit // 限制数量
-       GETpageForm.limit= res.page ,
-          GETpageForm.limit= res.total ,
-          GETpageForm.totalPage= res.totalPage
-          // console.log(res);
-            //list 数据
-          res.list.forEach(item =>{      // 第1层循环
-             item.list.forEach(item1=>{  // 第2层循环
+      GETpageForm.limit = res.limit // 限制数量
+      GETpageForm.limit = res.page,
+        GETpageForm.limit = res.total,
+        GETpageForm.totalPage = res.totalPage
+      // console.log(res);
+      //list 数据
+      res.list.forEach(item => { // 第1层循环
+        item.list.forEach(item1 => { // 第2层循环
           list.value.push(item1) //追加进去 {} {}每一项数据
-             })
-           })
-          // console.log(list.value);  
-          // 处理status 的状态
-          list.value.forEach(item=>{
-          switch (item.status){
-            case -1:
-            item.status='未通过'
-              break;
-              case 0:
-              item.status='审核中'
-                break;
-                case 1:
-                item.status='已提现'
-                  break;   
-          }
-          })
-          
+        })
+      })
+      // console.log(list.value);  
+      // 处理status 的状态
+      list.value.forEach(item => {
+        switch (item.status) {
+          case -1:
+            item.status = '未通过'
+            break;
+          case 0:
+            item.status = '审核中'
+            break;
+          case 1:
+            item.status = '已提现'
+            break;
+        }
+      })
+
     } catch (e) {
       console.log(e);
     }
   }
-  
-
 </script>
 
 <style lang="scss" scoped>

@@ -44,7 +44,7 @@ export const login = (data) => {
 export const info = () => {
 	return request({
 		url: '/client/user/info',
-		method: 'GET'
+		method: 'GET',
 	})
 }
 

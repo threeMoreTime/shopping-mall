@@ -37,12 +37,18 @@
 </template>
 
 <script setup>
+    import {
+      onLoad
+    } from "@dcloudio/uni-app";
 	import {
 		changePath
 	} from "@/utils/navigate.js"
 	import {
 		logout
 	} from "@/api/user.js"
+import { functions } from "lodash";
+
+    
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -62,6 +68,8 @@
 			})
 		})
 	}
+  
+  
 </script>
 
 <style lang="scss" scoped>

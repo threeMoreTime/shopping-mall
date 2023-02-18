@@ -29,7 +29,8 @@
 				</u-form-item>
 				<u-form-item style="position: relative;" label="默认地址" class="item" label-width="130"
 					labelPosition="left" :borderBottom="false">
-					<u-switch style="position: absolute;right: 0;" v-model="form.checked" active-color="#24743c">
+					<u-switch style="position: absolute;right: 0;" v-model="form.checked" active-color="#24743c"
+						@change='changeDef'>
 					</u-switch>
 				</u-form-item>
 			</u-form>
@@ -60,7 +61,8 @@
 	import {
 		list,
 		detail,
-		edit
+		edit,
+		set
 	} from "@/api/userAddress.js"
 
 	// 返回上一级
@@ -75,22 +77,38 @@
 		ShoJi: '',
 		diZhi: '',
 		XiangXiDizhi: '',
-		checked: true,
-		province:'',
-		city:'',
+		checked: false,
+		province: '',
+		city: '',
 		district: ''
 	})
-  const id = ref()
+	const id = ref()
+	const type = ref()
 	const detailInfo = ref()
 	onLoad((option) => {
+		console.log('option', option)
 		id.value = option.id
-		addressDetail(id.value)
+		type.value = option.type
+		if (type.value == 1) {
+			addressDetail(id.value)
+		}
 	})
 
+	const changeDef = (e) => {
+		if (form.checked == true) {
+			set(id.value).then(res => {
+				uni.showToast({
+					title: '默认地址设置成功！',
+					icon: "success"
+				})
+			})
+			return false
+		}
+	}
 	const addressDetail = (id) => {
 		detail(id).then(res => {
 			detailInfo.value = res
-			let {realName, phone, detail, province, city, district, isDefault} = detailInfo.value
+			let {realName,phone,detail,province,city,district,isDefault} = detailInfo.value
 			form.name = realName
 			form.ShoJi = phone
 			form.diZhi = province + city + district
@@ -98,10 +116,41 @@
 			form.checked = isDefault
 		})
 	}
-	
+
 	const save = () => {
-		console.log(0)
-		
+		let params = {}
+		if (type.value == 1) {
+			params = {
+				id: id.value,
+				realName: form.name,
+				phone: form.ShoJi,
+				detail: form.XiangXiDizhi,
+				isDefault: form.checked,
+				address: {
+					province: '广东省',
+					city: '深圳市',
+					district: '南山区',
+				}
+			}
+		} else {
+			params = {
+				realName: form.name,
+				phone: form.ShoJi,
+				detail: form.XiangXiDizhi,
+				isDefault: form.checked,
+				address: {
+					province: '广东省',
+					city: '深圳市',
+					district: '南山区',
+				}
+			}
+		}
+		edit(params).then(res => {
+			uni.showToast({
+				title: '地址保存成功！',
+				icon: "success"
+			})
+		})
 	}
 </script>
 

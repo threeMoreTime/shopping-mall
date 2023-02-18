@@ -65,11 +65,17 @@
 	} from "@/utils/navigate.js"
 	import { onLoad } from "@dcloudio/uni-app";
 	import { productDetail } from "@/api/category.js"
+	import { cartSave } from "@/api/cart.js"
 	onLoad((option) => {
 		getList(option?.id)
 	})
 	const goodsInfo = ref({})
 	const shopInfo = reactive({})
+	const addCartForm = reactive({
+		productId: 0,
+		productAttrUnique: "",
+		cartNum: 0
+	})
 	const getList = (id) => {
 		if(id) {
 			productDetail(id).then(res => {
@@ -114,13 +120,23 @@
 	}
 	// 选完规格后点击加入购物车
 	const addCart = (selectShop) => {
-		console.log(selectShop);
-		isShow.value = false
-		// changePath('/pages/order/QueRenDingDan',{})
-		uni.showToast({
-			title: "加入购物车成功",
-			icon:'success'
+		addCartForm.productId = selectShop.productId
+		addCartForm.productAttrUnique = selectShop.id
+		addCartForm.cartNum = selectShop.buy_num
+		cartSave(addCartForm).then(res => {
+			uni.showToast({
+				title: "加入购物车成功",
+				icon:'success'
+			})
+			isShow.value = false
+		},err => {
+			uni.showToast({
+				title: "加入购物车失败",
+				icon:'error'
+			})
 		})
+		// changePath('/pages/order/QueRenDingDan',{})
+		
 	}
 </script>
 

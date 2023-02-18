@@ -15,24 +15,13 @@
           <!-- for -->
           <view class="listItem"  v-for="(item,index) in list">
             <view class="flex-col">
-              <text class="title-color-000">{{1111}}</text>
+              <text class="title-color-000">{{`${item.status}`}}</text>
               <text class="text-color">{{item.createTime}}</text>
             </view>
             <text>{{item.balanceManageIntegral}}</text>
             <view class="flex-col flex-col-end">
               <text class="title-color-000" style="font-weight: bold;">￥{{item.extractPrice}}</text>
               <text class="text-color">{{item.extractType}}</text>
-            </view>
-          </view>
-          <view class="listItem">
-            <view class="flex-col">
-              <text class="title-color-000 title-color-red">已驳回</text>
-              <text class="text-color">2023-01-03 09:50:35</text>
-            </view>
-            <text>购物积分</text>
-            <view class="flex-col flex-col-end">
-              <text class="title-color-000" style="font-weight: bold;">￥10.00</text>
-              <text class="text-color">银行卡</text>
             </view>
           </view>
         </view>
@@ -89,7 +78,7 @@
     type.value = option?.typeId ? parseInt(option.typeId) : 0
     GETtixianjilu()
   })
-  
+
   // 当前页面的类型 提现记录(0) 兑换记录(1) 
   const type = ref(0)
   // 当前页面的类型名称
@@ -124,13 +113,28 @@
           GETpageForm.limit= res.total ,
           GETpageForm.totalPage= res.totalPage
           // console.log(res);
-
+            //list 数据
           res.list.forEach(item =>{      // 第1层循环
              item.list.forEach(item1=>{  // 第2层循环
           list.value.push(item1) //追加进去 {} {}每一项数据
              })
            })
           // console.log(list.value);  
+          // 处理status 的状态
+          list.value.forEach(item=>{
+          switch (item.status){
+            case -1:
+            item.status='未通过'
+              break;
+              case 0:
+              item.status='审核中'
+                break;
+                case 1:
+                item.status='已提现'
+                  break;   
+          }
+          })
+          
     } catch (e) {
       console.log(e);
     }

@@ -143,7 +143,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 				'orderNo': res.orderNo,
 				'payChannel': orderFrom.payChannel
 			}).then(res => {
-				console.log(res);
+				// console.log(res);
 				if(res.tradeAppRequestBody != "")
 				uni.requestPayment({
 					provider: orderFrom.payType,

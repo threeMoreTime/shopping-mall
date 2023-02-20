@@ -46,7 +46,7 @@
 
   // 返回上一级
   function navigateBack() {
-    wx.navigateBack({
+    uni.navigateBack({
       delta: 1
     })
   }

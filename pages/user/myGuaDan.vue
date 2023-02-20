@@ -202,7 +202,7 @@ opacity: 0.17;
   
   // 返回上一级wx
   function navigateBack() {
-    wx.navigateBack({
+    uni.navigateBack({
       delta: 1
     })
   }

@@ -24,7 +24,7 @@ font-weight: bold;
 color: #E30000;
 line-height: 24rpx;
         padding-top:10rpx;
-">￥11111</text>
+">￥{{payCount}}</text>
         <text style="
     text-align: center;
   width: 100%;
@@ -33,49 +33,30 @@ font-size: 20rpx;
 font-weight: 400;
 color: #010101;
     padding-top:10rpx;
-line-height: 24rpx;">商品价格￥1111+加工费￥0</text>
+line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
       </view>
     </view>
     <!-- 第一个卡片盒子 -->
 
     <!-- 第2个卡片盒子 -->
-    <view class="Box-2">
-      <text class="text">选择支付方式</text>
-      <!-- 单选按钮 -->
-      <view class="radio">
-        <u-form :model="form" ref="uForm">
-          <u-form-item>
-            <u-radio-group v-model="value" @change="radioGroupChange" style="display: flex; flex-direction: column; margin-left:500rpx;">
-              <u-radio :name="item" :disabled="item.disabled"
-               v-for="(item, index) in list" :key="index"
-               style="width:50rpx ; height:55rpx;position: relative; bottom: 20rpx; "
-               >
-              </u-radio>
-            </u-radio-group>
-          </u-form-item>
-        </u-form>
 
-<view class="box-box-msg">
-  <text>支付宝</text>
-  <text>微信支付</text>
-  <text>兑换卷加管理积分</text>
-</view>
-      </view>
+	<view class="payType">
+		<text style="color: #8F8F8F;">选择支付方式</text>
+		<view class="payList">
+			<view class="palItem" v-for="item in list" :key="item.id" @click="handlePay(item)">
+				<view class="iconAndName">
+					<image class="iconBg" :src="item.bgIcon" mode=""></image>
+					<text>{{item.name}}</text>
+				</view>
+				<view class="select" :class="[bgIndexId === item.id ? 'selectActivate' : '']"></view>
+			</view>
+		</view>
+	</view>
 
-
-    </view>
     <!-- 第2个卡片盒子 -->
 
-    <!-- 3个图标 -->
-    <view class="tuBiao-Box">
-      <view class="item1"></view>
-      <view class="item2"></view>
-      <view class="item3"></view>
-    </view>
-    <!-- 3个图标 -->
-
     <!-- 保存按钮 -->
-    <view class="BOX-bottom1">
+    <view class="BOX-bottom1" @click="clickBuy">
       <text>确定支付</text>
     </view>
     <!-- 保存按钮 -->
@@ -83,46 +64,103 @@ line-height: 24rpx;">商品价格￥1111+加工费￥0</text>
 </template>
 <script setup>
   import {
+	  computed,
     reactive,
     ref,
     toRefs
   } from "vue";
-
+	import { onLoad } from "@dcloudio/uni-app";
+	import {createOrder} from "@/api/order.js"
+	
+	onLoad((option) => {
+		// console.log(option);
+		preOrderNo.value = option?.preOrderNo
+		oldPre.value = +(option?.countNum)
+		freightFee.value = +(option?.freightFee)
+		// 默认执行一次，让函数初始化
+		handlePay({})
+	})
+	
   // 返回上一级
   function navigateBack() {
-    wx.navigateBack({
+    uni.navigateBack({
       delta: 1
     })
   }
-
-
+  // 商品未加上运费的价格
+  const oldPre = ref(0)
+  // 运费
+  const freightFee = ref(0)
+  // 总计
+  const payCount = computed(() => {
+	  return oldPre.value + freightFee.value
+  })
+  // 订单号
+  const preOrderNo = ref(null)
   // 单选按钮 
-  const value = ref('支付宝') //默认选中
+  const bgIndexId = ref(1) //默认选中
   const list = ref(
     [{
+		id: 1,
         name: '支付宝',
-        disabled: false
+		payChannel: 'alipay',
+		payType: 'alipay',
+		bgIcon: '../../static/img/AlipayActivate.png'
       },
       {
+		id: 2,
         name: '微信支付',
-        disabled: false
+		payChannel: 'weixin',
+		payType: 'wxpay',
+		bgIcon: '../../static/img/WeChatactivAte.png'
       },
       {
+		id: 3,
         name: '兑换卷加管理积分',
-        disabled: false
+		payChannel: 'bank',
+		payType: '',
+		bgIcon: '../../static/img/ooooooooooo.png'
       }
     ]
   )
-
-  // 选中某个单选框时，由radio时触发
-  function radioChange(e) {
-    console.log(e);
+  const orderFrom = reactive({})
+  const handlePay = ({
+	  id = 1,
+	  name = "支付宝",
+	  payChannel = 'alipay',
+	  payType = 'alipay'
+	  }) => {
+	  bgIndexId.value = id
+	  orderFrom.preOrderNo = preOrderNo.value
+	  orderFrom.payChannel = payChannel
+	  orderFrom.payType = payType
+	  orderFrom.mark = ''
+  }
+  const clickBuy = () => {
+	  createOrder(orderFrom).then(res => {
+			// console.log(res,'createOrder');
+			uni.requestPayment({
+				provider: orderFrom.payType,
+				orderInfo: orderFrom.preOrderNo,
+				success: (res) => {
+					console.log(res);
+					uni.showLoading({
+						title: "支付成功"
+					})
+					setTimeout(function () {
+						uni.hideLoading();
+					}, 2000);
+				},
+				fail: () => {
+					uni.showToast({
+						title: "支付失败",
+						icon:"error"
+					})
+				}
+			})
+	  	})
   }
 
-  // 选中任一radio时，由radio-group触发
-  function radioGroupChange(e) {
-    console.log(e);
-  }
 </script>
 <style lang="scss" scoped>
   .bg {
@@ -130,6 +168,48 @@ line-height: 24rpx;">商品价格￥1111+加工费￥0</text>
     width: 100%;
     background: #24743C;
     height: 176rpx;
+	.payType {
+		padding: 14rpx 30rpx;
+		margin: 26rpx auto;
+		width: 688rpx;
+		background: #FFFFFF;
+		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+		border-radius: 20rpx;
+		font-size: 28rpx;
+		font-weight: 400;
+		.palItem {
+			margin-bottom: 32rpx;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.iconAndName {
+				display: flex;
+				align-items: center;
+			}
+			.iconBg {
+				margin-right: 30rpx;
+				width: 40rpx;
+				height: 40rpx;
+			}
+			.select {
+				width: 30rpx;
+				height: 30rpx;
+				background: #FFFFFF;
+				border-radius: 50%;
+				border: 2rpx solid #BEBEBE;
+			}
+			.selectActivate {
+				width: 32rpx;
+				height: 32rpx;
+				background: url("@/static/img/successArrow.png") 100% no-repeat;
+				background-size: 100% 100%;
+				border: 0rpx solid #24743C;
+			}
+		}
+		.payList {
+			margin-top: 34rpx;
+		}
+	}
 .box-box-msg{
   position: absolute;
   top :88rpx;
@@ -230,9 +310,9 @@ text{
     }
 
     .BOX-bottom1 {
-      margin-top: 662rpx;
-      position: absolute;
-      // bottom: 12rpx;
+      // margin-top: 662rpx;
+      position: fixed;
+      bottom: 12rpx;
       left: 32rpx;
       width: 686rpx;
       height: 80rpx;
@@ -263,7 +343,7 @@ text{
         width: 39rpx;
         height: 39rpx;
         background: #5A9EF7;
-        background: url('../../static/img/Alipay.png') 100% no-repeat;
+        background: url('../../static/img/AlipayActivate.png') 100% no-repeat;
         background-size: 100% 100%;
 
       }
@@ -275,7 +355,7 @@ text{
         height: 38rpx;
         background: #61AF4A;
 
-        background: url('../../static/img/successArrow.png') 100% no-repeat;
+        background: url('../../static/img/WeChatactivAte.png') 100% no-repeat;
         background-size: 100% 100%;
       }
 

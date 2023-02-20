@@ -34,15 +34,15 @@
         <view class="property">
           <view class="propertyTop">
             <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
-              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.vouchers || vouchers}}</text>
+              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.vouchers || 0}}</text>
               <text class="title" style="font-weight: 400; font-size: 24rpx;">兑换券</text>
             </view>
             <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',3)">
-              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.energy || energy}}</text>
+              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.energy || 0}}</text>
               <text class="title" style="font-weight: 400; font-size: 24rpx;">能量值</text>
             </view>
             <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',4)">
-              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.cang || cang}}</text>
+              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.cang || 0}}</text>
               <text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
             </view>
           </view>
@@ -53,7 +53,7 @@
             </view>
             <view class="borderBg"></view>
             <view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
-              <text class="integral">{{store.userInfo.manageIntegral || manageIntegral}}</text>
+              <text class="integral">{{store.userInfo.manageIntegral || 0}}</text>
               <text class="title">管理积分</text>
             </view>
           </view>
@@ -184,7 +184,7 @@
   } from "@dcloudio/uni-app";
   onLoad(
     () => {
-      GETinfo()
+      getUserInfo()
     }
   )
 
@@ -247,27 +247,13 @@
     }
   }
 
-
-
-
-  let vouchers = ref(0)//卷
-  let manageIntegral = ref(0)    //管理积分
-  let cang = ref(0) //仓单
-  let energy = ref(0) //能量
-  // get用户详情信息
-  const GETinfo = async () => {
-    try {
-      const res = await info()
-      console.log(res);
-      vouchers.value= res.vouchers
-       manageIntegral.value= res.manageIntegral
-        cang.value= res.cang
-         energy.value= res.energy
-    } catch (e) {
-      console.log(e);
-      //TODO handle the exception
-    }
+  // 获取用户详情信息
+  const getUserInfo = () => {
+	  info().then(res => {
+		  store.userInfo = res
+	  })
   }
+
 </script>
 
 <style lang="scss" scoped>

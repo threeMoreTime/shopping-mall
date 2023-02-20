@@ -49,7 +49,7 @@
 		<!-- 第二个卡片盒子 -->
 
 		<!-- 第三个卡片盒子 -->
-		<view class="card-box3">
+		<!-- <view class="card-box3">
 			<text style="
 height: 40rpx;
 font-size: 28rpx;
@@ -67,7 +67,7 @@ height: 40rpx;
 					@confirm="changePayWay"></u-select>
 				<text class="text-tubiao">></text>
 			</view>
-		</view>
+		</view> -->
 
 		<!-- 第三个卡片盒子 -->
 
@@ -75,17 +75,17 @@ height: 40rpx;
 
 		<view class="card-box4">
 			<view class="item-Box1">
-				<text>订单类型</text>
-				<text>加工费用</text>
-				<text>保价类型</text>
-				<text>保价费用</text>
+				<!-- <text>订单类型</text> -->
+				<!-- <text>加工费用</text> -->
+				<!-- <text>保价类型</text> -->
+				<text>订单备注</text>
 				<text>运费</text>
 			</view>
 
 			<view class="item-Box2">
-				<text>兑换订单</text>
-				<text>￥0</text>
-				<text>顺丰保价</text>
+				<!-- <text>兑换订单</text> -->
+				<!-- <text>￥0</text> -->
+				<!-- <text>顺丰保价</text> -->
 				<text>到付</text>
 				<text>￥{{freightFee || 0}}</text>
 			</view>
@@ -161,6 +161,8 @@ height: 40rpx;
 	const orderList = ref([])
 	// 总金额
 	const countNum = ref(0)
+	// 商品未加上运费的价格
+	const oldPre = ref(0)
 	// 运费
 	const freightFee = ref(null)
 	// 预订单id
@@ -168,8 +170,9 @@ height: 40rpx;
 	// 根据preOrderNo获取当前商品详情
 	const getOrderList = (preOrderNo) => {
 		getPreOrderList(preOrderNo).then(res => {
-			console.log(res);
+			// console.log(res);
 			orderList.value = res.orderInfoVo?.orderDetailList
+			oldPre.value = res.orderInfoVo?.proTotalFee
 			orderList.value.map(item => {
 				item.image = store.systemConfig.picUrlPre + item.image
 			})
@@ -183,12 +186,19 @@ height: 40rpx;
 				title:"请填写收货地址",
 				icon:"error"
 			})
+		} else {
+			changePath("/pages/order/ZhiFuDingDan",
+				{
+					'preOrderNo': preOrder.value,
+					'countNum': oldPre.value,
+					'freightFee': freightFee.value
+				})
 		}
 	}
 	
 	// 返回上一级
 	function navigateBack() {
-		wx.navigateBack({
+		uni.navigateBack({
 			delta: 1
 		})
 	}
@@ -465,7 +475,7 @@ height: 40rpx;
 		.card-box4 {
 			margin: 24rpx 0 0 32rpx;
 			width: 686rpx;
-			height: 350rpx;
+			// height: 350rpx;
 			background: #FFFFFF;
 			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 			border-radius: 16rpx 16rpx 16rpx 16rpx;
@@ -483,7 +493,7 @@ height: 40rpx;
 				align-content: space-between;
 				// padding: 32rpx 0;
 				width: 50%;
-				height: 300rpx;
+				// height: 300rpx;
 				font-size: 28rpx;
 				// font-family: PingFang SC-Regular, PingFang SC;
 				font-weight: 400;
@@ -493,7 +503,8 @@ height: 40rpx;
 
 			.item-Box2 {
 				width: 50%;
-				height: 300rpx;
+				// height: 300rpx;
+				padding-bottom: 30rpx;
 				margin-left: 360rpx;
 				margin-top: 28rpx;
 				display: flex;
@@ -509,19 +520,20 @@ height: 40rpx;
 		}
 
 		.card-box5 {
-			position: relative;
-			margin-top: 282rpx;
+			// position: relative;
+			// margin-top: 282rpx;
+			bottom: 0;
 			width: 750rpx;
 			height: 166rpx;
 			background: #FFFFFF;
 			opacity: 1;
-
+			position: fixed;
 			.item1 {
 				position: relative;
 				margin: 42rpx 0 0 50rpx;
 				height: 56rpx;
 				font-size: 15rpx;
-				// padding-bottom:720rpx ;
+				padding-bottom:720rpx ;
 				width: 80rpx;
 
 
@@ -537,7 +549,7 @@ height: 40rpx;
 
 			.button {
 				position: absolute;
-				bottom: 110rpx;
+				bottom: 70rpx;
 				right: 32rpx;
 				width: 222rpx;
 				height: 80rpx;

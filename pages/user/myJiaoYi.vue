@@ -211,7 +211,7 @@ padding-top: 4rpx;
   
   // 返回上一级wx
   function navigateBack() {
-    wx.navigateBack({
+    uni.navigateBack({
       delta: 1
     })
   }

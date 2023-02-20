@@ -158,7 +158,7 @@
 				codeNumber.value = 60
 				isDisabled.value = false
 			}
-		}, 500)
+		}, 1000)
 		if(codeNumber.value == 60) {
 			sendCode(userForm).then(res => {
 				uni.showToast({

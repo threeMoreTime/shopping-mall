@@ -23,3 +23,11 @@ export const edit = (data) => {
 	}, data)
 }
 
+// 获取默认地址
+export const defaultAddress = () => {
+	return request({
+		url: '/client/user/address/default',
+		method: 'GET'
+	})
+}
+

@@ -64,7 +64,6 @@
 		edit,
 		set
 	} from "@/api/userAddress.js"
-
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -87,9 +86,9 @@
 	const detailInfo = ref()
 	const shouAddress = ref('')
 	onLoad((option) => {
-		console.log('option', option)
 		id.value = option.id
 		type.value = option.type
+		console.log('option', option)
 		if (type.value == 1) {
 			addressDetail(id.value)
 			shouAddress.value = '编辑收货物地址'

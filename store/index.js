@@ -4,6 +4,7 @@ import { reactive, ref } from 'vue'
 export const userStore = defineStore('user', () => {
 	const userInfo = reactive({})
 	const token = ref(uni.getStorageSync('token') || '')
+	let storeOrderAddress = {};
 	function setToken(data) {
 		token.value = data;
 		uni.setStorageSync('token', data)
@@ -13,7 +14,7 @@ export const userStore = defineStore('user', () => {
 		appWxPay: false,
 		picUrlPre: 'https://manghemini.oss-cn-shenzhen.aliyuncs.com/'
 	});
-	return { userInfo,token,setToken,systemConfig };
+	return { userInfo,token,setToken,systemConfig,storeOrderAddress };
 });
 
 export const historyStore = defineStore('history', () => {

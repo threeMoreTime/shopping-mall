@@ -4,15 +4,15 @@
 			<view class="arrowsBg" @click="navigateBack"></view>
 			<view class="title">收货地址</view>
 		</view>
-		<view v-for="item in siteList.list" :key="item.id">
+		<view v-for="item in siteList.list" :key="item.id" @click="handlePath(item.id)">
 			<view class="box-card">
 				<text class="box-box-box">{{item.realName}}</text>
 				<text class="item">{{item.phone}}</text>
 				<text class="item2">{{item.detail}}</text>
 				<u-badge type="green" v-show="item.isDefault" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
 				<view class="Box-right">
-					<view class="shanchu" @click="dele(item.id)"></view>
-					<view class="bianji" @click="changePath(1,item.id)"></view>
+					<view class="shanchu" @click.stop="dele(item.id)"></view>
+					<view class="bianji" @click.stop="changePath(1,item.id)"></view>
 				</view>
 			</view>
 		</view>
@@ -33,14 +33,24 @@
 		toRefs
 	} from "vue";
 	import {
-		list,del
+		list,del,detail
 	} from "@/api/userAddress.js"
-
+	import {navigateBack as navigataFun} from "@/utils/navigate.js"
+	import {userStore} from "@/store/index.js"
 	const siteList = ref([])
-	onLoad(() => {
+	onLoad((option) => {
 		addressList()
+		vauleType.value = option?.keyword ? option.keyword : ""
 	})
-
+	const vauleType = ref("")
+	const handlePath = (id) => {
+		if(vauleType.value == "setAddr") {
+			detail(id).then(res => {
+				userStore().storeOrderAddress = res
+				navigataFun()
+			})
+		}
+	}
 	const dele = (id) => {
 		uni.showModal({
 			title: '删除地址',

@@ -13,11 +13,11 @@
 			</view>
 
 			<view class="qBOX">
-				<text class="item1">{{userForm.realName}}</text>
-				<text class="item2">&nbsp;&nbsp;{{userForm.phone}}</text>
+				<text class="item1">{{store.storeOrderAddress.realName}}</text>
+				<text class="item2">&nbsp;&nbsp;{{store.storeOrderAddress.phone}}</text>
 			</view>
 
-			<text class="address">{{userForm.detail}}</text>
+			<text class="address">{{store.storeOrderAddress.detail}}</text>
 
 			<!-- 箭头 -->
 			<text class="youJianTou" @click="btnTo(1)">></text>
@@ -87,7 +87,7 @@ height: 40rpx;
 				<text>￥0</text>
 				<text>顺丰保价</text>
 				<text>到付</text>
-				<text>到付</text>
+				<text>￥{{freightFee || 0}}</text>
 			</view>
 		</view>
 		<!-- 第四个卡片盒子 -->
@@ -120,18 +120,37 @@ height: 40rpx;
 	import { userStore } from "@/store/index.js"
 	import { info } from "@/api/user.js"
 	import { onLoad,onShow } from "@dcloudio/uni-app";
-	import { getPreOrderList } from "@/api/order.js"
+	import { getPreOrderList,getOrderPrice } from "@/api/order.js"
 	import { defaultAddress } from "@/api/userAddress.js"
 	onLoad((option) => {
 		getOrderList(option?.preOrderNo)
-	})
-	onShow(() => {
+		preOrder.value = option?.preOrderNo
 		defaultAddress().then(res => {
-			console.log(res);
-			userForm.value = res
+			if(res) {
+				store.storeOrderAddress = res
+				getOrderPrice(
+					{"preOrderNo": preOrder.value,
+					"addressId": store.storeOrderAddress.id})
+					.then(price => {
+						// console.log(price,"price");
+						countNum.value = price.payFee
+						freightFee.value = price.freightFee
+				})
+			}
 		})
 	})
-	const userForm = ref({})
+	onShow(() => {
+		if(store.storeOrderAddress.id) {
+			getOrderPrice(
+				{"preOrderNo": preOrder.value,
+				"addressId": store.storeOrderAddress.id})
+				.then(price => {
+					// console.log(price,"price");
+					countNum.value = price.payFee
+					freightFee.value = price.freightFee
+			})
+		}
+	})
 	const store = userStore()
 	if(!store.userInfo?.uid) {
 		info().then(res => {
@@ -142,6 +161,10 @@ height: 40rpx;
 	const orderList = ref([])
 	// 总金额
 	const countNum = ref(0)
+	// 运费
+	const freightFee = ref(null)
+	// 预订单id
+	const preOrder = ref(null)
 	// 根据preOrderNo获取当前商品详情
 	const getOrderList = (preOrderNo) => {
 		getPreOrderList(preOrderNo).then(res => {
@@ -150,21 +173,17 @@ height: 40rpx;
 			orderList.value.map(item => {
 				item.image = store.systemConfig.picUrlPre + item.image
 			})
-			countNum.value = res.orderInfoVo?.payFee
+			// countNum.value = res.orderInfoVo?.payFee
 		})
 	}
-	
 	// 点击提交订单
 	const clickBuy = () => {
-		defaultAddress().then(res => {
-			// console.log(res);
-			if(!res) {
-				return uni.showToast({
-					title:"请填写收货地址",
-					icon:"error"
-				})
-			}
-		})
+		if(!store.storeOrderAddress?.id) {
+			return uni.showToast({
+				title:"请填写收货地址",
+				icon:"error"
+			})
+		}
 	}
 	
 	// 返回上一级
@@ -177,7 +196,7 @@ height: 40rpx;
 	// 箭头
 	const btnTo = (id) => {
 		if (id) {
-			changePath("/pages/user/shoHuoDiZhi")
+			changePath("/pages/user/shoHuoDiZhi",{keyword: "setAddr"})
 		}
 	}
 

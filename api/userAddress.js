@@ -1,11 +1,11 @@
 import request from "@/utils/request.js"
 
 // 地址列表
-export const list = () => {
+export const list = (data) => {
 	return request({
 		url: '/client/user/address/list',
 		method: 'GET'
-	})
+	},data)
 }
 // 地址详情
 export const detail = (id) => {

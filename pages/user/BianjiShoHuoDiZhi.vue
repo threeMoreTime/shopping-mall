@@ -2,7 +2,7 @@
 	<view class="bg">
 		<view class="tabs">
 			<view class="arrowsBg" @click="navigateBack"></view>
-			<view class="title">编辑收货地址</view>
+			<view class="title">{{shouAddress}}</view>
 			<view class=""></view>
 		</view>
 
@@ -85,12 +85,16 @@
 	const id = ref()
 	const type = ref()
 	const detailInfo = ref()
+	const shouAddress = ref('')
 	onLoad((option) => {
 		console.log('option', option)
 		id.value = option.id
 		type.value = option.type
 		if (type.value == 1) {
 			addressDetail(id.value)
+			shouAddress.value = '编辑收货物地址'
+		}else{
+			shouAddress.value = '添加收货物地址'
 		}
 	})
 

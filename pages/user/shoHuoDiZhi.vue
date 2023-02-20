@@ -9,7 +9,7 @@
 				<text class="box-box-box">{{item.realName}}</text>
 				<text class="item">{{item.phone}}</text>
 				<text class="item2">{{item.detail}}</text>
-				<u-badge type="green" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
+				<u-badge type="green" v-show="item.isDefault" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
 				<view class="Box-right">
 					<view class="shanchu" @click="dele(item.id)"></view>
 					<view class="bianji" @click="changePath(1,item.id)"></view>

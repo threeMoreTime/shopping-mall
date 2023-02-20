@@ -7,26 +7,26 @@
     </view>
     <view class="box">
       <view class="choiceList" v-if="type === 0">
-        <view class="choiceListItem">
+        <view class="choiceListItem" v-for="(item,index) in list2">
           <view class="top">
-            <text>联创分红</text>
-            <text class="price">-30000.00</text>
+            <text>{{item.title}}</text>
+            <text class="price">{{item.integral}}</text>
           </view>
           <view class="bottom">
-            <text>2023-01-03 09:50:35</text>
-            <text>余额：14000.00</text>
+            <text>{{item.createTime}}</text>
+            <text>余额：{{item.balance}}</text>
           </view>
         </view>
       </view>
       <view class="choiceList" v-if="type === 1">
-        <view class="choiceListItem">
+        <view class="choiceListItem" v-for="(item,index) in list3">
           <view class="top">
-            <text>购买商品</text>
-            <text class="price">-30000.00</text>
+            <text>{{item.title}}</text>
+            <text class="price">{{item.integral}}</text>
           </view>
           <view class="bottom">
-            <text>2023-01-03 09:50:35</text>
-            <text>余额：14000.00</text>
+            <text>{{item.createTime}}</text>
+            <text>余额：{{item.balance}}</text>
           </view>
         </view>
       </view>
@@ -44,26 +44,26 @@
         </view>
       </view>
       <view class="choiceList" v-if="type === 3">
-        <view class="choiceListItem">
+        <view class="choiceListItem" v-for="(item,index) in list4">
           <view class="top">
-            <text>能量值-买单</text>
-            <text class="price">+5000</text>
+            <text>{{item.title}}</text>
+            <text class="price">{{item.quantity}}</text>
           </view>
           <view class="bottom">
-            <text>2023-01-03 09:50:35</text>
-            <text>余额：14000.00</text>
+            <text>{{item.createTime}}</text>
+            <text>余额:{{item.balance}}</text>
           </view>
         </view>
       </view>
       <view class="choiceList" v-if="type === 4">
-        <view class="choiceListItem">
+        <view class="choiceListItem" v-for="(item,index) in list5">
           <view class="top">
-            <text>能量值-买单</text>
-            <text class="price">+5000</text>
+            <text>{{item.title}}</text>
+            <text class="price">{{item.quantity}}</text>
           </view>
           <view class="bottom">
-            <text>2023-01-03 09:50:35</text>
-            <text>余额：14000.00</text>
+            <text>{{item.createTime}}</text>
+            <text>余额：{{item.balance}}</text>
           </view>
         </view>
       </view>
@@ -73,7 +73,11 @@
 
 <script setup>
   import {
-    yuehuanjuan
+    yuehuanjuan,
+    guanlijifen,
+    gouwujifen,
+    nengliangzhi,
+    cangdan
   } from '@/api/userRecordMingxi.js' //   导入api
   import {
     computed,
@@ -88,6 +92,10 @@
     // console.log(option)
     type.value = option?.typeId ? parseInt(option.typeId) : 0
     GETyuehuanjuan()
+    GETguanlijifen()
+      GETgouwujifen()
+      GETnengliangzhi()
+        GETcangdan()
   })
   const type = ref(null)
   // type值对应的页面 管理积分流水(0) 购物积分流水(1) 兑换券流水(2) 能量值流水(3) 仓单流水(4)
@@ -144,7 +152,7 @@
       res.list.forEach(item => {
         list.value.push(item) //追加进去 {} {}每一项数据
       })
-      console.log(list.value)
+      // console.log(list.value)
 
       // 处理 list 下的type 展示
       // let num = ref(null)
@@ -162,6 +170,166 @@
       console.log(e)
     }
   }
+  
+  
+  // 传的参数
+  let GETpageForm2 = reactive({
+    page: 1, //页码
+    limit: 20, // 限制数量
+    total: null, //总数
+    totalPage: null
+  })
+  let list2=ref([])
+  // 获取管理积分
+ const GETguanlijifen = async()=>{
+  try{
+    const res= await guanlijifen(GETpageForm2)   
+  // console.log(res);
+  res.list.forEach(item=>{
+    list2.value.push(item)
+  })
+// console.log(list2.value,'------');
+  list2.value.forEach(item => {
+        switch (item.type) {
+          case 1:
+            item.integral = '+' + item.integral
+            break;
+          case 2:
+            item.integral = '-' + item.integral
+            break;
+        }
+      })
+}catch(e){
+  console.log(e);
+  //TODO handle the exception
+} 
+}
+
+  
+  
+  
+  
+    // 传的参数
+    let GETpageForm3 = reactive({
+      page: 1, //页码
+      limit: 20, // 限制数量
+      total: null, //总数
+      totalPage: null
+    })
+    let list3=ref([])
+  // 购物积分
+  const GETgouwujifen= async()=>{
+    try{
+          const res= await gouwujifen(GETpageForm3)   
+          console.log(res);
+          res.list.forEach(item=>{
+            list3.value.push(item)
+          })
+          
+          list3.value.forEach(item => {
+                switch (item.type) {
+                  case 1:
+                    item.integral = '+' + item.integral
+                    break;
+                  case 2:
+                    item.integral = '-' + item.integral
+                    break;
+                }
+              })
+    }catch(e){
+        console.log(e);
+      //TODO handle the exception
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+ 
+  
+  
+  
+  
+  
+  
+
+
+  // 传的参数
+    let GETpageForm4 = reactive({
+      page: 1, //页码
+      limit: 20, // 限制数量
+      total: null, //总数
+      totalPage: null
+    })
+    let list4=ref([])
+  // 用户仓单记录明细
+  const GETnengliangzhi= async()=>{
+    try{
+          const res= await nengliangzhi(GETpageForm4)   
+          console.log(res);
+          res.list.forEach(item=>{
+            list4.value.push(item)
+          })
+          
+          list4.value.forEach(item => {
+                switch (item.type) {
+                  case 1:
+                    item.quantity = '+' + item.quantity
+                    break;
+                  case 2:
+                    item.quantity = '-' + item.quantity
+                    break;
+                }
+              })
+    }catch(e){
+        console.log(e);
+      //TODO handle the exception
+    }
+  }
+  
+  
+  
+  
+  //  仓单
+  // 传的参数
+    let GETpageForm5 = reactive({
+      page: 1, //页码
+      limit: 20, // 限制数量
+      total: null, //总数
+      totalPage: null
+    })
+    let list5=ref([])
+ 
+  const   GETcangdan= async()=>{
+    try{
+          const res= await cangdan(GETpageForm5)   
+          // console.log(res);
+          res.list.forEach(item=>{
+            list5.value.push(item)
+          })
+          
+          list5.value.forEach(item => {
+                switch (item.type) {
+                  case 1:
+                    item.quantity = '+' + item.quantity
+                    break;
+                  case 2:
+                    item.quantity = '-' + item.quantity
+                    break;
+                }
+              })
+    }catch(e){
+        console.log(e);
+      //TODO handle the exception
+    }
+  }
+  
+  
+  
+  
 </script>
 
 <style lang="scss" scoped>

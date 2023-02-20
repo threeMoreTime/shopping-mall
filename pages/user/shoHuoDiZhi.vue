@@ -4,21 +4,21 @@
 			<view class="arrowsBg" @click="navigateBack"></view>
 			<view class="title">收货地址</view>
 		</view>
-			<view v-for="item in siteList.list" :key="item.id">
-				<view class="box-card">
-					<text class="box-box-box">{{item.realName}}</text>
-					<text class="item">{{item.phone}}</text>
-					<text class="item2">{{item.detail}}</text>
-					<u-badge  type="green" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
-					<view class="Box-right">
-						<view class="shanchu"></view>
-						<view class="bianji" @click="changePath(`/pages/user/BianjiShoHuoDiZhi?id=${item.id}`)"></view>
-					</view>
+		<view v-for="item in siteList.list" :key="item.id">
+			<view class="box-card">
+				<text class="box-box-box">{{item.realName}}</text>
+				<text class="item">{{item.phone}}</text>
+				<text class="item2">{{item.detail}}</text>
+				<u-badge type="green" v-show="item.isDefault" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
+				<view class="Box-right">
+					<view class="shanchu" @click="dele(item.id)"></view>
+					<view class="bianji" @click="changePath(1,item.id)"></view>
 				</view>
 			</view>
+		</view>
 
 		<view class="NewaDdress">
-			<text class="address">新建地址+</text>
+			<text class="address" @click="changePath(2)">新建地址+</text>
 		</view>
 
 	</view>
@@ -32,24 +32,54 @@
 		ref,
 		toRefs
 	} from "vue";
-	import {list} from "@/api/userAddress.js"
-	
+	import {
+		list,del
+	} from "@/api/userAddress.js"
+
 	const siteList = ref([])
 	onLoad(() => {
 		addressList()
 	})
-	
+
+	const dele = (id) => {
+		uni.showModal({
+			title: '删除地址',
+			content: '确认删除地址吗?',
+			success: function(res) {
+				if (res.confirm) {
+					del(id).then(res => {
+						uni.showToast({
+							title: '删除地址成功！',
+							icon: "success"
+						})
+					})
+				} else if (res.cancel) {
+					return true; 
+				}
+			}
+		});
+	}
+	const changePath = (type, id) => {
+		if (type == 1) {
+			uni.navigateTo({
+				url: `/pages/user/BianjiShoHuoDiZhi?id=${id}&type=${type}`
+			})
+		} else {
+			uni.navigateTo({
+				url: `/pages/user/BianjiShoHuoDiZhi?type=${type}`
+			})
+		}
+	}
+
 	// 地址列表
 	const addressList = () => {
 		list().then(res => {
 			siteList.value = res
-			console.log('siteList.value',siteList.value)
+			// console.log('siteList.value', siteList.value)
 		})
 	}
-	
-	
-	
-	
+
+
 	// 返回上一级
 	function navigateBack() {
 		wx.navigateBack({
@@ -58,19 +88,20 @@
 	}
 
 	// 路由跳转
-	const changePath = (path, id) => {
-		if (path) {
-			uni.navigateTo({
-				url: id ? path + '?typeId=' + id : path
-			})
-		}
-	}
+	// const changePath = (path, id) => {
+	// 	if (path) {
+	// 		uni.navigateTo({
+	// 			url: id ? path + '?typeId=' + id : path+'?typeId=add'
+	// 		})
+	// 	}
+	// }
 </script>
 <style lang="scss" scoped>
 	.badge {
-			background-color: #24743c;
-			color: white;
-		}
+		background-color: #24743c;
+		color: white;
+	}
+
 	.bg {
 		position: relative;
 		width: 100%;

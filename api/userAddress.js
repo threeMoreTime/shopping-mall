@@ -11,7 +11,15 @@ export const list = () => {
 export const detail = (id) => {
 	return request({
 		method: 'GET',
-    url: `/client/user/address/detail/${id}`,
+		url: `/client/user/address/detail/${id}`,
+	});
+};
+
+// 删除地址
+export const del = (id) => {
+	return request({
+		method: 'GET',
+		url: `/client/user/address/del/${id}`,
 	});
 };
 
@@ -29,5 +37,13 @@ export const defaultAddress = () => {
 		url: '/client/user/address/default',
 		method: 'GET'
 	})
+}
+
+// 设置默认地址
+export const set = (id) => {
+	return request({
+		method: 'GET',
+		url: `/client/user/address/default/set/${id}`,
+	});
 }
 

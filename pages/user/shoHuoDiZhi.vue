@@ -9,7 +9,8 @@
 				<text class="box-box-box">{{item.realName}}</text>
 				<text class="item">{{item.phone}}</text>
 				<text class="item2">{{item.detail}}</text>
-				<u-badge type="green" v-show="item.isDefault" class="badge" count="默认" style="position: absolute;right: 250rpx;"></u-badge>
+				<u-badge type="green" v-show="item.isDefault" class="badge" count="默认"
+					style="position: absolute;right: 250rpx;"></u-badge>
 				<view class="Box-right">
 					<view class="shanchu" @click="dele(item.id)"></view>
 					<view class="bianji" @click="changePath(1,item.id)"></view>
@@ -17,15 +18,18 @@
 			</view>
 		</view>
 
-		<view class="NewaDdress">
-			<text class="address" @click="changePath(2)">新建地址+</text>
+		<view class="newBg">
+			<view class="NewaDdress">
+				<text class="address" @click="changePath(2)">新建地址+</text>
+			</view>
 		</view>
 
 	</view>
 </template>
 <script setup>
 	import {
-		onLoad
+		onLoad,
+		onReachBottom
 	} from "@dcloudio/uni-app";
 	import {
 		reactive,
@@ -33,14 +37,22 @@
 		toRefs
 	} from "vue";
 	import {
-		list,del
+		list,
+		del
 	} from "@/api/userAddress.js"
 
 	const siteList = ref([])
+	const listPage = reactive({
+		page: 1,
+		limit: 20
+	})
 	onLoad(() => {
 		addressList()
 	})
-
+	// 触底分页
+	// onReachBottom(() => {
+	// 	addressList2()
+	// })
 	const dele = (id) => {
 		uni.showModal({
 			title: '删除地址',
@@ -54,7 +66,7 @@
 						})
 					})
 				} else if (res.cancel) {
-					return true; 
+					return true;
 				}
 			}
 		});
@@ -73,11 +85,20 @@
 
 	// 地址列表
 	const addressList = () => {
-		list().then(res => {
+		list(listPage).then(res => {
 			siteList.value = res
 			// console.log('siteList.value', siteList.value)
 		})
 	}
+	// const addressList2 = () => {
+	// 	let params = {
+	// 		page: listPage.page + 1,
+	// 		limit:20
+	// 	}
+	// 	list(params).then(res => {
+	// 		siteList.value = res
+	// 	})
+	// }
 
 
 	// 返回上一级
@@ -100,6 +121,7 @@
 	.badge {
 		background-color: #24743c;
 		color: white;
+		z-index: -100;
 	}
 
 	.bg {
@@ -135,7 +157,7 @@
 
 
 		.box-card {
-			margin: 52rpx 0 0 32rpx;
+			margin: 52rpx 0 0rpx 32rpx;
 			width: 686rpx;
 			height: 174rpx;
 			background: #FFFFFF;
@@ -209,26 +231,32 @@
 
 		}
 
-		.NewaDdress {
-			margin-left: 32rpx;
-			margin-top: 1050rpx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 686rpx;
-			height: 72rpx;
-			background: #24743C;
-			border-radius: 16rpx 16rpx 16rpx 16rpx;
-			opacity: 1;
+		.newBg {
+			width: 100%;
+			height: 172rpx;
+			position: fixed;
+			bottom: 0;
+			background-color: #FFFFFF;
+			.NewaDdress {
+				width: 686rpx;
+				height: 72rpx;
+				background: #24743C;
+				border-radius: 16rpx 16rpx 16rpx 16rpx;
+				margin: 20rpx auto;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 
-			.address {
-				// width: 130rpx;
-				height: 40rpx;
-				font-size: 28rpx;
-				font-weight: 400;
-				color: #FFFFFF;
-				line-height: 40rpx;
+				.address {
+					height: 40rpx;
+					font-size: 28rpx;
+					font-weight: 400;
+					color: #FFFFFF;
+					line-height: 40rpx;
+					text-align: center;
+				}
 			}
+
 		}
 	}
 </style>

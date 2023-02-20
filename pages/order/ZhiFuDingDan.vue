@@ -70,7 +70,8 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
     toRefs
   } from "vue";
 	import { onLoad } from "@dcloudio/uni-app";
-	import {createOrder} from "@/api/order.js"
+	import {createOrder,payPayment} from "@/api/order.js"
+	import {changePath} from "@/utils/navigate.js"
 	
 	onLoad((option) => {
 		// console.log(option);
@@ -138,26 +139,37 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
   }
   const clickBuy = () => {
 	  createOrder(orderFrom).then(res => {
-			// console.log(res,'createOrder');
-			uni.requestPayment({
-				provider: orderFrom.payType,
-				orderInfo: orderFrom.preOrderNo,
-				success: (res) => {
-					console.log(res);
-					uni.showLoading({
-						title: "支付成功"
-					})
-					setTimeout(function () {
-						uni.hideLoading();
-					}, 2000);
-				},
-				fail: () => {
-					uni.showToast({
-						title: "支付失败",
-						icon:"error"
-					})
-				}
+			payPayment({
+				'orderNo': res.orderNo,
+				'payChannel': orderFrom.payChannel
+			}).then(res => {
+				console.log(res);
+				if(res.tradeAppRequestBody != "")
+				uni.requestPayment({
+					provider: orderFrom.payType,
+					orderInfo: res.tradeAppRequestBody,
+					success: (res) => {
+						console.log(res);
+						uni.showLoading({
+							title: "支付成功"
+						})
+						setTimeout(function () {
+							uni.hideLoading();
+							changePath("/pages/order/order",{typeId: 1})
+						}, 2000);
+					},
+					fail: () => {
+						uni.showToast({
+							title: "支付失败",
+							icon:"error"
+						})
+						uni.navigateBack({
+							delta: 2
+						})
+					}
+				})
 			})
+			
 	  	})
   }
 

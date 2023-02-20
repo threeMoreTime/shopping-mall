@@ -83,6 +83,7 @@
 	const getList = (id) => {
 		if(id) {
 			productDetail(id).then(res => {
+				// console.log(res);
 				shopInfo.value = res.productInfo
 				// 对content标签img改成image
 				shopInfo.value.content = shopInfo.value.content.replace(/<img\b/gi, '<image');
@@ -92,7 +93,11 @@
 				// 目前只有一个图片，直接push
 				list.value.push(shopInfo.value.image)
 				goodsInfo.value = res
-				console.log(goodsInfo.value);
+				goodsInfo.value.image = userStore().systemConfig.picUrlPre + goodsInfo.value.image
+				goodsInfo.value.skuList.map(item => {
+					item.image = userStore().systemConfig.picUrlPre + item.image
+				})
+				// console.log(goodsInfo.value);
 			})
 		}
 	}

@@ -115,3 +115,11 @@ export const getHotProduct = (data) => {
     url: `/client/category/product/hot`,
   },data);
 }
+
+/* 订单支付 */
+export const payPayment = (data) => {
+    return request({
+        method: 'POST',
+        url: '/client/user/pay/payment',
+    }, data);
+};

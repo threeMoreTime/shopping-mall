@@ -13,11 +13,11 @@
 			</view>
 
 			<view class="qBOX">
-				<text class="item1">初夏111</text>
-				<text class="item2">&nbsp;&nbsp;{{store.userInfo?.phone}}</text>
+				<text class="item1">{{userForm.realName}}</text>
+				<text class="item2">&nbsp;&nbsp;{{userForm.phone}}</text>
 			</view>
 
-			<text class="address">11111111111111111111111</text>
+			<text class="address">{{userForm.detail}}</text>
 
 			<!-- 箭头 -->
 			<text class="youJianTou" @click="btnTo(1)">></text>
@@ -99,7 +99,7 @@ height: 40rpx;
 				<text class="item1-2">￥{{countNum}}</text>
 			</view>
 			<view class="button">
-				<view class="button-button" style="color: #FFF1F1;">
+				<view class="button-button" style="color: #FFF1F1;" @click="clickBuy">
 					提交订单
 				</view>
 
@@ -116,13 +116,22 @@ height: 40rpx;
 		ref,
 		toRefs
 	} from "vue";
+	import {changePath} from "@/utils/navigate.js"
 	import { userStore } from "@/store/index.js"
 	import { info } from "@/api/user.js"
-	import { onLoad } from "@dcloudio/uni-app";
+	import { onLoad,onShow } from "@dcloudio/uni-app";
 	import { getPreOrderList } from "@/api/order.js"
+	import { defaultAddress } from "@/api/userAddress.js"
 	onLoad((option) => {
 		getOrderList(option?.preOrderNo)
 	})
+	onShow(() => {
+		defaultAddress().then(res => {
+			console.log(res);
+			userForm.value = res
+		})
+	})
+	const userForm = ref({})
 	const store = userStore()
 	if(!store.userInfo?.uid) {
 		info().then(res => {
@@ -145,6 +154,19 @@ height: 40rpx;
 		})
 	}
 	
+	// 点击提交订单
+	const clickBuy = () => {
+		defaultAddress().then(res => {
+			// console.log(res);
+			if(!res) {
+				return uni.showToast({
+					title:"请填写收货地址",
+					icon:"error"
+				})
+			}
+		})
+	}
+	
 	// 返回上一级
 	function navigateBack() {
 		wx.navigateBack({
@@ -155,7 +177,7 @@ height: 40rpx;
 	// 箭头
 	const btnTo = (id) => {
 		if (id) {
-			console.log('---------------');
+			changePath("/pages/user/shoHuoDiZhi")
 		}
 	}
 
@@ -369,7 +391,7 @@ height: 40rpx;
 					font-weight: 400;
 					color: #A8A8A8;
 					line-height: 24rpx;
-					text-decoration: line-through; // 删除线
+					//text-decoration: line-through; // 删除线
 
 				}
 

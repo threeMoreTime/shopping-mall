@@ -121,7 +121,7 @@
 		swiperList.value = banner
 		tabList.value = categorys
 		// console.log(tabList.value);
-		rollText.value = roll[0].info
+		// rollText.value = roll[0].info
 		swiperList.value.map(item => {
 			item.pic = store.systemConfig.picUrlPre + item.pic
 		})

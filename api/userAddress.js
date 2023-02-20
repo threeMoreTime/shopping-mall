@@ -46,3 +46,4 @@ export const set = (id) => {
 		url: `/client/user/address/default/set/${id}`,
 	});
 }
+

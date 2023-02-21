@@ -46,9 +46,11 @@
 	import { products } from "@/api/category.js"
 	import { reactive, ref } from "vue";
 	import { onLoad } from "@dcloudio/uni-app";
+	import { indexSearch } from "@/api/homepage.js"
 	
 	onLoad((option) => {
 		getListById(option.id)
+		getListByKeyword(encodeURIComponent(option.keyword))
 	})
 	
 	const dataForm = reactive({
@@ -69,6 +71,11 @@
 				})
 			})
 		}
+	}
+	const getListByKeyword = (keyword) => {
+		indexSearch(keyword).then(res => {
+			console.log(res);
+		})
 	}
 	// 点击商品跳转到商品详情页
 	const clickShop = (id) => {
@@ -95,7 +102,7 @@
 			if (searchList.value.length > 15) {
 				store.history.splice(15,1)
 			}
-			changePath('/pages/home/searchList/searchList',{keyword: value})
+			changePath('/pages/home/searchList',{keyword: value})
 		} else {
 			return uni.showToast({
 				title: "输入内容不能为空",

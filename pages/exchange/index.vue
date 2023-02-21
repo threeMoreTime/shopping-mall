@@ -3,17 +3,27 @@
     <view class="box" :class="[tabIndex === 2 ? 'box2' : '']">
       <view class="boxTitle">
         <view class="boxTitleItem">
-          <text class="title">2503558</text>
+          <text class="title">{{data.trade_energy_pool}}</text>
           <text class="subheading">能量池</text>
         </view>
         <view class="boxTitleItem">
-          <text class="title">2503558</text>
+          <text class="title">{{data.trade_energy_num}}</text>
           <text class="subheading">能量值</text>
         </view>
-        <view class="boxTitleItem">
+        <view class="boxTitleItem" v-show="tabIndex == 0 || tabIndex == 1">
           <text class="title">￥6.35</text>
           <text class="subheading">价格</text>
         </view>
+		<view class="boxTitleItem" v-show="tabIndex == 2">
+			<view class="top" style="display: flex;flex-direction: column;align-items: center;">
+				<text>￥{{6}}</text>
+				<text>24H量价格/高</text>
+			</view>
+			<view class="bottom" style="display: flex;flex-direction: column;align-items: center;margin-top: 16rpx;">
+				<text>￥{{6}}</text>
+				<text>24H量价格/低</text>
+			</view>
+		</view>
       </view>
       <view class="tabs">
         <view
@@ -200,10 +210,28 @@
 <script setup>
 import { ref, reactive, onMounted, toRefs } from 'vue'
 import { onReady, onLoad } from '@dcloudio/uni-app'
+import { energyConfig } from "@/api/trade.js"
 
 onMounted(() => {
   getServerData()
+  getenergyConfig()
 })
+
+const getenergyConfig = () => {
+	energyConfig().then(({trade_energy_pool,trade_energy_num,trade_energy_price,trade_commission}) => {
+		/* 	查询能量值配置
+			trade_energy_pool->能量池
+			trade_energy_num->能量值
+			trade_energy_price->指导价格
+			trade_commission->手续费
+		*/
+	   data.trade_energy_pool = trade_energy_pool
+	   data.trade_energy_num = trade_energy_num
+	   data.trade_energy_price = trade_energy_price
+	   data.trade_commission = trade_commission
+	})
+}
+
 const dataForm = reactive({
   numberTransaction: null,
   payPassword: null,
@@ -219,6 +247,10 @@ const data = reactive({
   chartData: null,
   isPopupShow: false,
   showIndex: null,
+  trade_energy_pool: null,
+  trade_energy_num: null,
+  trade_energy_price: null,
+  trade_commission: null
 })
 const { chartData, tabList, current, isPopupShow, showIndex } = toRefs(data)
 

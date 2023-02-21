@@ -25,51 +25,31 @@
 		</view>
 		<!-- 第一个卡片盒子 -->
 
-		<!-- 第二个卡片盒子 -->
-		<!-- 图片 -->
-		<view class="card-box2" v-for="item in orderList" :key="item.attrValueId">
-			<image :src="item.image" class="image" mode=""></image>
-
-
-			<view class="Msg-kuaidi">
-				<text class="item1">快递</text>
-				<text class="item2">包邮</text>
-				<text class="item3">订单备注</text>
-				<text class="item4">选填</text>
+		<view class="shopList">
+			<view class="shopItem" v-for="item in orderList" :key="item.attrValueId">
+				<view class="imgAndTitle">
+					<image :src="item.image" mode=""></image>
+					<view class="titleAndText">
+						<text class="u-line-2">{{item.productName}}</text>
+						<view style="display: flex;justify-content: space-between;font-size: 20rpx;color: #A8A8A8;font-weight: 400;padding: 10rpx 0rpx;">
+							<text>规格：{{item.sku}}</text>
+							<text>x{{item.payNum}}</text>
+						</view>
+						<view class="">
+							<text>￥{{item.price}}</text>
+						</view>
+					</view>
+				</view>
+				<view class="expressage">
+					<text class="titles">快递</text>
+					<text style="color: #CFCFCF;">包邮</text>
+				</view>
+				<view class="expressage">
+					<text class="titles">订单备注</text>
+					<text style="color: #CFCFCF;">选填</text>
+				</view>
 			</view>
-
-			<view class="Msg-right">
-				<text class="item1">{{item.productName}}</text>
-				<text class="item2">规格：{{item.sku}}</text>
-				<text class="item3">￥{{item.price}}</text>
-			</view>
-
-			<text class="text-text">x{{item.payNum}}</text>
 		</view>
-		<!-- 第二个卡片盒子 -->
-
-		<!-- 第三个卡片盒子 -->
-		<!-- <view class="card-box3">
-			<text style="
-height: 40rpx;
-font-size: 28rpx;
-font-weight: 400;
-color: #000000;
-">提货方式</text>
-			<view class="" @click="showPayWay = true">
-
-
-				<text style="color: #949494;
-  font-weight: 400;
-height: 40rpx;
-  line-height: 24rpx;">{{payWayName}}</text>
-				<u-select cancel-color="#A4A4A4" confirm-color="#A4A4A4" v-model="showPayWay" :list="list"
-					@confirm="changePayWay"></u-select>
-				<text class="text-tubiao">></text>
-			</view>
-		</view> -->
-
-		<!-- 第三个卡片盒子 -->
 
 		<!-- 第四个卡片盒子 -->
 
@@ -231,7 +211,41 @@ height: 40rpx;
 		width: 100%;
 		height: 176rpx;
 		background: #24743C;
-
+		.shopList {
+			margin: 0 auto;
+			margin-top: 24rpx;
+			width: 684rpx;
+			.shopItem {
+				background: #FFFFFF;
+				box-shadow: 0rpx 8rpx 12rpx 2rpx rgba(0,0,0,0.12);
+				border-radius: 20rpx 20rpx 20rpx 20rpx;
+				margin-bottom: 18rpx;
+				padding: 48rpx 30rpx;
+				font-size: 28rpx;
+				font-weight: 800;
+				.expressage {
+					font-weight: 400;
+					font-size: 24rpx;
+					margin-top: 18rpx;
+					.titles {
+						display: inline-block;
+						width: 126rpx;
+					}
+				}
+				.imgAndTitle {
+					display: flex;
+					align-items: center;
+					.titleAndText {
+						width: 436rpx;
+					}
+				}
+			}
+			image {
+				width: 164rpx;
+				height: 164rpx;
+				margin-right: 30rpx;
+			}
+		}
 		// position: relative;
 		.topHeZi {
 			display: flex;
@@ -400,9 +414,6 @@ height: 40rpx;
 			.Msg-right {
 				display: flex;
 				flex-direction: column;
-				position: absolute;
-				top: 418rpx;
-				margin: 0 0 0 234rpx;
 
 				.item1 {
 					width: 410rpx;
@@ -474,6 +485,7 @@ height: 40rpx;
 
 		.card-box4 {
 			margin: 24rpx 0 0 32rpx;
+			padding-bottom: 150rpx;
 			width: 686rpx;
 			// height: 350rpx;
 			background: #FFFFFF;

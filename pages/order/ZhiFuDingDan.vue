@@ -128,7 +128,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
   const handlePay = ({
 	  id = 1,
 	  name = "支付宝",
-	  payChannel = 'alipay',
+	  payChannel = 'appAlipay',
 	  payType = 'alipay'
 	  }) => {
 	  bgIndexId.value = id

@@ -11,16 +11,16 @@
           <text class="subheading">能量值</text>
         </view>
         <view class="boxTitleItem" v-show="tabIndex == 0 || tabIndex == 1">
-          <text class="title">￥6.35</text>
+          <text class="title">￥{{data.trade_energy_price}}</text>
           <text class="subheading">价格</text>
         </view>
 		<view class="boxTitleItem" v-show="tabIndex == 2">
 			<view class="top" style="display: flex;flex-direction: column;align-items: center;">
-				<text>￥{{6}}</text>
+				<text>￥{{data.highestPrice}}</text>
 				<text>24H量价格/高</text>
 			</view>
 			<view class="bottom" style="display: flex;flex-direction: column;align-items: center;margin-top: 16rpx;">
-				<text>￥{{6}}</text>
+				<text>￥{{data.lowestPrice}}</text>
 				<text>24H量价格/低</text>
 			</view>
 		</view>
@@ -119,19 +119,19 @@
           <view class="particularsLeft">
             <view class="particularsItem">
               <text>收</text>
-              <text>0.00000082</text>
+              <text>{{data.closePrice}}</text>
             </view>
             <view class="particularsItem">
               <text>开</text>
-              <text>0.00000082</text>
+              <text>{{data.openPrice}}</text>
             </view>
             <view class="particularsItem">
               <text>高</text>
-              <text>0.00000082</text>
+              <text>{{data.highestPrice}}</text>
             </view>
             <view class="particularsItem">
               <text>低</text>
-              <text>0.00000082</text>
+              <text>{{data.lowestPrice}}</text>
             </view>
           </view>
           <view class="borderBg"></view>
@@ -210,7 +210,7 @@
 <script setup>
 import { ref, reactive, onMounted, toRefs } from 'vue'
 import { onReady, onLoad } from '@dcloudio/uni-app'
-import { energyConfig } from "@/api/trade.js"
+import { energyConfig,findPrice,findTradeList } from "@/api/trade.js"
 
 onMounted(() => {
   getServerData()
@@ -229,6 +229,21 @@ const getenergyConfig = () => {
 	   data.trade_energy_num = trade_energy_num
 	   data.trade_energy_price = trade_energy_price
 	   data.trade_commission = trade_commission
+	})
+	findPrice().then(({closePrice,highestPrice,lowestPrice,openPrice}) => {
+		/*
+			closePrice 关盘价格
+			highestPrice 最高价格
+			lowestPrice 最低价格
+			openPrice 开盘价格
+		*/
+		data.closePrice = closePrice  
+		data.highestPrice = highestPrice  
+		data.lowestPrice = lowestPrice  
+		data.openPrice = openPrice  
+	})
+	findTradeList().then(res => {
+		console.log(res);
 	})
 }
 
@@ -250,7 +265,11 @@ const data = reactive({
   trade_energy_pool: null,
   trade_energy_num: null,
   trade_energy_price: null,
-  trade_commission: null
+  trade_commission: null,
+  closePrice: null,
+  highestPrice: null,
+  lowestPrice: null,
+  openPrice: null,
 })
 const { chartData, tabList, current, isPopupShow, showIndex } = toRefs(data)
 

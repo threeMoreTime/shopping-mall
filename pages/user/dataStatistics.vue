@@ -18,6 +18,8 @@
 </template>
 
 <script setup>
+	import {dataStatistics} from '@/api/shop.js'
+	import {onLoad} from "@dcloudio/uni-app";
 	import { reactive, toRefs } from 'vue'
 	
 	const data = reactive({
@@ -29,9 +31,27 @@
 			{ title: '购物车商品（件）', value: 0, unit: '件' }
 		]
 	})
-	
+	/**
+	 *  itemNum: 0  		购物车商品
+			likeNum: 0  		店铺收藏量
+			orderNum: 0			订单数
+			turnover: null  成交额
+			visitorNum: null店铺访客 		
+	*/
 	const { list } = toRefs(data)
 	
+	onLoad(()=>{
+		dataList()
+	})
+	const dataList = () => {
+		dataStatistics().then(res => {
+			data.list[0].value = res.turnover
+			data.list[1].value = res.visitorNum
+			data.list[2].value = res.likeNum
+			data.list[3].value = res.orderNum
+			data.list[4].value = res.itemNum
+		})
+	}
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1

@@ -6,60 +6,93 @@
 	</view>
 	<view class="nav">
 		<view 
-			:class="['btn', current === 0  ? 'select' : '']" 
+			:class="['btn', current === 1  ? 'select' : '']" 
 			@click="switchNavigation"
 		>出售中</view>
 		<view 
-			:class="['btn', current === 1  ? 'select' : '']" 
+			:class="['btn', current === 0  ? 'select' : '']" 
 			@click="switchNavigation"
 		>仓库中</view>
 	</view>
-	<view class="card" v-show="current === 0">
-		<view 
-			class="cardHead" 
-			:style="[current === 0 ? 'border-bottom: none; padding-bottom: 0' : '']"
-			>
+	<view class="card" v-show="current === 1" v-for="item in goodsList" :key="item.id">
+		<view class="cardHead" :style="[current === 1 ? 'border-bottom: none; padding-bottom: 0' : '']">
 			<view class="imag">
-				<image class="imag" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"></image>
+				<image class="imag" :src="userStore().systemConfig.picUrlPre + item.image"></image>
 			</view>
 			<view>
-				<view class="title">标题标题标题标题标题标题标题标题</view>
+				<view class="title">{{item.storeName}}</view>
 				<view class="text">
-					<text>销量：123</text>
-					<text>库存：123</text>
+					<text>销量：{{item.sales}}</text>
+					<text>库存：{{item.stock}}</text>
 				</view>
 				<view class="amount">
-					<text class="money">￥315.00</text>
+					<text class="money">￥{{item.price}}</text>
 					<text class="quantity">x1</text>
 				</view>
 			</view>			
 		</view>
-		<view class="cardFooter" v-show="current === 1">
+		<view class="empty" v-if="current === 1 && goodsList.length == 0">
+			<view>亲，还没有任何商品哦</view>
+			<view class="emptyFooter">
+				<view class="btn emptyBtn select" @click="changePath">发布商品</view>
+			</view>
+		</view>
+	</view>
+	<view class="card" v-show="current === 0" v-for="item in goodsList" :key="item.id">
+		<view class="cardHead" :style="[current === 0 ? 'border-bottom: none; padding-bottom: 0' : '']">
+			<view class="imag">
+				<image class="imag" :src="userStore().systemConfig.picUrlPre + item.image"></image>
+			</view>
+			<view>
+				<view class="title">{{item.storeName}}</view>
+				<view class="text">
+					<text>销量：{{item.sales}}</text>
+					<text>库存：{{item.stock}}</text>
+				</view>
+				<view class="amount">
+					<text class="money">￥{{item.price}}</text>
+					<text class="quantity">x1</text>
+				</view>
+			</view>			
+		</view>
+		<view class="cardFooter" v-show="current === 0">
 			<view>上架</view>
-			<view>编辑</view>
+			<view @click="changePath(item.id)">编辑</view>
 			<view>删除</view>
 		</view>
 	</view>
-	<view class="empty" v-if="current === 1">
+	<view class="empty" v-if="current === 0 && goodsList.length == 0">
 		<view>亲，还没有任何商品哦</view>
 		<view class="emptyFooter">
-			<view class="btn emptyBtn select" @click="changePath">发布商品</view>
+			<view class="btn emptyBtn select" @click="changePath()">发布商品</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
-	import { reactive, toRefs } from 'vue'
-	
+	import { shopManage} from '@/api/shop.js'
+	import { ref, reactive, toRefs } from 'vue'
+	import { userStore } from "@/store/index.js"
+	import {onLoad} from "@dcloudio/uni-app";
 	const data = reactive({
-		current: 0,
+		current: 1,
 	})
-	
 	const { current } = toRefs(data)
+	const goodsList = ref([])
 	
+	onLoad(()=>{
+		goodList(data.current)
+	})
+	const goodList = (id) =>{
+		shopManage(id).then(res=>{
+			console.log('res',res)
+			goodsList.value = res.list
+		})
+	}
 	const switchNavigation = () => {
-		data.current = data.current === 0 ? 1 : 0
-		console.log(data.current)
+		data.current = data.current === 1 ? 0 : 1
+		// console.log('lllll',data.current)
+		goodList(data.current)
 	}
 	
 	const navigateBack = () => {
@@ -68,10 +101,16 @@
 		})
 	}
 	
-	const changePath = () => {
-		uni.navigateTo({
-			url: "releaseGoods"
-		})
+	const changePath = (id) => {
+		if(id){
+			uni.navigateTo({
+				url: `releaseGoods?id=${id}`
+			})
+		}else{
+			uni.navigateTo({
+				url: "releaseGoods"
+			})
+		}
 	}
 </script>
 

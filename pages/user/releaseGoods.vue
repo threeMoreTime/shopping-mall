@@ -28,11 +28,11 @@
 		:labelWidth='200' 
 	>
 		<view class="box">
-			<u-form-item label="商品名称" prop="name">
-				<u-input v-model="form.name" placeholder="最多30字" maxlength="30"></u-input>
+			<u-form-item label="商品名称" prop="storeName">
+				<u-input v-model="form.storeName" placeholder="最多30字" maxlength="30"></u-input>
 			</u-form-item>
-			<u-form-item label="商品副标题" prop="title" :border-bottom="false">
-				<u-input v-model="form.title" placeholder="最多50字" maxlength="50"></u-input>
+			<u-form-item label="商品副标题" prop="storeInfo" :border-bottom="false">
+				<u-input v-model="form.storeInfo" placeholder="最多50字" maxlength="50"></u-input>
 			</u-form-item>
 		</view>
 		<view class="box">
@@ -58,19 +58,19 @@
 				<u-upload 
 					ref="imageUpload"
 					:max-count="1" 
-					:file-list=form.fileList
+					:file-list=form.image
 					:auto-upload="false"
 				></u-upload>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
-				<view class="upload" @click="uploadVideo" v-show="!videoSrc">
+				<view class="upload" @click="uploadVideo" v-show="!form.videoLink">
 					<view class="text">
 						<u-icon name="plus" size="40rpx"></u-icon>
 						<view>选择视频</view>
 					</view>
 				</view>
-				<view class="videoBox" v-show="videoSrc">
-					<video class="video" :src="videoSrc"></video>
+				<view class="videoBox" v-show="form.videoLink">
+					<video class="video" :src="form.videoLink"></video>
 					<view class="iconBox">
 						<u-icon class="icon" name="close" color="#ffff" @click="deleteVideo"></u-icon>	
 					</view>
@@ -78,28 +78,28 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="商品单价" prop="unitPrice">
-				<u-input v-model="form.unitPrice" placeholder="个/件/包"></u-input>
+			<u-form-item label="商品单位" prop="unitName">
+				<u-input v-model="form.unitName" placeholder="个/件/包"></u-input>
 			</u-form-item>
 			<u-form-item label="商品价格" prop="price">
 				<u-input v-model="form.price" placeholder="元"></u-input>
 			</u-form-item>
-			<u-form-item label="商品市场价" prop="marketPrice">
-				<u-input v-model="form.marketPrice" placeholder="划线价"></u-input>
+			<u-form-item label="商品市场价" prop="otPrice">
+				<u-input v-model="form.otPrice" placeholder="划线价"></u-input>
 			</u-form-item>
-			<u-form-item label="商品库存" prop="inventory">
-				<u-input v-model="form.inventory" placeholder="数量"></u-input>
+			<u-form-item label="商品库存" prop="stock">
+				<u-input v-model="form.stock" placeholder="数量"></u-input>
 			</u-form-item>
-			<u-form-item label="快递运费" prop="freight">
-				<u-input v-model="form.freight" placeholder="元"></u-input>
+			<u-form-item label="快递运费" prop="postage" v-show="form.isPostage">
+				<u-input v-model="form.postage" placeholder="元"></u-input>
 			</u-form-item>
 			<u-form-item label="包邮">
-				<u-switch v-model="form.freeMail" active-color="#24743C"></u-switch>
+				<u-switch v-model="form.isPostage" active-color="#24743C"></u-switch>
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item label="图文详情" prop="details" label-position="top">
-				<u-input v-model="form.details" type="textarea"></u-input>
+			<u-form-item label="图文详情" prop="description" label-position="top">
+				<u-input v-model="form.description" type="textarea"></u-input>
 			</u-form-item>
 		</view>
 	</u-form>
@@ -123,14 +123,15 @@
 	</view>
 	<view class="footer" v-show="current === 0">
 		<view class="footerBtn">
-			<button type="primary" class="custom-style">保存到仓库</button>
-			<button type="primary" class="custom-style" @click="release">发布商品</button>			
+			<button type="primary" class="custom-style"  @click="release(0)">保存到仓库</button>
+			<button type="primary" class="custom-style" @click="release(1)">发布商品</button>			
 		</view>
 	</view>
 	<view style="height: 200rpx;"></view>
 </template>
 
 <script setup>
+	import {publish,getById} from '@/api/shop.js'
 	import {reactive, toRefs, ref} from 'vue';
 	import {onReady, onLoad} from "@dcloudio/uni-app";
 	
@@ -147,28 +148,28 @@
 		current: 0,
 		switchName: '',
 		form: {
-			name: '',
-			title: '',
-			category: false,
-			classification: '',
-			freeMail: false,
-			fileList: [],
-			unitPrice: '',
-			price: '',
-			marketPrice: '',
-			inventory: '',
-			freight: '',
-			details: ''
+			storeName: "",
+	    storeInfo: "",
+	    cateIds: [1,2,3],
+	    shopCateIds: [1],
+	    image: [],// string
+	    videoLink: '',// string
+			unitName: '',
+	    price: "",
+	    otPrice: "",
+	    stock: '',
+	    isPostage: '',
+	    postage: '',
+	    description: " ",
 		},
 		rules: {
-			name: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change' ]}],
-			title: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change' ]}],
-			unitPrice: [{ required: true, message: '请输入商品单价', trigger: ['blur', 'change' ]}],
+			storeName: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change' ]}],
+			storeInfo: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change' ]}],
+			unitName: [{ required: true, message: '请输入商品单位', trigger: ['blur', 'change' ]}],
 			price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change' ]}],
-			marketPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change' ]}],
-			inventory: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change' ]}],
-			freight: [{ required: true, message: '请输入快递运费', trigger: ['blur', 'change' ]}],
-			details: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change' ]}],
+			otPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change' ]}],
+			stock: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change' ]}],
+			description: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change' ]}],
 		},
 		categoryValue: '',
 		specification: false,
@@ -189,11 +190,45 @@
 		rules,
 		videoSrc
 	} = toRefs(data);
-	
+	data.form.image = reactive([
+		{
+			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
+		}
+	])
 	onReady(() => {
 		uform.value.setRules(rules)
 	})
-
+  onLoad((option)=>{
+		if(Object.keys(option).length>0){
+			goodsId.value = parseInt(option.id)
+			detail(parseInt(goodsId.value))
+			return
+		}
+	})
+	const goodsId = ref()
+	const detail = (id) =>{
+		getById(id).then(res=>{
+			console.log('res',res)
+				data.form.image.push({url:res.image})
+				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,stock,isPostage,postage,description} = res
+				data.form = {
+					storeName,
+			    storeInfo,
+			    cateIds,
+			    shopCateIds,
+			//     image[0].url:[{url: 'https://cdn.uviewui.com/uview/swiper/2.jpg',}],
+			//     image[0].url:image,
+			//     videoLink: videoLink || '',
+					unitName,
+			    price,
+			    otPrice,
+			    stock,
+			    isPostage,
+			    postage,
+			    description,
+				}
+		})
+	}
 	const tabsChange = (index)=> {
 		if (index === 1) {
 			data.switchName = '启用商品规格'
@@ -225,11 +260,43 @@
 		console.log(categoryValue, res)
 	}
 	
-	const release = () => {
+	const release = (isShow) => {
 		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
-			console.log(data.form.fileList)
-			console.log(valid)
+			let params = {}
+			if(valid){
+				if(goodsId.value){
+					params = {
+						id: goodsId.value,
+						image: data.form.image ? data.form.image:'https://cdn.uviewui.com/uview/swiper/2.jpg',
+						isShow
+					}
+					
+				}else{
+					params = {
+						image: data.form.image,
+						isShow
+					}
+				}
+				let dataInfo = {...data.form, ...params}
+				// console.log('dataInfo',dataInfo)
+				publish(dataInfo).then(res=>{
+					if(isShow == 1){
+						uni.showToast({
+							title: '发布商品成功！',
+							icon: "success"
+						})
+					}else{
+						uni.showToast({
+							title: '保存成功！',
+							icon: "success"
+						})
+					}
+					setTimeout(()=>{
+						uni.navigateBack(-1)
+					},2000)
+				})
+			}
 		})
 	}
 	
@@ -237,8 +304,8 @@
 		uni.chooseVideo({
 			sourceType: ['album', 'camera'],
 			success: (res) => {
-				data.videoSrc = res.tempFilePath
-				console.log(res.tempFilePath)
+				data.form.videoLink = res.tempFilePath
+				console.log('ssss',res.tempFilePath)
 			}
 		})
 	}

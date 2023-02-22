@@ -242,7 +242,11 @@ const getenergyConfig = () => {
 		data.lowestPrice = lowestPrice  
 		data.openPrice = openPrice  
 	})
-	findTradeList().then(res => {
+	findTradeList({type: 'BUY'}).then(res => {
+		switch(current.value) {
+			case 0:
+				
+		}
 		console.log(res);
 	})
 }

@@ -40,3 +40,11 @@ export const findKlinePeriod = () => {
 		method: 'GET'
 	})
 }
+
+// 根据k线图指标选项查询数据  period
+export const findByPeriod = (data) => {
+	return request({
+		url: '/client/trade/findByPeriod',
+		method: 'GET'
+	},data)
+}

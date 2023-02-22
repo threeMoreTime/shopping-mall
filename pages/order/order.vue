@@ -39,25 +39,25 @@
         class="orderList"
         v-show="type === 0"
       >
-        <view class="orderListItem">
+        <view class="orderListItem" v-for="item in orderList" :key="item.id">
           <view class="ItemTop">
-            <text>订单号：2302310251121221312_0</text>
-            <text class="redBg">代发货</text>
+            <text>订单号：{{item.orderId}}</text>
+            <text class="redBg">{{item.orderStatus}}</text>
           </view>
-          <view class="ItemMiddle">
+          <view class="ItemMiddle" v-for="children in item.orderInfoList">
             <image
-              src="../../static/img/clothing.png"
+              :src="children.image"
               alt=""
             />
             <view class="context">
-              <text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+              <text class="title u-line-2">{{children.storeName}}</text>
               <view class="price">
-                <text class="redBg">￥30000.00</text>
-                <text class="miniCount">x2</text>
+                <text class="redBg">￥{{children.price}}</text>
+                <text class="miniCount">x{{children.cartNum}}</text>
               </view>
               <view class="count">
-                <text>共计1件商品</text>
-                <text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+                <text>共计{{children.cartNum}}件商品</text>
+                <text style="color: #CECECE; margin-left: 22rpx;">尺码：{{children.sku}}</text>
               </view>
             </view>
           </view>
@@ -70,25 +70,25 @@
         class="orderList"
         v-show="type === 1"
       >
-        <view class="orderListItem">
+        <view class="orderListItem" v-for="item in orderList" :key="item.id">
           <view class="ItemTop">
-            <text>订单号：2302310251121221312_0</text>
-            <text class="redBg">代发货</text>
+            <text>订单号：{{item.orderId}}</text>
+            <text class="redBg">{{item.orderStatus}}</text>
           </view>
-          <view class="ItemMiddle">
+          <view class="ItemMiddle" v-for="children in item.orderInfoList">
             <image
-              src="../../static/img/clothing.png"
+              :src="children.image"
               alt=""
             />
             <view class="context">
-              <text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+              <text class="title u-line-2">{{children.storeName}}</text>
               <view class="price">
-                <text class="redBg">￥30000.00</text>
-                <text class="miniCount">x2</text>
+                <text class="redBg">￥{{children.price}}</text>
+                <text class="miniCount">x{{children.cartNum}}</text>
               </view>
               <view class="count">
-                <text>共计1件商品</text>
-                <text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+                <text>共计{{children.cartNum}}件商品</text>
+                <text style="color: #CECECE; margin-left: 22rpx;">尺码：{{children.sku}}</text>
               </view>
             </view>
           </view>
@@ -105,25 +105,25 @@
         class="orderList"
         v-show="type === 2"
       >
-        <view class="orderListItem">
+        <view class="orderListItem" v-for="item in orderList" :key="item.id">
           <view class="ItemTop">
-            <text>订单号：2302310251121221312_0</text>
-            <text class="redBg">待收货</text>
+            <text>订单号：{{item.orderId}}</text>
+            <text class="redBg">{{item.orderStatus}}</text>
           </view>
-          <view class="ItemMiddle">
+          <view class="ItemMiddle" v-for="children in item.orderInfoList">
             <image
-              src="../../static/img/clothing.png"
+              :src="children.image"
               alt=""
             />
             <view class="context">
-              <text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+              <text class="title u-line-2">{{children.storeName}}</text>
               <view class="price">
-                <text class="redBg">￥30000.00</text>
-                <text class="miniCount">x2</text>
+                <text class="redBg">￥{{children.price}}</text>
+                <text class="miniCount">x{{children.cartNum}}</text>
               </view>
               <view class="count">
-                <text>共计1件商品</text>
-                <text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+                <text>共计{{children.cartNum}}件商品</text>
+                <text style="color: #CECECE; margin-left: 22rpx;">尺码：{{children.sku}}</text>
               </view>
             </view>
           </view>
@@ -139,25 +139,25 @@
         class="orderList"
         v-show="type === 3"
       >
-        <view class="orderListItem">
+        <view class="orderListItem" v-for="item in orderList" :key="item.id">
           <view class="ItemTop">
-            <text>订单号：2302310251121221312_0</text>
-            <text class="redBg">已完成</text>
+            <text>订单号：{{item.orderId}}</text>
+            <text class="redBg">{{item.orderStatus}}</text>
           </view>
-          <view class="ItemMiddle">
+          <view class="ItemMiddle" v-for="children in item.orderInfoList">
             <image
-              src="../../static/img/clothing.png"
+              :src="children.image"
               alt=""
             />
             <view class="context">
-              <text class="title">美特斯邦威羽绒服保暖冬季防风保暖特斯邦威羽绒服保暖冬季防风保暖</text>
+              <text class="title u-line-2">{{children.storeName}}</text>
               <view class="price">
-                <text class="redBg">￥30000.00</text>
-                <text class="miniCount">x2</text>
+                <text class="redBg">￥{{children.price}}</text>
+                <text class="miniCount">x{{children.cartNum}}</text>
               </view>
               <view class="count">
-                <text>共计1件商品</text>
-                <text style="color: #CECECE; margin-left: 22rpx;">尺码：L</text>
+                <text>共计{{children.cartNum}}件商品</text>
+                <text style="color: #CECECE; margin-left: 22rpx;">尺码：{{children.sku}}</text>
               </view>
             </view>
           </view>
@@ -253,12 +253,15 @@ import {
   ref,
   toRefs
 } from "vue";
+import { getOrderList } from "@/api/order.js"
+import { userStore } from "@/store/index.js"
 import {
   onLoad
 } from "@dcloudio/uni-app";
 onLoad((option) => {
   // console.log(option)
   type.value = option?.typeId ? parseInt(option.typeId) : 0
+  getOrderLists(typeData.value)
 })
 const checkList = ref([
   {
@@ -284,6 +287,18 @@ const checkList = ref([
 ])
 const checkboxChange = (index) => {
   // console.log(index);
+}
+const orderList = ref([])
+const getOrderLists = (index) => {
+	getOrderList({type: index}).then(res => {
+		orderList.value = res.list
+		orderList.value.forEach(item => {
+			item.orderInfoList.map(item => {
+				item.image = userStore().systemConfig.picUrlPre + item.image
+			})
+		})
+		// console.log(orderList.value);
+	})
 }
 const data = reactive({
   tabList: [{
@@ -330,10 +345,36 @@ const changeShow = (id) => {
     checkList.value.forEach(item => item.isShow = false)
   }
 }
+
+// 查询订单类型参数  0=待支付,1=待发货,2=待收货,3=待评价,4=已完成,-3=售后/退款,-6=全部订单
+const typeData = ref(-6)
+
 // 用户点击tabs后触发
 const changeTabs = (index) => {
-  type.value = index
+	console.log(index);
+	switch(index) {
+		case 0: 
+			getOrderLists(-6)
+			break;
+		case 1:
+			getOrderLists(1)
+			break;
+		case 2:
+			getOrderLists(2)
+			break;
+		case 3:
+			getOrderLists(4)
+			break;
+		case 4:
+			// 自提订单还没有对接
+			// getOrderLists(1)
+			break;
+	}
+	type.value = index
 }
+
+
+
 // 返回上一级
 const navigateBack = () => {
   uni.navigateBack({
@@ -418,6 +459,7 @@ const navigateBack = () => {
   }
 
   .orderListItem {
+	margin-bottom: 24rpx;
     width: 100%;
     // height: 338rpx;
     padding: 0 30rpx;
@@ -471,10 +513,9 @@ const navigateBack = () => {
       align-items: center;
       padding: 30rpx 0 14rpx 0;
       border-bottom: 2rpx solid rgba(112, 112, 112, 0.06);
-
       .context {
-        width: 100%;
-        margin-left: 58rpx;
+        width: 468rpx;
+        margin-left: 38rpx;
         font-size: 28rpx;
         font-weight: bold;
         color: #000000;
@@ -502,8 +543,7 @@ const navigateBack = () => {
         }
 
         .title {
-          width: 100%;
-          white-space: nowrap;
+          // width: 410rpx;
         }
       }
 

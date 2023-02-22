@@ -58,7 +58,7 @@
 				<!-- <text>订单类型</text> -->
 				<!-- <text>加工费用</text> -->
 				<!-- <text>保价类型</text> -->
-				<text>订单备注</text>
+				<text>订单类型</text>
 				<text>运费</text>
 			</view>
 
@@ -66,7 +66,7 @@
 				<!-- <text>兑换订单</text> -->
 				<!-- <text>￥0</text> -->
 				<!-- <text>顺丰保价</text> -->
-				<text>到付</text>
+				<text>兑换订单</text>
 				<text>￥{{freightFee || 0}}</text>
 			</view>
 		</view>

@@ -68,19 +68,23 @@
           </view>
           <view class="">
             <u-grid :col="4" :border="false">
-              <u-grid-item @click="changePath('/pages/order/order',1)">
+              <u-grid-item @click="changePath('/pages/order/order',1)" style="position: relative;">
+				<u-badge type="error" :count="orderCount.unShippedCount" :offset="[10,20]"></u-badge>
                 <view class="itemBg selected1"></view>
                 <view class="grid-text">待发货</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/order/order',2)">
+              <u-grid-item @click="changePath('/pages/order/order',2)" style="position: relative;">
+				<u-badge type="error" :count="orderCount.receivedCount" :offset="[10,20]"></u-badge>
                 <view class="itemBg selected2"></view>
                 <view class="grid-text">待收货</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/order/order',3)">
+              <u-grid-item @click="changePath('/pages/order/order',3)" style="position: relative;">
+				<u-badge type="error" :count="orderCount.completeCount" :offset="[10,20]"></u-badge>
                 <view class="itemBg selected3"></view>
                 <view class="grid-text">已完成</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/order/order',4)">
+              <u-grid-item @click="changePath('/pages/order/order',4)" style="position: relative;">
+				<u-badge type="error" count="7" :offset="[10,20]"></u-badge>
                 <view class="itemBg selected4"></view>
                 <view class="grid-text">自提订单</view>
               </u-grid-item>
@@ -93,7 +97,7 @@
             <u-grid :col="4" :border="false">
               <u-grid-item>
                 <view class="itemBg selected1"></view>
-                <view class="grid-text" @click="myCangKuJiaoYi('/pages/user/myCangKuJiaoYi')">仓单交易</view>
+                <view class="grid-text" @click="changePath('/pages/user/myCangKuJiaoYi')">仓单交易</view>
               </u-grid-item>
               <u-grid-item>
                 <view class="itemBg selected2"></view>
@@ -101,11 +105,11 @@
               </u-grid-item>
               <u-grid-item>
                 <view class="itemBg selected3"></view>
-                <view class="grid-text" @click="mySheQu('/pages/user/mySheQu')">我的社区</view>
+                <view class="grid-text" @click="changePath('/pages/user/mySheQu')">我的社区</view>
               </u-grid-item>
               <u-grid-item>
                 <view class="itemBg selected4"></view>
-                <view class="grid-text" @click="myJiaoYi('/pages/user/myJiaoYi')">我的交易</view>
+                <view class="grid-text" @click="changePath('/pages/user/myJiaoYi')">我的交易</view>
               </u-grid-item>
               <u-grid-item @click="changePath('/pages/user/promotion')">
                 <view class="itemBg selected5"></view>
@@ -152,7 +156,7 @@
               </u-grid-item>
               <u-grid-item>
                 <view class="itemBg1 selected7"></view>
-                <view class="grid-text" @click="myGuaDan('/pages/user/myGuaDan')">我的挂单</view>
+                <view class="grid-text" @click="changePath('/pages/user/myGuaDan')">我的挂单</view>
               </u-grid-item>
               <u-grid-item @click="changePath('/pages/user/convert')">
                 <view class="itemBg1 selected8"></view>
@@ -178,6 +182,7 @@
   import {
     info
   } from "@/api/user.js"
+  import { getOrderCount } from "@/api/order.js"
 
   import {
     onLoad
@@ -208,49 +213,25 @@
       })
     }
   }
+  // 订单状态数据
+  const orderCount = reactive({})
 
-  // 点击我的挂单跳转路由
-  const myGuaDan = (path, id) => {
-    if (path) {
-      uni.navigateTo({
-        url: id ? path + '?typeId=' + id : path
-      })
-    }
-  }
-
-
-  // 点击我的社区跳转路由
-  const mySheQu = (path, id) => {
-    if (path) {
-      uni.navigateTo({
-        url: id ? path + '?typeId=' + id : path
-      })
-    }
-  }
-
-  // 点击我的交易
-  const myJiaoYi = (path, id) => {
-    if (path) {
-      uni.navigateTo({
-        url: id ? path + '?typeId=' + id : path
-      })
-    }
-  }
-
-  // 点击仓库交易
-
-  const myCangKuJiaoYi = (path, id) => {
-    if (path) {
-      uni.navigateTo({
-        url: id ? path + '?typeId=' + id : path
-      })
-    }
-  }
-
-  // 获取用户详情信息
+  // 获取用户详情信息和订单对应状态的数量
   const getUserInfo = () => {
 	  info().then(res => {
 		  store.userInfo = res
+	  })
+	  getOrderCount().then(({
+		  // 已完成订单数量
+		  completeCount = 0,
+		  // 待发货订单数量
+		  unShippedCount = 0,
+		  // 待收货订单数量
+		  receivedCount = 0
+	  }) => {
+		  orderCount.completeCount = completeCount
+		  orderCount.unShippedCount = unShippedCount
+		  orderCount.receivedCount = receivedCount
 	  })
   }
 

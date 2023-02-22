@@ -178,7 +178,8 @@
 		energyConfig,
 		findPrice,
 		findTradeList,
-		findKlinePeriod
+		findKlinePeriod,
+		findByPeriod
 	} from "@/api/trade.js"
 
 	onMounted(() => {
@@ -270,8 +271,10 @@
 	}
 
 	// 用户点击tabs后触发
-	const changeTabs = (index) => {
-		console.log(index)
+	const changeTabs = (index = 0) => {
+		findByPeriod({period: tabList.value[index].period}).then(res => {
+			console.log(res);
+		})
 	}
 
 	const opts = ref({
@@ -360,7 +363,9 @@
 			})
 		}
 		if (tabIndex.value == 2) {
-
+			findByPeriod({period: tabList.value[0].period}).then(res => {
+				console.log(res);
+			})
 		}
 
 	}

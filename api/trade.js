@@ -21,9 +21,22 @@ export const findPrice = () => {
 }
 
 // 查询挂单数据
+/* 
+	type: BUY 查求购单 SELL 查抛售单
+	classify: 1 能量交易 2仓单交易
+	queryType: all 别人的全部,user 自己的
+*/
 export const findTradeList = (data) => {
 	return request({
 		url: '/client/trade/findTradeList',
 		method: 'GET'
 	},data)
+}
+
+// 查询k线图指标选项
+export const findKlinePeriod = () => {
+	return request({
+		url: '/client/trade/findKlinePeriod',
+		method: 'GET'
+	})
 }

@@ -8,16 +8,16 @@
 	<u-form :labelWidth='200' class="form" v-if="current == 1">
 		<view class="card">
 			<u-form-item label="店铺名称">
-				<u-input placeholder="请输入店铺名称"></u-input>
+				<u-input v-model="dataForm.storeName" placeholder="请输入店铺名称"></u-input>
 			</u-form-item>
-			<u-form-item label="店铺logo(0/1)">
-				<u-upload max-count="1"></u-upload>
+			<u-form-item :label="'店铺logo('+ (dataForm.logo.length>0?1:0) +'/1)'">
+				<u-upload max-count="1" :file-list="dataForm.logo"></u-upload>
 			</u-form-item>
-			<u-form-item label="店铺微信(0/1)">
-				<u-upload max-count="1"></u-upload>
+			<u-form-item :label="'店主微信('+ (dataForm.wx.length>0?1:0) +'/1)'">
+				<u-upload max-count="1" :file-list="dataForm.wx"></u-upload>
 			</u-form-item>	
 			<u-form-item label="主营">
-				<u-input placeholder="请输入店铺主营业务"></u-input>
+				<u-input placeholder="请输入店铺主营业务" v-model="dataForm.main"></u-input>
 			</u-form-item>
 		</view>
 		<view class="card">
@@ -25,32 +25,32 @@
 				<u-select></u-select>
 			</u-form-item>
 			<u-form-item label="所在地区">
-				<u-input></u-input>
+				<u-input v-model="dataForm.refundAddress"></u-input>
 			</u-form-item>
 			<u-form-item label="详细地址">
-				<u-input placeholder="请填写店铺详细地址"></u-input>
+				<u-input placeholder="请填写店铺详细地址" v-model="dataForm.shipAddress"></u-input>
 			</u-form-item>
 			<u-form-item label="店铺简介" label-position="top">
-				<u-input type="textarea" placeholder="了解你,从简介开始"></u-input>
+				<u-input type="textarea" placeholder="了解你,从简介开始" v-model="dataForm.describes"></u-input>
 			</u-form-item>
 		</view>
 		<view class="title" style="padding-top: 0;">店铺信息</view>
 		<view class="card">
 			<u-form-item label="联系人">
-				<u-input placeholder="昵称"></u-input>
+				<u-input placeholder="昵称" v-model="dataForm.refundContact"></u-input>
 			</u-form-item>
 			<u-form-item label="联系电话">
-				<u-input placeholder="请输入电话号码"></u-input>
+				<u-input placeholder="请输入电话号码" v-model="dataForm.refundMobile"></u-input>
 			</u-form-item>
 		</view>
 		<view class="card">
-			<u-form-item label="店铺宣传图(0/1)">
-				<u-upload max-count="1"></u-upload>
+			<u-form-item :label="'店铺宣传图('+ (dataForm.imgs.length>0?1:0) +'/1)'">
+				<u-upload max-count="1" :file-list="dataForm.imgs"></u-upload>
 			</u-form-item>
 		</view>
 	</u-form>
 	<view class="btn">
-		<button type="primary">{{ btnName }}</button>
+		<button type="primary" @click="save(data.current)">{{ btnName }}</button>
 	</view>
 	<view style="height: 150rpx;"></view>
 </template>
@@ -58,12 +58,12 @@
 <script setup>
 	import { reactive, toRefs } from 'vue'
 	import { onLoad } from "@dcloudio/uni-app";
+	import {saveOrUpdate} from '@/api/shop.js'
 	
 	const data = reactive({
 		current: 0,
 		btnName: ''
 	})
-	
 	const { current, btnName } = toRefs(data)
 	
 	onLoad((option) => {
@@ -72,6 +72,59 @@
 			data.btnName = '保存'
 		}
 	})
+	const dataForm = reactive({
+		storeName:'XX小店',
+		logo:[],
+		wx:[],
+		main:'餐饮',
+		cateIds:[781],
+		refundAddress:'广东省',
+		shipAddress:'广东深圳龙岗',
+		describes:'这是餐饮服务',
+		refundContact:'张三的店',
+		refundMobile:'13154658975',
+		imgs: []
+	})
+	// logo
+	dataForm.logo = reactive([
+		{
+			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
+		}
+	])
+	// wx
+	dataForm.wx = reactive([
+		{
+			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
+		}
+	])
+	// 宣传图
+	dataForm.imgs = reactive([
+		{
+			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
+		}
+	])
+	
+	const save = (id) => {
+		if(id == 1){
+			let params = {
+				imgs:[],
+				logo:dataForm.logo[0].url,
+				wx:dataForm.wx[0].url,
+			}
+			params.imgs.push(dataForm.imgs[0].url)
+			let dataInfo = {...dataForm, ...params}
+			console.log(dataInfo)
+			saveOrUpdate(dataInfo).then(res=>{
+				uni.showToast({
+					title: '店铺申请成功！',
+					icon: "success"
+				})
+				setTimeout(()=>{
+					uni.navigateBack(-1)
+				},2000)
+			})
+		}
+	}
 	
 	const navigateBack = () => {
 		uni.navigateBack()

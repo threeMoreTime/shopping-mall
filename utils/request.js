@@ -5,7 +5,7 @@ const httpTokenRequest = (opts = {}, data = {}) => {
 		console.error('!url');
 		return false;
 	}
-	const url = 'http://192.168.1.27:8860' + opts.url;
+	const url = '/dev' + opts.url;
 	// 在pinia仓库里面获取token
 	const token = userStore().token;
 	const method = opts.method || 'GET';

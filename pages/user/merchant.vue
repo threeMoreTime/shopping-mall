@@ -88,6 +88,8 @@
 </template>
 
 <script setup>
+	import {isShop} from '@/api/shop.js'
+	import {onLoad} from "@dcloudio/uni-app";
 	import { reactive, toRefs } from 'vue'
 	
 	const data = reactive({
@@ -95,6 +97,20 @@
 	})
 	
 	const { showModal } = toRefs(data)
+	
+	onLoad(()=>{
+		// haveShop()
+	})
+	const haveShop = () => {
+		isShop().then(res => {
+			console.log('res',res)
+			if(Object.keys(res).length == 0){
+				data.showModal = true
+			}else{
+				data.showModal = false
+			}
+		})
+	}
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({

@@ -53,6 +53,7 @@
 		onShow
 	  } from "@dcloudio/uni-app";
 	import { cartList,cartDelete } from "@/api/cart.js";
+	import { preOrder } from "@/api/order.js"
 	import {userStore} from "@/store/index.js"
 	const customStyle = {
 		background: '#C4814C',
@@ -110,7 +111,19 @@
 	// 按钮类型 结算(0) 删除(1)
 	const changeBtn = () => {
 		if(typeId.value === 0) {
-			changePath("/pages/order/QueRenDingDan",{})
+			let productData = productList.value.filter(item => item.selected)
+			productData.forEach(item => {
+				item.shoppingCartId = item.id
+			})
+			console.log(productData);
+			preOrder({preOrderType: 'shoppingCart',orderDetails: productData}).then(({preOrderNo}) => {
+				changePath('/pages/order/QueRenDingDan',{preOrderNo})
+			},() => {
+			uni.showToast({
+				title:"购买失败",
+				icon:'error'
+			})
+		})
 			console.log('结算');
 		} else {
 			console.log('删除');

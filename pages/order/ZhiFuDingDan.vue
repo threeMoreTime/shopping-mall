@@ -104,14 +104,14 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
     [{
 		id: 1,
         name: '支付宝',
-		payChannel: 'alipay',
+		payChannel: 'appAlipay',
 		payType: 'alipay',
 		bgIcon: '../../static/img/AlipayActivate.png'
       },
       {
 		id: 2,
         name: '微信支付',
-		payChannel: 'weixin',
+		payChannel: 'appWeixin',
 		payType: 'wxpay',
 		bgIcon: '../../static/img/WeChatactivAte.png'
       },
@@ -128,7 +128,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
   const handlePay = ({
 	  id = 1,
 	  name = "支付宝",
-	  payChannel = 'alipay',
+	  payChannel = 'appAlipay',
 	  payType = 'alipay'
 	  }) => {
 	  bgIndexId.value = id
@@ -143,7 +143,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 				'orderNo': res.orderNo,
 				'payChannel': orderFrom.payChannel
 			}).then(res => {
-				console.log(res);
+				// console.log(res);
 				if(res.tradeAppRequestBody != "")
 				uni.requestPayment({
 					provider: orderFrom.payType,

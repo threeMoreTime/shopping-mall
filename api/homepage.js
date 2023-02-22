@@ -15,3 +15,11 @@ export const productType = (type) => {
 		method: 'GET'
 	})
 }
+
+// 首页搜索
+export const indexSearch = (keyword) => {
+	return request({
+		url: '/client/homepage/index/search/' + keyword,
+		method: 'GET'
+	})
+}

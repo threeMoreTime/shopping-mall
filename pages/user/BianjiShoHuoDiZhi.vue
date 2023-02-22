@@ -20,7 +20,16 @@
 				</u-form-item>
 				<u-form-item label="所在地址" class="item" label-width="130" labelPosition="left" :borderBottom="false">
 					<u-input v-model="form.diZhi" class="item2"
-						:customStyle="{'padding': '0 15rpx' ,'color': '#030303' }" />
+						:customStyle="{'padding': '0 15rpx' ,'color': '#030303' }" :disabled="true"
+						@click="form.addressShow = true"
+						/>
+					<u-picker 
+						mode="region" 
+						v-model="form.addressShow" 
+						@confirm="hanldeAddre"
+						:default-region="form.areaCode"
+						></u-picker>
+
 				</u-form-item>
 				<u-form-item label="详细地址" class="item" label-width="130" labelPosition="left" :borderBottom="false">
 					<u-input v-model="form.XiangXiDizhi" :customStyle="{'color': '#030303'}" type="textarea"
@@ -79,7 +88,9 @@
 		checked: false,
 		province: '',
 		city: '',
-		district: ''
+		area: '',
+		addressShow: false,
+		areaCode: []
 	})
 	const id = ref()
 	const type = ref()
@@ -88,11 +99,11 @@
 	onLoad((option) => {
 		id.value = option.id
 		type.value = option.type
-		console.log('option', option)
+		// console.log('option', option)
 		if (type.value == 1) {
 			addressDetail(id.value)
 			shouAddress.value = '编辑收货物地址'
-		}else{
+		} else {
 			shouAddress.value = '添加收货物地址'
 		}
 	})
@@ -111,13 +122,40 @@
 	const addressDetail = (id) => {
 		detail(id).then(res => {
 			detailInfo.value = res
-			let {realName,phone,detail,province,city,district,isDefault} = detailInfo.value
+			// console.log(res);
+			let {
+				realName,
+				phone,
+				detail,
+				province,
+				city,
+				district,
+				isDefault
+			} = detailInfo.value
 			form.name = realName
 			form.ShoJi = phone
 			form.diZhi = province + city + district
 			form.XiangXiDizhi = detail
 			form.checked = isDefault
+			// 默认选择框选择上
+			form.areaCode[0] = province
+			form.areaCode[1] = city
+			form.areaCode[2] = district
 		})
+	}
+	
+	// 点击改变当前地区
+	const hanldeAddre = (obj) => {
+		console.log(obj);
+		form.province = obj.province.name
+		form.city = obj.city.name
+		form.area = obj.area.name
+		form.diZhi = form.province + form.city + form.area
+		// console.log(form);
+		const vaules = Object.values(obj)
+		for(let i = 0; i < vaules.length; i++) {
+			form.areaCode[i] = vaules[i].name
+		}
 	}
 
 	const save = () => {
@@ -130,9 +168,9 @@
 				detail: form.XiangXiDizhi,
 				isDefault: form.checked,
 				address: {
-					province: '广东省',
-					city: '深圳市',
-					district: '南山区',
+					province: form.province,
+					city: form.city,
+					district: form.area,
 				}
 			}
 		} else {
@@ -142,9 +180,9 @@
 				detail: form.XiangXiDizhi,
 				isDefault: form.checked,
 				address: {
-					province: '广东省',
-					city: '深圳市',
-					district: '南山区',
+					province: form.province,
+					city: form.city,
+					district: form.area,
 				}
 			}
 		}

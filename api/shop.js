@@ -47,3 +47,18 @@ export const getById = (id) => {
 		method: 'GET'
 	})
 }
+
+// 商品上架
+export const upOrDown = (data) => {
+	return request({
+		url: `/client/category/product/upOrDown/${data.id}/${data.isShow}`,
+		method: 'POST'
+	})
+}
+// 商品删除
+export const deleById = (id) => {
+	return request({
+		url: `/client/category/product/delete/${id}`,
+		method: 'GET'
+	})
+}

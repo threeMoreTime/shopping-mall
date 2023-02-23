@@ -93,7 +93,8 @@
 	import { reactive, toRefs } from 'vue'
 	
 	const data = reactive({
-		showModal: true
+		showModal: false
+		
 	})
 	
 	const { showModal } = toRefs(data)

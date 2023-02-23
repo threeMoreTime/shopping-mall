@@ -33,47 +33,27 @@
 				</view>
 			</view>
 			<view class="buyList" v-show="tabIndex === 0">
-				<view class="buyListItem">
+				<view class="buyListItem" v-for="item in tradeList" :key="item.id">
 					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemTitle">数量{{item.totalAmount}}</view>
 						<view class="ItemPrice">
-							<text style="margin-right: 22rpx">单价￥6.42</text>
-							<text>总价￥147.88</text>
+							<text style="margin-right: 22rpx">单价￥{{item.price}}</text>
+							<text>总价￥{{item.totalPrice}}</text>
 						</view>
 					</view>
 					<view class="buyListItemBtn" @click="changeDeal(0)">买入</view>
 				</view>
-				<view class="buyListItem">
-					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量23.00</view>
-						<view class="ItemPrice">
-							<text style="margin-right: 22rpx">单价￥6.42</text>
-							<text>总价￥147.88</text>
-						</view>
-					</view>
-					<view class="buyListItemBtn">买入</view>
-				</view>
 			</view>
 			<view class="buyList" v-show="tabIndex === 1">
-				<view class="buyListItem">
+				<view class="buyListItem" v-for="item in tradeList" :key="item.id">
 					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量23.00</view>
+						<view class="ItemTitle">数量{{item.totalAmount}}</view>
 						<view class="ItemPrice">
-							<text style="margin-right: 22rpx; text-decoration: line-through">单价￥6.42</text>
-							<text>￥147.88</text>
+							<text style="margin-right: 22rpx; text-decoration: line-through">单价￥{{item.price}}</text>
+							<text>￥{{item.totalPrice}}</text>
 						</view>
 					</view>
 					<view class="buyListItemBtn" @click="changeDeal(1)">卖出</view>
-				</view>
-				<view class="buyListItem">
-					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量23.00</view>
-						<view class="ItemPrice">
-							<text style="margin-right: 22rpx; text-decoration: line-through">单价￥6.42</text>
-							<text>￥147.88</text>
-						</view>
-					</view>
-					<view class="buyListItemBtn">卖出</view>
 				</view>
 			</view>
 			<view class="market" v-if="tabIndex === 2">
@@ -137,25 +117,25 @@
 			<u-popup v-model="isPopupShow" mode="bottom" border-radius="16">
 				<view class="popClass">
 					<view class="inpItem" v-show="showIndex === 0">
-						<u-input v-model="dataForm.numberTransaction" type="number" height="88" placeholder="请输入交易数量" />
+						<u-input v-model="dataForm.amount" type="number" height="88" placeholder="请输入交易数量" />
 					</view>
 					<view class="inpItem flex-space-between" v-show="showIndex === 1">
 						<text class="Title">数量</text>
-						<u-input v-model="dataForm.numberTransaction" type="number" height="88" input-align="right"
+						<u-input v-model="dataForm.amount" type="number" height="88" input-align="right"
 							placeholder="请输入挂单数量" />
 					</view>
 					<view class="inpItem" v-show="showIndex === 1">
 						<view class="flex-space-between">
 							<text class="Title">价格</text>
-							<u-input v-model="dataForm.numberTransaction" type="number" height="88" input-align="right"
+							<u-input v-model="dataForm.price" type="number" height="88" input-align="right"
 								placeholder="请输入挂单价格" />
 						</view>
-						<view class="price">当前价格：￥6.53</view>
+						<view class="price">当前价格：￥{{data.trade_energy_price}}</view>
 					</view>
 					<view class="inpItem">
 						<u-input v-model="dataForm.payPassword" type="password" height="88" placeholder="请输入支付密码" />
 					</view>
-					<view class="btn">确认</view>
+					<view class="btn" @click="hendlAddTrade">确认</view>
 				</view>
 			</u-popup>
 		</view>
@@ -171,22 +151,28 @@
 		nextTick
 	} from 'vue'
 	import {
-		onReady,
-		onLoad
+		onLoad,
+		onReachBottom
 	} from '@dcloudio/uni-app'
 	import {
 		energyConfig,
 		findPrice,
 		findTradeList,
 		findKlinePeriod,
-		findByPeriod
+		findByPeriod,
+		addTrade
 	} from "@/api/trade.js"
 
 	onMounted(() => {
 		getServerData()
 		getenergyConfig()
 	})
-
+	onReachBottom(() => {
+		tradeListFrom.limit += 5
+		findTradeList(tradeListFrom).then(res => {
+			tradeList.value = res.list
+		})
+	})
 	const getenergyConfig = () => {
 		energyConfig().then(({
 			trade_energy_pool,
@@ -238,8 +224,10 @@
 	}
 
 	const dataForm = reactive({
-		numberTransaction: null,
+		type: '',
+		amount: null,
 		payPassword: null,
+		price: null
 	})
 	const data = reactive({
 		tabList: [],
@@ -255,19 +243,41 @@
 		highestPrice: null,
 		lowestPrice: null,
 		openPrice: null,
+		tradeList: []
 	})
 	const {
 		chartData,
 		tabList,
 		current,
 		isPopupShow,
-		showIndex
+		showIndex,
+		tradeList
 	} = toRefs(data)
 
 	// 点击买入卖出时触发 index==0 买入  1卖出  需要调用函数时自传入
 	const changeDeal = (index) => {
 		isPopupShow.value = true
 		showIndex.value = index
+		if(index == 0) {
+			dataForm.type = 'BUY'
+		} else {
+			dataForm.type = 'SELL'
+		}
+	}
+	
+	const hendlAddTrade = () => {
+		addTrade(dataForm).then(res => {
+			uni.showToast({
+				title:"挂单成功",
+				icon:"success"
+			})
+			isPopupShow.value = false
+		}, () => {
+			uni.showToast({
+				title:"挂单失败",
+				icon:"error"
+			})
+		})
 	}
 
 	// 用户点击tabs后触发
@@ -337,29 +347,27 @@
 	])
 	// 查询挂单数据表单
 	const tradeListFrom = reactive({
-		type: 'BUY',
+		type: 'SELL',
 		classify: 1,
 		queryType: 'all',
-		pageRequest: {
-			page: 1,
-			limit: 20
-		}
+		page: 1,
+		limit: 20
 	})
 
 	const changleStyle = (index) => {
 		tabIndex.value = index
 		switch (tabIndex.value) {
 			case 0:
-				tradeListFrom.type = "BUY"
+				tradeListFrom.type = "SELL"
 				break;
 			case 1:
-				tradeListFrom.type = "SELL"
+				tradeListFrom.type = "BUY"
 				break
 		}
 		if (tabIndex.value == 0 || tabIndex.value == 1) {
 			// 查询挂单数据
 			findTradeList(tradeListFrom).then(res => {
-				// console.log(res);
+				tradeList.value = res.list
 			})
 		}
 		if (tabIndex.value == 2) {

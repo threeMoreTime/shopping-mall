@@ -141,7 +141,8 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 	  createOrder(orderFrom).then(res => {
 			payPayment({
 				'orderNo': res.orderNo,
-				'payChannel': orderFrom.payChannel
+				'payChannel': orderFrom.payChannel,
+				'payType': orderFrom.payType
 			}).then(res => {
 				// console.log(res);
 				if(res.tradeAppRequestBody != "")

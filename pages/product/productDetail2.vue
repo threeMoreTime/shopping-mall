@@ -34,6 +34,7 @@
 				<view class="btn2" @click="shopAndBuy(1)">立即购买</view>
 			</view>
 			<vk-data-goods-sku-popup 
+				:amount-type="0"
 				ref="skuPopup" 
 				v-model="isShow" 
 				border-radius="20" 

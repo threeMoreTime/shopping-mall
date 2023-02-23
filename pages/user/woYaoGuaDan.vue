@@ -33,31 +33,22 @@ line-height: 29rpx;
 						</view>
 						<view class="flex-col flex-col-end">
 							<text class="title-color-000"
-								style="margin-right: -90rpx; width: 280rpx; text-align: center;">
-								<u-input v-model.number="dataform.amount" type="number" :border="false" placeholder="请输入挂单数量" />
+								style="width: 280rpx; text-align: center;">
+								<u-input v-model.number="dataform.amount" type="number" :border="false" placeholder="请输入挂单数量" 
+								input-align="right"
+								/>
 							</text>
 						</view>
 
 
 					</view>
 					
-					<view class="listItem">
-						<view class="flex-col">
-							<text class="title-color-000">金额</text>
-						</view>
-						<view class="flex-col flex-col-end">
-							<text class="title-color-000"
-								style="margin-right: -90rpx; width: 280rpx; text-align: center;">
-								<u-input v-model.number="dataform.price" type="number" :border="false" placeholder="请输入挂单金额" />
-							</text>
-						</view>
-					</view>
 
 					<!-- 第三个 -->
 					<view class="listItem">
 						<view class="flex-col flex-col-end">
 							<text class="title-color-000">
-								<u-input v-model="dataform.payPassword" type="text" :border="false" placeholder="请输入密码" />
+								<u-input v-model.number="dataform.payPassword" type="text" :border="false" placeholder="请输入密码" />
 							</text>
 						</view>
 
@@ -96,16 +87,33 @@ import { reactive } from "vue";
 		})
 	}
 	
+	import { addCangTrade } from "@/api/trade.js"
+	
 	const dataform = reactive({
 		type: 'SELL',
 		payPassword: null,
-		amount: null,
-		price: null
+		amount: null
 	})
 
 	// 确认提交按钮
 	const btnCommit = () => {
-		console.log('111111111111');
+		addCangTrade(dataform).then((res) => {
+			console.log(res);
+			uni.showToast({
+				title:"挂单成功",
+				icon:"success"
+			})
+			setTimeout(() => {
+				uni.navigateBack({
+					delta: 1
+				})
+			},1000)
+		},() => {
+			uni.showToast({
+				title:"挂单失败",
+				icon:"error"
+			})
+		})
 	}
 </script>
 

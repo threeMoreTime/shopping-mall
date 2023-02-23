@@ -62,7 +62,7 @@
             </view>
           </view>
           <view class="ItemBottom">
-            <text>【种树专区】</text>
+            <text>【{{item?.subzone}}】</text>
           </view>
         </view>
       </view>
@@ -93,7 +93,7 @@
             </view>
           </view>
           <view class="ItemBottom">
-            <text>【种树专区】</text>
+            <text>【{{item?.subzone}}】</text>
             <view class="btn">
               <view class="btnItem1">查看物流</view>
               <view class="btnItem2">待发货</view>
@@ -128,7 +128,7 @@
             </view>
           </view>
           <view class="ItemBottom">
-            <text>【种树专区】</text>
+            <text>【{{item?.subzone}}】</text>
             <view class="btn">
               <view class="btnItem2">确认收货</view>
             </view>
@@ -162,7 +162,7 @@
             </view>
           </view>
           <view class="ItemBottom">
-            <text>【种树专区】</text>
+            <text>【{{item?.subzone}}】</text>
           </view>
         </view>
       </view>
@@ -193,7 +193,7 @@
             </view>
           </view>
           <view class="ItemBottom">
-            <text>【种树专区】</text>
+            <text>【{{item?.subzone}}】</text>
             <view class="btn">
               <view
                 class="btnItem2"
@@ -293,11 +293,17 @@ const getOrderLists = (index) => {
 	getOrderList({type: index}).then(res => {
 		orderList.value = res.list
 		orderList.value.forEach(item => {
+			if(item.subzone == 1) {
+				item.subzone = '商城专区'
+			} else if(item.subzone == 2) {
+				item.subzone = '黄金兑换专区'
+			} else {
+				item.subzone = '种树专区'
+			}
 			item.orderInfoList.map(item => {
 				item.image = userStore().systemConfig.picUrlPre + item.image
 			})
 		})
-		// console.log(orderList.value);
 	})
 }
 const data = reactive({

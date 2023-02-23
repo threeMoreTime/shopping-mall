@@ -48,3 +48,27 @@ export const findByPeriod = (data) => {
 		method: 'GET'
 	},data)
 }
+
+// 挂单，买入(求购）BUY，卖出（抛售）SELL
+export const addTrade = (data) => {
+	return request({
+		url: '/client/trade/addTrade',
+		method: 'POST'
+	},data)
+}
+
+// 抛售仓单
+export const addCangTrade = (data) => {
+	return request({
+		url: '/client/trade/addCangTrade',
+		method: 'POST'
+	},data)
+}
+
+// 能量交易,买入/卖出
+export const addOrder = (data) => {
+	return request({
+		url: '/client/trade/addOrder',
+		method: 'POST'
+	},data)
+}

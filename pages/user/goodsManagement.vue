@@ -31,6 +31,11 @@
 				</view>
 			</view>			
 		</view>
+		<view class="cardFooter" v-show="current === 1">
+			<view @click="s_upOrDown(item.id, 0)">下架</view>
+			<view @click="changePath(item.id)">编辑</view>
+			<view>删除</view>
+		</view>
 		<view class="empty" v-if="current === 1 && goodsList.length == 0">
 			<view>亲，还没有任何商品哦</view>
 			<view class="emptyFooter">
@@ -56,9 +61,9 @@
 			</view>			
 		</view>
 		<view class="cardFooter" v-show="current === 0">
-			<view>上架</view>
+			<view @click="s_upOrDown(item.id, 1)">上架</view>
 			<view @click="changePath(item.id)">编辑</view>
-			<view>删除</view>
+			<view @click="deleGoods(item.id)">删除</view>
 		</view>
 	</view>
 	<view class="empty" v-if="current === 0 && goodsList.length == 0">
@@ -70,7 +75,7 @@
 </template>
 
 <script setup>
-	import { shopManage} from '@/api/shop.js'
+	import { shopManage,upOrDown,deleById} from '@/api/shop.js'
 	import { ref, reactive, toRefs } from 'vue'
 	import { userStore } from "@/store/index.js"
 	import {onLoad} from "@dcloudio/uni-app";
@@ -94,7 +99,34 @@
 		// console.log('lllll',data.current)
 		goodList(data.current)
 	}
+	const s_upOrDown = (id,isShow) => {
+		// console.log(isShow,id)
+		let params = {id, isShow}
+		upOrDown(params).then(res=>{
+			if(isShow == 1){
+				uni.showToast({
+					title: '上架成功！',
+					icon: "success"
+				})
+			}else{
+				uni.showToast({
+					title: '下架成功！',
+					icon: "success"
+				})
+			}
+		})
+		goodList(data.current)
+	}
 	
+	const deleGoods = (id) => {
+		deleById(id).then(res=>{
+			uni.showToast({
+				title: '删除成功！',
+				icon: "success"
+			})
+		})
+		goodList(data.current)
+	}
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1

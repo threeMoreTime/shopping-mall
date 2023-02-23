@@ -305,6 +305,7 @@
 						"model": "user"
 					},
 					success: (uploadFileRes) => {
+						console.log('啊啊啊啊',uploadFileRes)
 						const {
 							code = 500, data = {}
 						} = JSON.parse(uploadFileRes.data)

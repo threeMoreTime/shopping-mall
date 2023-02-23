@@ -2,6 +2,14 @@ import App from './App';
 import uView from './uni_modules/vk-uview-ui';
 import * as Pinia from 'pinia';
 
+
+uni.$showMsg = function(title = '数据加载失败！', icon = 'none') {
+  uni.showToast({
+    title,
+    duration: 1500,
+    icon
+  })
+}
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false

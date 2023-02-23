@@ -94,6 +94,7 @@
 	
 	const data = reactive({
 		showModal: true
+		
 	})
 	
 	const { showModal } = toRefs(data)

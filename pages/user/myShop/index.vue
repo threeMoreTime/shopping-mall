@@ -11,11 +11,33 @@
 				<u-input v-model="dataForm.storeName" placeholder="请输入店铺名称"></u-input>
 			</u-form-item>
 			<u-form-item :label="'店铺logo('+ (dataForm.logo.length>0?1:0) +'/1)'">
-				<u-upload max-count="1" :file-list="dataForm.logo"></u-upload>
+				<!-- <u-upload max-count="1" :auto-upload="false" show-progress ref="logoUpload" @click="ChoosePicture" :action="action.value"></u-upload> -->
+				<!-- <u-upload max-count="1" @afterRead="ChoosePicture" :action="action"></u-upload> -->
+				<!-- <u-upload max-count="1" :file-list="dataForm.logo"></u-upload> -->
+				<view class="upload" @click="ChoosePicture(1)" v-if="dataForm.logo.length == 0">
+					<u-icon name="plus" class="add"></u-icon>
+					<view class="change">选择图片</view>
+				</view>
+				<view class="upload2" v-else>
+					<view class="dele" @click="close(1)">
+						<u-icon name="close" class="close"></u-icon>
+					</view>
+					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo"></u-image>
+				</view>
 			</u-form-item>
 			<u-form-item :label="'店主微信('+ (dataForm.wx.length>0?1:0) +'/1)'">
-				<u-upload max-count="1" :file-list="dataForm.wx"></u-upload>
-			</u-form-item>	
+				<!-- <u-upload max-count="1" :file-list="dataForm.wx"></u-upload> -->
+				<view class="upload" @click="ChoosePicture(2)" v-if="dataForm.wx.length == 0">
+					<u-icon name="plus" class="add"></u-icon>
+					<view class="change">选择图片</view>
+				</view>
+				<view class="upload2" v-else>
+					<view class="dele" @click="close(2)">
+						<u-icon name="close" class="close"></u-icon>
+					</view>
+					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx"></u-image>
+				</view>
+			</u-form-item>
 			<u-form-item label="主营">
 				<u-input placeholder="请输入店铺主营业务" v-model="dataForm.main"></u-input>
 			</u-form-item>
@@ -44,8 +66,18 @@
 			</u-form-item>
 		</view>
 		<view class="card">
-			<u-form-item :label="'店铺宣传图('+ (dataForm.imgs.length>0?1:0) +'/1)'">
-				<u-upload max-count="1" :file-list="dataForm.imgs"></u-upload>
+			<u-form-item :label="'店铺宣传图('+ dataForm.imgs.length +'/1)'">
+				<!-- <u-upload max-count="1" :file-list="dataForm.imgs"></u-upload> -->
+				<view class="upload" @click="ChoosePicture(3)" v-if="dataForm.imgs.length == 0">
+					<u-icon name="plus" class="add"></u-icon>
+					<view class="change">选择图片</view>
+				</view>
+				<view class="upload2" v-else>
+					<view class="dele" @click="close(3)">
+						<u-icon name="close" class="close"></u-icon>
+					</view>
+					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.imgs[0]"></u-image>
+				</view>
 			</u-form-item>
 		</view>
 	</u-form>
@@ -56,16 +88,75 @@
 </template>
 
 <script setup>
-	import { reactive, toRefs } from 'vue'
-	import { onLoad } from "@dcloudio/uni-app";
+	import {uploadFilePromise} from '@/utils/fileUpload.js'
+	import {ref,reactive,toRefs} from 'vue'
+	import {onLoad} from "@dcloudio/uni-app";
 	import {saveOrUpdate} from '@/api/shop.js'
-	
+	const action = ref('/dev/client/user/system/image')
+	const close = (id) => {
+		uni.showModal({
+			title: '提示',
+			content: '您确定要删除此项吗？',
+			success: function (res) {
+				if (res.confirm) {
+					switch (id) {
+						case 1:
+							dataForm.logo = ''
+							return
+							break;
+						case 2:
+							dataForm.wx = ''
+							return 
+							break;
+						case 3:
+							dataForm.imgs = []
+							return 
+							break;
+					}
+				}
+			}
+		});
+	}
+	// logo/wx/宣传图
+	const ChoosePicture = (id) => {
+		uni.chooseImage({
+			count: 1,
+			sizeType: ['original', 'compressed'],
+			sourceType: ['camera', 'album'],
+			success: async function(res) {
+				console.log('chooseImage res',res)
+				uni.showLoading({
+					title: '图片上传中',
+				})
+				const result = await uploadFilePromise(res.tempFiles[0])
+				console.log("result: ", JSON.parse(result).data.url);
+				switch (id) {
+					case 1:
+						dataForm.logo = 'https://cdn.uviewui.com/uview/swiper/1.jpg'
+						return
+						break;
+					case 2:
+						dataForm.wx = 'https://cdn.uviewui.com/uview/swiper/2.jpg'
+						return 
+						break;
+					case 3:
+						dataForm.imgs.push('https://cdn.uviewui.com/uview/swiper/3.jpg')
+						console.log(dataForm.imgs )
+						return 
+						break;
+				}
+			}
+		});
+	}
 	const data = reactive({
 		current: 0,
-		btnName: ''
+		btnName: '',
 	})
-	const { current, btnName } = toRefs(data)
-	
+	const {
+		current,
+		btnName,
+	} = toRefs(data)
+
 	onLoad((option) => {
 		if (option.typeId) {
 			data.current = option.typeId
@@ -73,59 +164,74 @@
 		}
 	})
 	const dataForm = reactive({
-		storeName:'XX小店',
-		logo:[],
-		wx:[],
-		main:'餐饮',
-		cateIds:[781],
-		refundAddress:'广东省',
-		shipAddress:'广东深圳龙岗',
-		describes:'这是餐饮服务',
-		refundContact:'张三的店',
-		refundMobile:'13154658975',
+		storeName: 'XX小店',
+		logo: '',
+		wx: '',
+		main: '餐饮',
+		cateIds: [781],
+		refundAddress: '广东省',
+		shipAddress: '广东深圳龙岗',
+		describes: '这是餐饮服务',
+		refundContact: '张三的店',
+		refundMobile: '13154658975',
 		imgs: []
 	})
-	// logo
-	dataForm.logo = reactive([
-		{
-			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
-		}
-	])
-	// wx
-	dataForm.wx = reactive([
-		{
-			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
-		}
-	])
-	// 宣传图
-	dataForm.imgs = reactive([
-		{
-			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
-		}
-	])
-	
+
 	const save = (id) => {
-		if(id == 1){
-			let params = {
-				imgs:[],
-				logo:dataForm.logo[0].url,
-				wx:dataForm.wx[0].url,
-			}
-			params.imgs.push(dataForm.imgs[0].url)
-			let dataInfo = {...dataForm, ...params}
-			console.log(dataInfo)
-			saveOrUpdate(dataInfo).then(res=>{
-				uni.showToast({
-					title: '店铺申请成功！',
-					icon: "success"
-				})
-				setTimeout(()=>{
-					uni.navigateBack(-1)
-				},2000)
-			})
+		if(!dataForm.storeName){
+			uni.$showMsg('店铺名称不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.logo){
+			uni.$showMsg('店铺logo不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.wx){
+			uni.$showMsg('店主微信不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.main){
+			uni.$showMsg('主营不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.cateIds){
+			uni.$showMsg('分类不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.refundAddress){
+			uni.$showMsg('地区不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.shipAddress){
+			uni.$showMsg('详细地址不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.describes){
+			uni.$showMsg('简介不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.refundContact){
+			uni.$showMsg('联系人不能为空！', 'error')
+			return false
+		}
+		if(!dataForm.refundMobile){
+			uni.$showMsg('联系电话不能为空！', 'error')
+			return false
+		}
+		if (id == 1) {
+			console.log(dataForm)
+			// saveOrUpdate(dataForm).then(res => {
+			// 	uni.showToast({
+			// 		title: '店铺申请成功！',
+			// 		icon: "success"
+			// 	})
+			// 	setTimeout(() => {
+			// 		uni.navigateBack(-1)
+			// 	}, 2000)
+			// })
 		}
 	}
-	
+
 	const navigateBack = () => {
 		uni.navigateBack()
 	}
@@ -140,14 +246,14 @@
 		display: flex;
 		align-items: flex-end;
 		justify-content: space-between;
-	
+
 		.title {
 			font-size: 32rpx;
 			font-weight: 800;
 			color: #F5F5F5;
 			margin-bottom: 6rpx;
 		}
-	
+
 		.arrowsBg {
 			// transform: rotate(180deg);
 			width: 25rpx;
@@ -156,23 +262,65 @@
 			background-size: 100% 100%;
 		}
 	}
-	
+
 	.title {
 		padding: 18rpx 0 0 32rpx;
 		font-size: 24rpx;
 	}
-	
-	
+
+
 	.card {
 		margin: 16rpx 32rpx 28rpx;
 		padding: 0 28rpx;
 		background: #FFFFFF;
-		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 		border-radius: 16rpx 16rpx 16rpx 16rpx;
 		font-size: 24rpx;
+		.upload{
+			width: 200rpx;
+			height: 200rpx;
+			border-radius: 15rpx;
+			background-color: #f4f5f6;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			.add{
+				font-size: 40rpx;
+				color: #606266;
+			}
+			.change{
+				color: #606266;
+			}
+		}
+		.upload2{
+			border-radius: 15rpx;
+			// background-color: #f4f5f6;
+			width: 200rpx;
+			height: 200rpx;
+			position: relative;
+			.dele{
+				z-index: 999;
+				width: 40rpx;
+				height: 40rpx;
+				border-radius: 50%;
+				position: absolute;
+				right: 10rpx;
+				top: 10rpx;
+				background-color: #fa3534;
+				color: #fef8ff;
+				.close{
+					z-index: 999 !important;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+				}
+			}
+		}
 	}
-	
-	
+
+
 	.btn {
 		width: 100%;
 		padding: 32rpx;
@@ -180,7 +328,7 @@
 		bottom: 0;
 		background: #FFFFFF;
 		z-index: 999;
-		
+
 		::v-deep uni-button {
 			height: 72rpx;
 			line-height: 72rpx;

@@ -22,7 +22,7 @@
 					<view class="dele" @click="close(1)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo"></u-image>
+					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo"></u-image>
 				</view>
 			</u-form-item>
 			<u-form-item :label="'店主微信('+ (dataForm.wx.length>0?1:0) +'/1)'">
@@ -35,7 +35,7 @@
 					<view class="dele" @click="close(2)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx"></u-image>
+					<u-image @click="photos(2)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx"></u-image>
 				</view>
 			</u-form-item>
 			<u-form-item label="主营">
@@ -76,7 +76,7 @@
 					<view class="dele" @click="close(3)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image width="100%" height="100%" border-radius="15rpx" :src="dataForm.imgs[0]"></u-image>
+					<u-image @click="photos(3)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.imgs[0]"></u-image>
 				</view>
 			</u-form-item>
 		</view>
@@ -92,6 +92,7 @@
 	import {ref,reactive,toRefs} from 'vue'
 	import {onLoad} from "@dcloudio/uni-app";
 	import {saveOrUpdate} from '@/api/shop.js'
+import { defaults } from 'lodash';
 	const action = ref('/dev/client/user/system/image')
 	const close = (id) => {
 		uni.showModal({
@@ -145,6 +146,40 @@
 						return 
 						break;
 				}
+			}
+		});
+	}
+	// 预览
+	const photos = (id) => {
+		let imgList = []
+		// imgList.push(dataForm.logo)
+		// if(id == 1){
+		// 	imgList.push(dataForm.logo)
+		// 	console.log("imgList111: ",imgList);
+		// }else if(id == 2){
+		// 	imgList.push(dataForm.wx)
+		// 	console.log("imgList222: ",imgList);
+		// }else(id == 3){
+		// 	imgList = dataForm.imgs
+		// 	console.log("imgList333: ",imgList);
+		// }
+		switch (id) {
+			case 1:
+				imgList.push(dataForm.logo)
+				break;
+			case 2:
+				imgList.push(dataForm.wx)
+				break;
+			case 3:
+				imgList = dataForm.imgs
+				break;
+		}
+		console.log("imgList: ",imgList);
+		uni.previewImage({
+			count: imgList.length,
+			urls: imgList,
+			success: function(res) {
+				console.log(res);
 			}
 		});
 	}

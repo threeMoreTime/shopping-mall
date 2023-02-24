@@ -72,7 +72,7 @@ export const updateUserInfo = (data) => {
 	}, data)
 }
 
-// 修改用户信息
+// 修改用户绑定手机
 export const updateBindingPhone = (data) => {
 	return request({
 		url: '/client/user/updateBindingPhone',
@@ -110,4 +110,12 @@ export const delBankCard = (query) => {
 		method: 'GET',
     url: `/client/user/delBankCard/${id}`,
 	});
+};
+
+// 修改支付密码
+export const updatePayPwd = (data) => {
+	return request({
+		method: 'POST',
+		url: '/client/user/updatePayPwd',
+	},data);
 };

@@ -22,7 +22,7 @@
 							v-model="dataform.verificationCode" />
 						<view class="code">
 							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
-								@click="setTimer">
+								@click="setTimer({typeByPaw: 'phone'})">
 								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
 							</u-button>
 						</view>
@@ -50,7 +50,7 @@
 							v-model="dataform.verificationCode" />
 						<view class="code">
 							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
-								@click="setTimer">
+								@click="setTimer({typeByPaw: 'paw'})">
 								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
 							</u-button>
 						</view>
@@ -78,7 +78,7 @@
 							v-model="dataform.verificationCode" />
 						<view class="code">
 							<u-button :disabled="isDisabled" hover-class="none" :custom-style="customCodeStyle"
-								@click="setTimer">
+								@click="setTimer({typeByPaw: 'paw'})">
 								{{codeNumber == 60? '发送验证码' : codeNumber + '秒'}}
 							</u-button>
 						</view>
@@ -92,10 +92,21 @@
 
 <script setup>
 	import {
-		verificationCode,
+		phoneRegex,
+		pawRegex
+	} from "@/utils/regex.js"
+	import {
 		updateBindingPhone,
-		updatePwd
+		updatePwd,
+		sendCode,
+		updatePayPwd
 	} from "@/api/user.js"
+	import {
+		userStore
+	} from "@/store/index.js"
+	import {
+		changePath
+	} from "@/utils/navigate.js"
 	import _ from 'lodash'
 	let customStyle = {
 		'background': '#FFF',
@@ -130,23 +141,7 @@
 		reactive,
 		ref
 	} from "vue";
-	const isDisabled = ref(false)
-	const codeNumber = ref(60)
-	const setTimer = _.throttle(() => {
-		let timer = setInterval(() => {
-			codeNumber.value--
-			isDisabled.value = true
-			if (codeNumber.value == 0) {
-				clearInterval(timer)
-				codeNumber.value = 60
-				isDisabled.value = false
-			}
-		}, 1000)
-	}, 500)
-	onLoad((option) => {
-		// console.log(option)
-		type.value = option?.typeId ? parseInt(option.typeId) : 0
-	})
+
 	const dataform = reactive({
 		oldPhone: '',
 		newPhone: '',
@@ -158,6 +153,48 @@
 		newPayCode: '',
 		newPayCode2: '',
 	})
+
+	const isDisabled = ref(false)
+	const codeNumber = ref(60)
+
+	const setTimer = _.throttle(({
+		typeByPaw
+	}) => {
+		let phone = typeByPaw === 'paw' ? userStore().userInfo.phone : dataform.newPhone
+		if (phoneRegex(phone) && codeNumber.value === 60) {
+			let timer = setInterval(() => {
+				codeNumber.value--
+				isDisabled.value = true
+				if (codeNumber.value === 0) {
+					clearInterval(timer)
+					codeNumber.value = 60
+					isDisabled.value = false
+				}
+			}, 1000)
+			sendCode({
+					phone
+				})
+				.then(res => {
+					uni.showToast({
+						title: "发送成功",
+						icon: "success"
+					})
+				})
+				.catch(err => {
+					clearInterval(timer)
+					uni.showToast({
+						title: err,
+						icon: 'error'
+					})
+				})
+		}
+	}, 500)
+
+	onLoad((option) => {
+		// console.log(option)
+		type.value = option?.typeId ? parseInt(option.typeId) : 0
+	})
+
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -184,136 +221,109 @@
 		}
 	})
 
+	const actions = {
+	  0: {
+	    fn: updateBindingPhone,
+	    successMessage: "绑定手机号修改成功",
+		regex: phoneRegex
+	  },
+	  1: {
+	    fn: updatePwd,
+	    successMessage: "登录密码修改成功",
+	    regex: pawRegex
+	  },
+	  2: {
+	    fn: updatePayPwd,
+	    successMessage: "支付密码修改成功"
+	  }
+	};
+	
 	const save = () => {
-		let params = {}
-		switch (type.value) {
-			case 0:
-				if (dataform.oldPhone.length == 0) {
-					uni.showToast({
-						title: '旧手机号不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPhone.length == 0) {
-					uni.showToast({
-						title: '新手机号不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPhone == dataform.oldPhone) {
-					uni.showToast({
-						title: '新旧手机号不能相同！',
-						icon: 'error'
-					})
-					return false
-				}
-				params = {
-					oldPhone: dataform.oldPhone,
-					newPhone: dataform.newPhone,
-					verificationCode: dataform.verificationCode,
-				}
-				break;
-			case 1:
-				if (dataform.oldPassword.length == 0) {
-					uni.showToast({
-						title: '旧密码不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPassword.length == 0) {
-					uni.showToast({
-						title: '新密码不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPassword2.length == 0) {
-					uni.showToast({
-						title: '请再次输入新密码！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPassword != dataform.newPassword2) {
-					uni.showToast({
-						title: '两次新密码不一致！',
-						icon: 'error'
-					})
-					return false
-				}
-				params = {
-					oldPassword: dataform.oldPassword,
-					newPassword: dataform.newPassword,
-					verificationCode: dataform.verificationCode,
-				}
-				break;
-			case 2:
-				if (dataform.oldPayCode.length == 0) {
-					uni.showToast({
-						title: '旧密码不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPayCode.length == 0) {
-					uni.showToast({
-						title: '新密码不能为空！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPayCode2.length == 0) {
-					uni.showToast({
-						title: '请再次输入新密码！',
-						icon: 'error'
-					})
-					return false
-				}
-				if (dataform.newPayCode != dataform.newPayCode2) {
-					uni.showToast({
-						title: '两次新密码不一致！',
-						icon: 'error'
-					})
-					return false
-				}
-				params = {
-					oldPassword: dataform.oldPayCode,
-					newPassword: dataform.newPayCode,
-					verificationCode: dataform.newPayCode2,
-				}
-				break;
-		}
-		if (dataform.verificationCode.length == 0) {
-			uni.showToast({
-				title: '验证码不能为空！',
-				icon: 'error'
-			})
-			return false
-		}
-		// console.log("params: ", params)
-		verificationCode(param).then(res => {
-			updateBindingPhone(dataform).then(res => {
-				uni.showToast({
-					title: '换绑成功！',
-					icon: "success"
-				})
-			}).catch(err => {
-				uni.showToast({
-					title: err,
-					icon: 'error'
-				})
-			})
-		}).catch(err => {
-			uni.showToast({
-				title: err,
-				icon: 'error'
-			})
-		})
+	  const action = actions[type.value];
+	  const { fn, successMessage, regex } = action;
+	  let regexObj = {}
+	  if(type.value == 0) {
+		  regexObj = dataform.newPhone
+	  } else if(type.value == 1) {
+		  regexObj = dataform.newPassword
+	  } else {
+		  regexObj = dataform.newPayCode
+	  }
+	  if (regex && !regex(regexObj)) {
+		return;
+	  }
+	
+	  fn(dataform).then(
+	    () => {
+	      uni.showToast({
+	        title: successMessage,
+	        icon: "success"
+	      });
+	      uni.clearStorageSync();
+	      changePath("/pages/login/index", { typeId: 0 });
+	    },
+	    () => {
+	      uni.showToast({
+	        title: "修改失败",
+	        icon: "error"
+	      });
+	    }
+	  );
+	};
+	
 
-	}
+	// const save = () => {
+	// 	if (type.value == 0) {
+	// 		updateBindingPhone(dataform).then(res => {
+	// 			uni.showToast({
+	// 				title: "修改成功",
+	// 				icon: "success"
+	// 			})
+	// 			uni.clearStorageSync()
+	// 			changePath('/pages/login/index', {
+	// 				typeId: 0
+	// 			})
+	// 		}, () => {
+	// 			uni.showToast({
+	// 				title: "修改失败",
+	// 				icon: "error"
+	// 			})
+	// 		})
+	// 	} else if (type.value == 1) {
+	// 		if (pawRegex(dataform.newPassword))
+	// 			updatePwd(dataform).then(res => {
+	// 				uni.showToast({
+	// 					title: "修改成功",
+	// 					icon: "success"
+	// 				})
+	// 				uni.clearStorageSync()
+	// 				changePath('/pages/login/index', {
+	// 					typeId: 0
+	// 				})
+	// 			}, () => {
+	// 				uni.showToast({
+	// 					title: "修改失败",
+	// 					icon: "error"
+	// 				})
+	// 			})
+	// 	} else {
+	// 		updatePayPwd(dataform).then(res => {
+	// 			uni.showToast({
+	// 				title: "修改成功",
+	// 				icon: "success"
+	// 			})
+	// 			uni.clearStorageSync()
+	// 			changePath('/pages/login/index', {
+	// 				typeId: 0
+	// 			})
+	// 		}, () => {
+	// 			uni.showToast({
+	// 				title: "修改失败",
+	// 				icon: "error"
+	// 			})
+	// 		})
+	// 	}
+	// }
 </script>
 
 <style lang="scss" scoped>

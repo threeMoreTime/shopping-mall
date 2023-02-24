@@ -41,7 +41,7 @@
 							<text>总价￥{{item.totalPrice}}</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn" @click="changeDeal(0)">买入</view>
+					<view class="buyListItemBtn" @click="changeDeal({index: 0,typeName: 'addOrder',id: item.id})">买入</view>
 				</view>
 			</view>
 			<view class="buyList" v-show="tabIndex === 1">
@@ -53,7 +53,7 @@
 							<text>￥{{item.totalPrice}}</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn" @click="changeDeal(1)">卖出</view>
+					<view class="buyListItemBtn" @click="changeDeal({index: 1,typeName: 'addOrder',id: item.id})">卖出</view>
 				</view>
 			</view>
 			<view class="market" v-if="tabIndex === 2">
@@ -116,10 +116,26 @@
 					</view>
 				</view>
 				<view class="btnForflex">
-					<view class="btnLeft btnBg" @click="changeDeal(0)">买入</view>
-					<view class="btnRight btnBg" @click="changeDeal(1)">卖出</view>
+					<view class="btnLeft btnBg" @click="changeDeal({index: 0,typeName: 'addTrade'})">买入</view>
+					<view class="btnRight btnBg" @click="changeDeal({index: 1,typeName: 'addTrade'})">卖出</view>
 				</view>
 			</view>
+			<u-popup v-model="isPopupShowByOrder" mode="bottom" border-radius="16">
+				<view class="popClass">
+					<view class="inpItem" v-show="showIndex === 0">
+						<u-input v-model="dataForm.amount" type="number" height="88" placeholder="请输入交易数量" />
+					</view>
+					<view class="inpItem flex-space-between" v-show="showIndex === 1">
+						<text class="Title">数量</text>
+						<u-input v-model="dataForm.amount" type="number" height="88" input-align="right"
+							placeholder="请输入挂单数量" />
+					</view>
+					<view class="inpItem">
+						<u-input v-model="dataForm.payPassword" type="password" height="88" placeholder="请输入支付密码" />
+					</view>
+					<view class="btn" @click="hendlAddTrade('addOrder')">确认</view>
+				</view>
+			</u-popup>
 			<u-popup v-model="isPopupShow" mode="bottom" border-radius="16">
 				<view class="popClass">
 					<view class="inpItem" v-show="showIndex === 0">
@@ -141,7 +157,7 @@
 					<view class="inpItem">
 						<u-input v-model="dataForm.payPassword" type="password" height="88" placeholder="请输入支付密码" />
 					</view>
-					<view class="btn" @click="hendlAddTrade">确认</view>
+					<view class="btn" @click="hendlAddTrade('addTrade')">确认</view>
 				</view>
 			</u-popup>
 		</view>
@@ -166,7 +182,8 @@
 		findTradeList,
 		findKlinePeriod,
 		findByPeriod,
-		addTrade
+		addTrade,
+		addOrder
 	} from "@/api/trade.js"
 	const changeEhart = (params) => {
 		console.log(params);
@@ -233,8 +250,10 @@
 		type: '',
 		amount: null,
 		payPassword: null,
-		price: null
+		price: null,
+		tradeId: null
 	})
+	
 	const data = reactive({
 		tabList: [],
 		current: 0,
@@ -249,7 +268,8 @@
 		highestPrice: null,
 		lowestPrice: null,
 		openPrice: null,
-		tradeList: []
+		tradeList: [],
+		isPopupShowByOrder: false
 	})
 	const {
 		chartData,
@@ -257,33 +277,47 @@
 		current,
 		isPopupShow,
 		showIndex,
-		tradeList
+		tradeList,
+		isPopupShowByOrder
 	} = toRefs(data)
 
 	// 点击买入卖出时触发 index==0 买入  1卖出  需要调用函数时自传入
-	const changeDeal = (index) => {
-		isPopupShow.value = true
+	const changeDeal = ({index = 0, typeName = 'addOrder',id = null}) => {
+		typeName === 'addOrder' ? isPopupShowByOrder.value = true : isPopupShow.value = true
 		showIndex.value = index
-		if(index == 0) {
-			dataForm.type = 'BUY'
-		} else {
-			dataForm.type = 'SELL'
-		}
+		dataForm.type = index === 0 ? 'BUY' : 'SELL'
+		dataForm.tradeId = id
 	}
 	
-	const hendlAddTrade = () => {
-		addTrade(dataForm).then(res => {
-			uni.showToast({
-				title:"挂单成功",
-				icon:"success"
+	const hendlAddTrade = (keyword) => {
+		if(keyword === 'addTrade') {
+			addTrade(dataForm).then(res => {
+				uni.showToast({
+					title:"挂单成功",
+					icon:"success"
+				})
+				isPopupShow.value = false
+			}, () => {
+				uni.showToast({
+					title:"挂单失败",
+					icon:"error"
+				})
 			})
-			isPopupShow.value = false
-		}, () => {
-			uni.showToast({
-				title:"挂单失败",
-				icon:"error"
+		} else {
+			addOrder(dataForm).then(res => {
+				console.log(res);
+				uni.showToast({
+					title:"挂单成功",
+					icon:"success"
+				})
+				isPopupShow.value = false
+			}, () => {
+				uni.showToast({
+					title:"挂单失败",
+					icon:"error"
+				})
 			})
-		})
+		}
 	}
 
 	// 用户点击tabs后触发
@@ -362,6 +396,7 @@
 
 	const changleStyle = (index) => {
 		tabIndex.value = index
+		tradeList.value = []
 		switch (tabIndex.value) {
 			case 0:
 				tradeListFrom.type = "SELL"

@@ -60,14 +60,18 @@ import { functions } from "lodash";
 	const logoutInp = () => {
 		logout().then(() => {
 			uni.clearStorageSync()
-			changePath('/pages/login/index', {
-				typeId: 0
+			uni.showToast({
+				title: "退出成功",
+				icon: "success"
 			})
 		}, () => {
 			uni.showToast({
-				title: "退出登录失败",
+				title: "网络错误",
 				icon: "error"
 			})
+		})
+		changePath('/pages/login/index', {
+			typeId: 0
 		})
 	}
   

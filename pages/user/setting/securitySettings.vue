@@ -61,16 +61,16 @@
 				<u-cell-group>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入原密码" :custom-style="customStyle"
-							v-model="dataform.oldPayCode" />
+							v-model="dataform.oldPassword" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
 						<u-input height="68" placeholder="请输入新的密码" :custom-style="customStyle"
-							v-model="dataform.newPayCode" />
+							v-model="dataform.newPassword" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
 						<u-input height="68" placeholder="请再次输入新的密码" :custom-style="customStyle"
-							v-model="dataform.newPayCode2" />
+							v-model="dataform.newPassword2" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
@@ -93,7 +93,8 @@
 <script setup>
 	import {
 		phoneRegex,
-		pawRegex
+		pawRegex,
+		payPwdRegex
 	} from "@/utils/regex.js"
 	import {
 		updateBindingPhone,
@@ -149,9 +150,6 @@
 		oldPassword: '',
 		newPassword: '',
 		newPassword2: '',
-		oldPayCode: '',
-		newPayCode: '',
-		newPayCode2: '',
 	})
 
 	const isDisabled = ref(false)
@@ -207,70 +205,79 @@
 	const typeName = computed(() => {
 		switch (type.value) {
 			case 0:
-				dataform.verificationCode = '322549'
 				return '换绑手机号'
 				break;
 			case 1:
-				dataform.verificationCode = '257613'
 				return '修改密码'
 				break;
 			case 2:
-				dataform.verificationCode = '943227'
 				return '修改支付密码'
 				break;
 		}
 	})
 
 	const actions = {
-	  0: {
-	    fn: updateBindingPhone,
-	    successMessage: "绑定手机号修改成功",
-		regex: phoneRegex
-	  },
-	  1: {
-	    fn: updatePwd,
-	    successMessage: "登录密码修改成功",
-	    regex: pawRegex
-	  },
-	  2: {
-	    fn: updatePayPwd,
-	    successMessage: "支付密码修改成功"
-	  }
+		0: {
+			fn: updateBindingPhone,
+			successMessage: "绑定手机号修改成功",
+			regex: phoneRegex
+		},
+		1: {
+			fn: updatePwd,
+			successMessage: "登录密码修改成功",
+			regex: pawRegex
+		},
+		2: {
+			fn: updatePayPwd,
+			successMessage: "支付密码修改成功",
+			regex: payPwdRegex
+		}
 	};
-	
+
 	const save = () => {
-	  const action = actions[type.value];
-	  const { fn, successMessage, regex } = action;
-	  let regexObj = {}
-	  if(type.value == 0) {
-		  regexObj = dataform.newPhone
-	  } else if(type.value == 1) {
-		  regexObj = dataform.newPassword
-	  } else {
-		  regexObj = dataform.newPayCode
-	  }
-	  if (regex && !regex(regexObj)) {
-		return;
-	  }
-	
-	  fn(dataform).then(
-	    () => {
-	      uni.showToast({
-	        title: successMessage,
-	        icon: "success"
-	      });
-	      uni.clearStorageSync();
-	      changePath("/pages/login/index", { typeId: 0 });
-	    },
-	    () => {
-	      uni.showToast({
-	        title: "修改失败",
-	        icon: "error"
-	      });
-	    }
-	  );
+		const action = actions[type.value];
+		const {
+			fn,
+			successMessage,
+			regex
+		} = action;
+		let regexObj = {}
+		if (type.value == 0) {
+			regexObj = dataform.newPhone
+		} else {
+			regexObj = dataform.newPassword
+		}
+
+		if (regex && !regex(regexObj)) {
+			return;
+		}
+
+		fn(dataform).then(
+			() => {
+				uni.showToast({
+					title: successMessage,
+					icon: "success"
+				});
+				uni.clearStorageSync();
+				if (!fn == 'updatePayPwd') {
+					changePath("/pages/login/index", {
+						typeId: 0
+					});
+				} else {
+					uni.navigateBack({
+						delta: 1
+					})
+				}
+			},
+			(err) => {
+				uni.showToast({
+					title: err,
+					icon: "error"
+				});
+			}
+		);
 	};
-	
+
 
 	// const save = () => {
 	// 	if (type.value == 0) {

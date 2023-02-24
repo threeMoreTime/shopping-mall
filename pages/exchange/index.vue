@@ -68,7 +68,13 @@
             }" :list="tabList" v-model="current" @change="changeTabs"></u-tabs>
 				</view>
 				<view class="charts-box">
-					<qiun-data-charts type="line" :opts="opts" :chartData="chartData" :canvas2d="true" />
+					<qiun-data-charts 
+						type="line" 
+						:opts="opts" 
+						:chartData="chartData" 
+						:canvas2d="true"
+						@getIndex="changeEhart"
+						 />
 				</view>
 				<view class="particulars">
 					<view class="particularsLeft">
@@ -124,7 +130,7 @@
 						<u-input v-model="dataForm.amount" type="number" height="88" input-align="right"
 							placeholder="请输入挂单数量" />
 					</view>
-					<view class="inpItem" v-show="showIndex === 1">
+					<view class="inpItem">
 						<view class="flex-space-between">
 							<text class="Title">价格</text>
 							<u-input v-model="dataForm.price" type="number" height="88" input-align="right"
@@ -162,7 +168,9 @@
 		findByPeriod,
 		addTrade
 	} from "@/api/trade.js"
-
+	const changeEhart = (params) => {
+		console.log(params);
+	}
 	onMounted(() => {
 		getServerData()
 		getenergyConfig()
@@ -208,8 +216,6 @@
 			data.lowestPrice = lowestPrice
 			data.openPrice = openPrice
 		})
-		// 默认调用一次获取数据
-		changleStyle(0)
 		// 获取k线图的配置项
 		findKlinePeriod().then(res => {
 			let keyObj = Object.keys(res)
@@ -377,6 +383,8 @@
 		}
 
 	}
+	// 默认调用一次获取数据
+	changleStyle(0)
 </script>
 
 <style lang="scss" scoped>

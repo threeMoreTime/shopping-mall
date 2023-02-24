@@ -29,6 +29,10 @@
 				<view class="shopCartBg"></view>
 				<text>购物车</text>
 			</view>
+			<view class="shopCart" @click="enshrine">
+				<view :class="[sc ? 'shopCollect2':'shopCollect']"></view>
+				<text>收藏</text>
+			</view>
 			<view class="btnAll">
 				<view class="btn" @click="shopAndBuy(0)">加入购物车</view>
 				<view class="btn2" @click="shopAndBuy(1)">立即购买</view>
@@ -70,6 +74,7 @@
 	import { cartSave } from "@/api/cart.js"
 	import { userStore } from "@/store/index.js"
 	import { preOrder } from "@/api/order.js"
+	import {collect} from '@/api/shop.js'
 	onLoad((option) => {
 		getList(option?.id)
 	})
@@ -80,6 +85,22 @@
 		productAttrUnique: "",
 		cartNum: 0
 	})
+	const sc = ref(true)
+	const enshrine = () => {
+		// sc.value = !sc.value
+		let parsms = {
+			productId: 71,
+			isLike: 0,// 收藏1，取消收藏0
+		}
+		collect(parsms).then(res=>{
+			if(parsms.isLike == 0){
+				uni.$showMsg('已取消收藏','success')
+				return false
+			}
+			uni.$showMsg('已收藏','success')
+			sc.value = !sc.value
+		})
+	}
 	const list = ref([])
 	const getList = (id) => {
 		if(id) {
@@ -280,6 +301,20 @@
 					width: 44rpx;
 					height: 46rpx;
 					background: url("@/static/img/shopCart.png") 100% no-repeat;
+					background-size: 100% 100%;
+				}
+				.shopCollect {
+					margin-bottom: 8rpx;
+					width: 44rpx;
+					height: 46rpx;
+					background: url("@/static/img/collect2.png") 100% no-repeat;
+					background-size: 100% 100%;
+				}
+				.shopCollect2 {
+					margin-bottom: 8rpx;
+					width: 44rpx;
+					height: 46rpx;
+					background: url("@/static/img/collect.png") 100% no-repeat;
 					background-size: 100% 100%;
 				}
 			}

@@ -27,7 +27,7 @@ export const dataStatistics = () => {
 // 申请店铺
 export const saveOrUpdate = (data) => {
 	return request({
-		url: '/client/shop/info/saveOrUpdate',
+		url: '/client/shop/info/save',
 		method: 'POST'
 	},data)
 }
@@ -60,5 +60,26 @@ export const deleById = (id) => {
 	return request({
 		url: `/client/category/product/delete/${id}`,
 		method: 'GET'
+	})
+}
+// 商品收藏
+export const collect = (data) => {
+	return request({
+		url: '/client/user/product/like',
+		method: 'POST'
+	},data)
+}
+// 店铺分类
+export const findAllCategory = () => {
+	return request({
+		url: '/client/shop/info/findAllCategory',
+		method: 'GET'
+	})
+}
+// 规格参数
+export const isSpecType = (id,specType) => {
+	return request({
+		url: `/client/category/product/isSpecType/${id}/${specType}`,
+		method: 'POST'
 	})
 }

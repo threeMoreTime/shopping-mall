@@ -35,7 +35,7 @@
 			<view class="buyList" v-show="tabIndex === 0">
 				<view class="buyListItem" v-for="item in tradeList" :key="item.id">
 					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量{{item.totalAmount}}</view>
+						<view class="ItemTitle">数量{{item.amount}}</view>
 						<view class="ItemPrice">
 							<text style="margin-right: 22rpx">单价￥{{item.price}}</text>
 							<text>总价￥{{item.totalPrice}}</text>
@@ -47,9 +47,9 @@
 			<view class="buyList" v-show="tabIndex === 1">
 				<view class="buyListItem" v-for="item in tradeList" :key="item.id">
 					<view class="buyListItemTitle">
-						<view class="ItemTitle">数量{{item.totalAmount}}</view>
+						<view class="ItemTitle">数量{{item.amount}}</view>
 						<view class="ItemPrice">
-							<text style="margin-right: 22rpx; text-decoration: line-through">单价￥{{item.price}}</text>
+							<text style="margin-right: 22rpx;">单价￥{{item.price}}</text>
 							<text>￥{{item.totalPrice}}</text>
 						</view>
 					</view>
@@ -305,15 +305,17 @@
 			})
 		} else {
 			addOrder(dataForm).then(res => {
-				console.log(res);
 				uni.showToast({
-					title:"挂单成功",
+					title:"交易成功",
 					icon:"success"
 				})
-				isPopupShow.value = false
+				isPopupShowByOrder.value = false
+				findTradeList(tradeListFrom).then(res => {
+					tradeList.value = res.list
+				})
 			}, () => {
 				uni.showToast({
-					title:"挂单失败",
+					title:"交易失败",
 					icon:"error"
 				})
 			})
@@ -394,7 +396,7 @@
 		limit: 20
 	})
 
-	const changleStyle = (index) => {
+	function changleStyle(index) {
 		tabIndex.value = index
 		tradeList.value = []
 		switch (tabIndex.value) {

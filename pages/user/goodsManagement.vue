@@ -91,7 +91,7 @@
 	const goodList = (id) =>{
 		shopManage(id).then(res=>{
 			console.log('res',res)
-			goodsList.value = res.list
+			goodsList.value = res
 		})
 	}
 	const switchNavigation = () => {
@@ -114,8 +114,8 @@
 					icon: "success"
 				})
 			}
+			goodList(data.current)
 		})
-		goodList(data.current)
 	}
 	
 	const deleGoods = (id) => {

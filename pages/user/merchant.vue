@@ -93,19 +93,19 @@
 	import { reactive, toRefs } from 'vue'
 	
 	const data = reactive({
-		showModal: false
+		showModal: true
 		
 	})
 	
 	const { showModal } = toRefs(data)
 	
 	onLoad(()=>{
-		// haveShop()
+		haveShop()
 	})
 	const haveShop = () => {
 		isShop().then(res => {
 			console.log('res',res)
-			if(Object.keys(res).length == 0){
+			if(res === null){
 				data.showModal = true
 			}else{
 				data.showModal = false

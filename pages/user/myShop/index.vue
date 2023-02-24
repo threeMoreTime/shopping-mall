@@ -22,7 +22,8 @@
 					<view class="dele" @click="close(1)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo"></u-image>
+					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo">
+					</u-image>
 				</view>
 			</u-form-item>
 			<u-form-item :label="'店主微信('+ (dataForm.wx.length>0?1:0) +'/1)'">
@@ -35,7 +36,8 @@
 					<view class="dele" @click="close(2)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image @click="photos(2)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx"></u-image>
+					<u-image @click="photos(2)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx">
+					</u-image>
 				</view>
 			</u-form-item>
 			<u-form-item label="主营">
@@ -43,8 +45,10 @@
 			</u-form-item>
 		</view>
 		<view class="card">
-			<u-form-item label="店铺分类" right-icon="arrow-right">
-				<u-select></u-select>
+			<u-form-item label="店铺分类" right-icon="arrow-right" @click="showCate = true">
+				<u-input v-model="dataForm.cate" disabled bor disabledColor="#ffffff" placeholder="请选择分类">
+				</u-input>
+				<u-select v-model="showCate" mode="single-column" :default-value="[1]" :list="cateList" @confirm="confirmCate"></u-select>
 			</u-form-item>
 			<u-form-item label="所在地区">
 				<u-input v-model="dataForm.refundAddress"></u-input>
@@ -76,7 +80,8 @@
 					<view class="dele" @click="close(3)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image @click="photos(3)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.imgs[0]"></u-image>
+					<u-image @click="photos(3)" width="100%" height="100%" border-radius="15rpx"
+						:src="dataForm.imgs[0]"></u-image>
 				</view>
 			</u-form-item>
 		</view>
@@ -88,17 +93,29 @@
 </template>
 
 <script setup>
-	import {uploadFilePromise} from '@/utils/fileUpload.js'
-	import {ref,reactive,toRefs} from 'vue'
-	import {onLoad} from "@dcloudio/uni-app";
-	import {saveOrUpdate} from '@/api/shop.js'
-import { defaults } from 'lodash';
+	import {
+		uploadFilePromise
+	} from '@/utils/fileUpload.js'
+	import {
+		ref,
+		reactive,
+		toRefs
+	} from 'vue'
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	import {
+		saveOrUpdate,findAllCategory
+	} from '@/api/shop.js'
+	import {
+		defaults
+	} from 'lodash';
 	const action = ref('/dev/client/user/system/image')
 	const close = (id) => {
 		uni.showModal({
 			title: '提示',
 			content: '您确定要删除此项吗？',
-			success: function (res) {
+			success: function(res) {
 				if (res.confirm) {
 					switch (id) {
 						case 1:
@@ -107,11 +124,11 @@ import { defaults } from 'lodash';
 							break;
 						case 2:
 							dataForm.wx = ''
-							return 
+							return
 							break;
 						case 3:
 							dataForm.imgs = []
-							return 
+							return
 							break;
 					}
 				}
@@ -125,7 +142,7 @@ import { defaults } from 'lodash';
 			sizeType: ['original', 'compressed'],
 			sourceType: ['camera', 'album'],
 			success: async function(res) {
-				console.log('chooseImage res',res)
+				console.log('chooseImage res', res)
 				uni.showLoading({
 					title: '图片上传中',
 				})
@@ -138,12 +155,12 @@ import { defaults } from 'lodash';
 						break;
 					case 2:
 						dataForm.wx = 'https://cdn.uviewui.com/uview/swiper/2.jpg'
-						return 
+						return
 						break;
 					case 3:
 						dataForm.imgs.push('https://cdn.uviewui.com/uview/swiper/3.jpg')
-						console.log(dataForm.imgs )
-						return 
+						console.log(dataForm.imgs)
+						return
 						break;
 				}
 			}
@@ -152,17 +169,6 @@ import { defaults } from 'lodash';
 	// 预览
 	const photos = (id) => {
 		let imgList = []
-		// imgList.push(dataForm.logo)
-		// if(id == 1){
-		// 	imgList.push(dataForm.logo)
-		// 	console.log("imgList111: ",imgList);
-		// }else if(id == 2){
-		// 	imgList.push(dataForm.wx)
-		// 	console.log("imgList222: ",imgList);
-		// }else(id == 3){
-		// 	imgList = dataForm.imgs
-		// 	console.log("imgList333: ",imgList);
-		// }
 		switch (id) {
 			case 1:
 				imgList.push(dataForm.logo)
@@ -174,7 +180,7 @@ import { defaults } from 'lodash';
 				imgList = dataForm.imgs
 				break;
 		}
-		console.log("imgList: ",imgList);
+		console.log("imgList: ", imgList);
 		uni.previewImage({
 			count: imgList.length,
 			urls: imgList,
@@ -192,18 +198,43 @@ import { defaults } from 'lodash';
 		btnName,
 	} = toRefs(data)
 
+	const findCategory = () => {
+		cateList.length = 0
+		findAllCategory().then(res=>{
+			res.map(e => {
+				cateList.push({
+					value: e.id,
+					label: e.name
+				})
+			})
+		})
+	}
+	const confirmCate = (e) => {
+		// console.log('e',e)
+		// console.log('e',e[0])
+		// console.log('e',e[0].value)
+		// console.log('e',e[0].label)
+		dataForm.cate = e[0].label
+		dataForm.cateIds.push(e[0].value)
+	}
 	onLoad((option) => {
 		if (option.typeId) {
 			data.current = option.typeId
 			data.btnName = '保存'
 		}
+		findCategory()
 	})
+	const showCate = ref(false)
+	const cateList = reactive([])
 	const dataForm = reactive({
 		storeName: 'XX小店',
 		logo: '',
 		wx: '',
 		main: '餐饮',
-		cateIds: [781],
+		cate: '',
+		cateIds: [],
+		// cate: cateList[0].label ? cateList[0].label:'',
+		// cateIds: [cateList[0].value]? [cateList[0].value]:'',
 		refundAddress: '广东省',
 		shipAddress: '广东深圳龙岗',
 		describes: '这是餐饮服务',
@@ -213,57 +244,59 @@ import { defaults } from 'lodash';
 	})
 
 	const save = (id) => {
-		if(!dataForm.storeName){
+		if (!dataForm.storeName) {
 			uni.$showMsg('店铺名称不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.logo){
+		if (!dataForm.logo) {
 			uni.$showMsg('店铺logo不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.wx){
+		if (!dataForm.wx) {
 			uni.$showMsg('店主微信不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.main){
+		if (!dataForm.main) {
 			uni.$showMsg('主营不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.cateIds){
+		if (!dataForm.cateIds) {
 			uni.$showMsg('分类不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.refundAddress){
+		if (!dataForm.refundAddress) {
 			uni.$showMsg('地区不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.shipAddress){
+		if (!dataForm.shipAddress) {
 			uni.$showMsg('详细地址不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.describes){
+		if (!dataForm.describes) {
 			uni.$showMsg('简介不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.refundContact){
+		if (!dataForm.refundContact) {
 			uni.$showMsg('联系人不能为空！', 'error')
 			return false
 		}
-		if(!dataForm.refundMobile){
+		if (!dataForm.refundMobile) {
 			uni.$showMsg('联系电话不能为空！', 'error')
 			return false
 		}
 		if (id == 1) {
 			console.log(dataForm)
-			// saveOrUpdate(dataForm).then(res => {
-			// 	uni.showToast({
-			// 		title: '店铺申请成功！',
-			// 		icon: "success"
-			// 	})
-			// 	setTimeout(() => {
-			// 		uni.navigateBack(-1)
-			// 	}, 2000)
-			// })
+			saveOrUpdate(dataForm).then(res => {
+				uni.showToast({
+					title: '店铺申请成功！',
+					icon: "success"
+				})
+				setTimeout(() => {
+					uni.navigateTo({
+						url: '/pages/user/merchant'
+					})
+				}, 2000)
+			})
 		}
 	}
 
@@ -311,7 +344,8 @@ import { defaults } from 'lodash';
 		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 		border-radius: 16rpx 16rpx 16rpx 16rpx;
 		font-size: 24rpx;
-		.upload{
+
+		.upload {
 			width: 200rpx;
 			height: 200rpx;
 			border-radius: 15rpx;
@@ -320,21 +354,25 @@ import { defaults } from 'lodash';
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			.add{
+
+			.add {
 				font-size: 40rpx;
 				color: #606266;
 			}
-			.change{
+
+			.change {
 				color: #606266;
 			}
 		}
-		.upload2{
+
+		.upload2 {
 			border-radius: 15rpx;
 			// background-color: #f4f5f6;
 			width: 200rpx;
 			height: 200rpx;
 			position: relative;
-			.dele{
+
+			.dele {
 				z-index: 999;
 				width: 40rpx;
 				height: 40rpx;
@@ -344,12 +382,13 @@ import { defaults } from 'lodash';
 				top: 10rpx;
 				background-color: #fa3534;
 				color: #fef8ff;
-				.close{
+
+				.close {
 					z-index: 999 !important;
 					position: absolute;
 					top: 50%;
 					left: 50%;
-					transform: translate(-50%,-50%);
+					transform: translate(-50%, -50%);
 				}
 			}
 		}

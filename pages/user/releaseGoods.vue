@@ -109,6 +109,7 @@
 			v-model="specification" 
 			v-show="current === 1"
 			active-color="#24743C"
+			@change="specificationChange"
 		></u-switch>
 		<u-switch 
 			v-model="distribution" 
@@ -131,7 +132,7 @@
 </template>
 
 <script setup>
-	import {publish,getById} from '@/api/shop.js'
+	import {publish,getById,isSpecType} from '@/api/shop.js'
 	import {reactive, toRefs, ref} from 'vue';
 	import {onReady, onLoad} from "@dcloudio/uni-app";
 	
@@ -209,6 +210,7 @@
 	const detail = (id) =>{
 		getById(id).then(res=>{
 			console.log('res',res)
+			specification.value = res.specType
 				data.form.image.push({url:res.image})
 				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,stock,isPostage,postage,description} = res
 				data.form = {
@@ -239,7 +241,20 @@
 		}
 		data.current = index
 	}
-	
+	// 规格参数
+	const specificationChange = (e) =>{
+		// console.log(e,specification.value)
+		let id = goodsId.value
+		let specType = null
+		if(specification.value){
+			specType = 1
+		}else{
+			specType = 0
+		}
+		isSpecType(id,specType).then(res=>{
+			uni.$showMsg('参数设置成功','success')
+		})
+	}
 	const navigateBack = () => {
 		uni.navigateBack({
 			delta: 1

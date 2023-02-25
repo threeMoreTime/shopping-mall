@@ -41,20 +41,24 @@
 				right-icon="arrow-right" 
 				@click.capture="onCategory"
 			>
+			<u-input v-model="data.categoryValue" disabled bor disabledColor="#ffffff" placeholder="请选择分类">
+			</u-input>
 				<u-select 
 					v-model="form.category" 
 					confirm-color="#24743C"
 					@confirm="activeCategory"
+					:default-value="[1]"
+					:list="cateList"
 				></u-select>
 			</u-form-item>				
-			<view @click="changePath('/pages/user/storeClass')">
+			<!-- <view @click="changePath('/pages/user/storeClass')">
 				<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
 					<u-select></u-select>
 				</u-form-item>				
-			</view>
+			</view> -->
 		</view>
 		<view class="box">
-			<u-form-item label="商品图片0/1">
+			<u-form-item label="商品图片(1/1)">
 				<u-upload 
 					ref="imageUpload"
 					:max-count="1" 
@@ -132,9 +136,9 @@
 </template>
 
 <script setup>
-	import {publish,getById,isSpecType} from '@/api/shop.js'
+	import {publish,getById,isSpecType,Commodity} from '@/api/shop.js'
 	import {reactive, toRefs, ref} from 'vue';
-	import {onReady, onLoad} from "@dcloudio/uni-app";
+	import {onReady, onLoad,onShow} from "@dcloudio/uni-app";
 	
 	const imageUpload = ref(null)
 	const uform = ref()
@@ -151,26 +155,26 @@
 		form: {
 			storeName: "",
 	    storeInfo: "",
-	    cateIds: [1,2,3],
-	    shopCateIds: [1],
+	    cateIds: [],
+	//     shopCateIds: [1],
 	    image: [],// string
 	    videoLink: '',// string
 			unitName: '',
 	    price: "",
 	    otPrice: "",
 	    stock: '',
-	    isPostage: '',
+	    isPostage: false,
 	    postage: '',
 	    description: " ",
 		},
 		rules: {
-			storeName: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change' ]}],
-			storeInfo: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change' ]}],
-			unitName: [{ required: true, message: '请输入商品单位', trigger: ['blur', 'change' ]}],
-			price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change' ]}],
-			otPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change' ]}],
-			stock: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change' ]}],
-			description: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change' ]}],
+			// storeName: [{ required: true, message: '请输入商品名称', trigger: ['blur', 'change' ]}],
+			// storeInfo: [{ required: true, message: '请输入商品副标题', trigger: ['blur', 'change' ]}],
+			// unitName: [{ required: true, message: '请输入商品单位', trigger: ['blur', 'change' ]}],
+			// price: [{ required: true, message: '请输入价格', trigger: ['blur', 'change' ]}],
+			// otPrice: [{ required: true, message: '请输入商品市场价', trigger: ['blur', 'change' ]}],
+			// stock: [{ required: true, message: '请输入商品库存', trigger: ['blur', 'change' ]}],
+			// description: [{ required: true, message: '请输入图文详情', trigger: ['blur', 'change' ]}],
 		},
 		categoryValue: '',
 		specification: false,
@@ -200,16 +204,27 @@
 		uform.value.setRules(rules)
 	})
   onLoad((option)=>{
+		seleCommodity()
 		if(Object.keys(option).length>0){
 			goodsId.value = parseInt(option.id)
 			detail(parseInt(goodsId.value))
 			return
 		}
 	})
+	onShow(()=>{
+		uni.$on('returnData',data => {
+			console.log("data: ",data);
+		})
+	})
 	const goodsId = ref()
 	const detail = (id) =>{
 		getById(id).then(res=>{
-			console.log('res',res)
+			// console.log('res',res)
+			let cate = cateList.find(p => {
+				return p.value === res.cateIds[0]
+			})
+			data.categoryValue = cate.label
+			
 			specification.value = res.specType
 				data.form.image.push({url:res.image})
 				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,stock,isPostage,postage,description} = res
@@ -217,7 +232,7 @@
 					storeName,
 			    storeInfo,
 			    cateIds,
-			    shopCateIds,
+			//     shopCateIds,
 			//     image[0].url:[{url: 'https://cdn.uviewui.com/uview/swiper/2.jpg',}],
 			//     image[0].url:image,
 			//     videoLink: videoLink || '',
@@ -229,6 +244,19 @@
 			    postage,
 			    description,
 				}
+		})
+	}
+	const cateList = reactive([])
+	// 商品类目
+	const seleCommodity = () => {
+		cateList.length = 0
+		Commodity().then(res=>{
+			res.map(e => {
+				cateList.push({
+					value: e.id,
+					label: e.name
+				})
+			})
 		})
 	}
 	const tabsChange = (index)=> {
@@ -272,29 +300,63 @@
 	}
 	
 	const activeCategory = (res) => {
-		console.log(categoryValue, res)
+		data.form.cateIds.length = 0
+		// console.log(data.categoryValue, res)
+		data.categoryValue = res[0].label
+		data.form.cateIds.push(res[0].value)
 	}
 	
 	const release = (isShow) => {
+		console.log('isShow',isShow)
 		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
 			let params = {}
 			if(valid){
+				console.log(valid)
 				if(goodsId.value){
 					params = {
 						id: goodsId.value,
-						image: data.form.image ? data.form.image:'https://cdn.uviewui.com/uview/swiper/2.jpg',
+						// image: data.form.image[0].url ? data.form.image[0].url:'https://cdn.uviewui.com/uview/swiper/2.jpg',
+						image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
 						isShow
 					}
-					
+					console.log(params)
 				}else{
 					params = {
-						image: data.form.image,
+						image: data.form.image[0].url,
 						isShow
 					}
 				}
+				if(!data.form.storeName){
+					uni.$showMsg('请输入商品名称','error')
+					return false
+				}
+				if(!data.form.storeInfo){
+					uni.$showMsg('请输入商品副标题','error')
+					return false
+				}
+				if(!data.form.unitName){
+					uni.$showMsg('请输入商品单位','error')
+					return false
+				}
+				if(!data.form.price){
+					uni.$showMsg('请输入价格','error')
+					return false
+				}
+				if(!data.form.otPrice){
+					uni.$showMsg('请输入商品市场价','error')
+					return false
+				}
+				if(!data.form.stock){
+					uni.$showMsg('请输入商品库存','error')
+					return false
+				}
+				if(!data.form.description){
+					uni.$showMsg('请输入图文详情','error')
+					return false
+				}
 				let dataInfo = {...data.form, ...params}
-				// console.log('dataInfo',dataInfo)
+				console.log('dataInfo',dataInfo)
 				publish(dataInfo).then(res=>{
 					if(isShow == 1){
 						uni.showToast({

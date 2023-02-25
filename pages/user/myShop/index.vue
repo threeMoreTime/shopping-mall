@@ -48,7 +48,7 @@
 			<u-form-item label="店铺分类" right-icon="arrow-right" @click="showCate = true">
 				<u-input v-model="dataForm.cate" disabled bor disabledColor="#ffffff" placeholder="请选择分类">
 				</u-input>
-				<u-select v-model="showCate" mode="single-column" :default-value="[1]" :list="cateList" @confirm="confirmCate"></u-select>
+				<u-select v-model="showCate" confirm-color="#24743C" mode="single-column" :default-value="[1]" :list="cateList" @confirm="confirmCate"></u-select>
 			</u-form-item>
 			<u-form-item label="所在地区">
 				<u-input v-model="dataForm.refundAddress"></u-input>

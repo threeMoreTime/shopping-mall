@@ -164,6 +164,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 							title: "支付失败",
 							icon:"error"
 						})
+						// 返回待支付页面
 						uni.navigateBack({
 							delta: 2
 						})

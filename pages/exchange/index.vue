@@ -41,7 +41,8 @@
 							<text>总价￥{{item.totalPrice}}</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn" @click="changeDeal({index: 0,typeName: 'addOrder',id: item.id})">买入</view>
+					<view class="buyListItemBtn" @click="changeDeal({index: 0,typeName: 'addOrder',id: item.id})">买入
+					</view>
 				</view>
 			</view>
 			<view class="buyList" v-show="tabIndex === 1">
@@ -53,7 +54,8 @@
 							<text>￥{{item.totalPrice}}</text>
 						</view>
 					</view>
-					<view class="buyListItemBtn" @click="changeDeal({index: 1,typeName: 'addOrder',id: item.id})">卖出</view>
+					<view class="buyListItemBtn" @click="changeDeal({index: 1,typeName: 'addOrder',id: item.id})">卖出
+					</view>
 				</view>
 			</view>
 			<view class="market" v-if="tabIndex === 2">
@@ -68,13 +70,8 @@
             }" :list="tabList" v-model="current" @change="changeTabs"></u-tabs>
 				</view>
 				<view class="charts-box">
-					<qiun-data-charts 
-						type="line" 
-						:opts="opts" 
-						:chartData="chartData" 
-						:canvas2d="true"
-						@getIndex="changeEhart"
-						 />
+					<qiun-data-charts type="candle" :opts="opts" :chartData="chartData" :canvas2d="true"
+						@getIndex="changeEhart" />
 				</view>
 				<view class="particulars">
 					<view class="particularsLeft">
@@ -185,11 +182,16 @@
 		addTrade,
 		addOrder
 	} from "@/api/trade.js"
+	import {
+		info
+	} from "@/api/user.js"
+	import {
+		userStore
+	} from "@/store/index.js"
 	const changeEhart = (params) => {
 		console.log(params);
 	}
 	onMounted(() => {
-		getServerData()
 		getenergyConfig()
 	})
 	onReachBottom(() => {
@@ -253,7 +255,7 @@
 		price: null,
 		tradeId: null
 	})
-	
+
 	const data = reactive({
 		tabList: [],
 		current: 0,
@@ -282,50 +284,66 @@
 	} = toRefs(data)
 
 	// 点击买入卖出时触发 index==0 买入  1卖出  需要调用函数时自传入
-	const changeDeal = ({index = 0, typeName = 'addOrder',id = null}) => {
+	const changeDeal = ({
+		index = 0,
+		typeName = 'addOrder',
+		id = null
+	}) => {
 		typeName === 'addOrder' ? isPopupShowByOrder.value = true : isPopupShow.value = true
 		showIndex.value = index
 		dataForm.type = index === 0 ? 'BUY' : 'SELL'
 		dataForm.tradeId = id
 	}
-	
+
 	const hendlAddTrade = (keyword) => {
-		if(keyword === 'addTrade') {
+		if (keyword === 'addTrade') {
 			addTrade(dataForm).then(res => {
 				uni.showToast({
-					title:"挂单成功",
-					icon:"success"
+					title: "挂单成功",
+					icon: "success"
 				})
 				isPopupShow.value = false
+				info().then(res => {
+					userStore().userInfo = res
+				})
 			}, () => {
 				uni.showToast({
-					title:"挂单失败",
-					icon:"error"
+					title: "挂单失败",
+					icon: "error"
 				})
 			})
 		} else {
 			addOrder(dataForm).then(res => {
 				uni.showToast({
-					title:"交易成功",
-					icon:"success"
+					title: "交易成功",
+					icon: "success"
 				})
 				isPopupShowByOrder.value = false
 				findTradeList(tradeListFrom).then(res => {
 					tradeList.value = res.list
+					info().then(res => {
+						userStore().userInfo = res
+					})
 				})
 			}, () => {
 				uni.showToast({
-					title:"交易失败",
-					icon:"error"
+					title: "交易失败",
+					icon: "error"
 				})
 			})
 		}
 	}
 
+	// 存放k线图的数据
+	const chartsList = ref([])
+	
 	// 用户点击tabs后触发
 	const changeTabs = (index = 0) => {
-		findByPeriod({period: tabList.value[index].period}).then(res => {
-			console.log(res);
+		findByPeriod({
+			period: tabList.value[index].period
+		}).then(res => {
+			chartsList.value = res
+			getServerData(chartsList.value)
 		})
 	}
 
@@ -337,40 +355,34 @@
 		fontColor: '#FFF',
 		dataPointShape: false,
 		dataLabel: true,
-		xAxis: {
-			dashLength: 2,
-			calibration: true,
-			disableGrid: true,
-			fontColor: '#FFF',
-			title: '时间',
-		},
 		yAxis: {
-			gridType: 'dash',
-			dashLength: 2,
-			disabled: false,
-			disableGrid: true,
-			title: '价格'
+			scale: true,
+			splitArea: {
+				show: true
+			}
 		},
 		extra: {
-			line: {
-				type: 'straight',
-				width: 2,
-				activeType: 'hollow',
-			},
-		},
+			candle: {
+				average: {
+					show: false
+				}
+			}
+		}
 	})
 
-	const getServerData = () => {
-		setTimeout(() => {
+	function getServerData(arr) {
 			let res = {
-				categories: ['10:30', '12:00', '13:30', '15:00', '16:30', '18:00'],
+				xAxis: {
+					data: arr.map(item => item.id)
+				},
+				categories: arr.map(item => item.id),
 				series: [{
-					name: '价格(人民币)',
-					data: [70, 40, 65, 100, 44, 68]
-				}, ],
+					name: 'k线图',
+					data: arr.map(d => [d.openPrice, d.closePrice, d.highestPrice, d.lowestPrice])
+					},
+				],
 			}
 			chartData.value = res
-		}, 500)
 	}
 
 	const tabIndex = ref(0)
@@ -414,8 +426,11 @@
 			})
 		}
 		if (tabIndex.value == 2) {
-			findByPeriod({period: tabList.value[0].period}).then(res => {
-				console.log(res);
+			findByPeriod({
+				period: tabList.value[0].period
+			}).then(res => {
+				chartsList.value = res
+				getServerData(chartsList.value)
 			})
 		}
 

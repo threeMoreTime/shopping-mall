@@ -307,12 +307,10 @@
 	}
 	
 	const release = (isShow) => {
-		console.log('isShow',isShow)
 		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
 			let params = {}
 			if(valid){
-				console.log(valid)
 				if(goodsId.value){
 					params = {
 						id: goodsId.value,
@@ -320,7 +318,6 @@
 						image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
 						isShow
 					}
-					console.log(params)
 				}else{
 					params = {
 						image: data.form.image[0].url,

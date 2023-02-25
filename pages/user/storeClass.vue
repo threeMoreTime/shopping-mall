@@ -49,7 +49,9 @@
 		data.show = true;
 	}
 	
+	const indexArr = reactive([1,2,3])
 	const navigateBack = () => {
+		uni.$emit('returnData',indexArr)
 		uni.navigateBack({
 			delta: 1
 		})

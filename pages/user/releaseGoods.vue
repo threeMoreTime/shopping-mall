@@ -58,7 +58,7 @@
 			</view> -->
 		</view>
 		<view class="box">
-			<u-form-item :label="'商品图片('+ form.image.length +'/1)'">
+			<u-form-item label="商品图片(1/1)">
 				<u-upload 
 					ref="imageUpload"
 					:max-count="1" 
@@ -156,14 +156,14 @@
 			storeName: "",
 	    storeInfo: "",
 	    cateIds: [],
-	    shopCateIds: [1],
+	//     shopCateIds: [1],
 	    image: [],// string
 	    videoLink: '',// string
 			unitName: '',
 	    price: "",
 	    otPrice: "",
 	    stock: '',
-	    isPostage: '',
+	    isPostage: false,
 	    postage: '',
 	    description: " ",
 		},
@@ -232,7 +232,7 @@
 					storeName,
 			    storeInfo,
 			    cateIds,
-			    shopCateIds,
+			//     shopCateIds,
 			//     image[0].url:[{url: 'https://cdn.uviewui.com/uview/swiper/2.jpg',}],
 			//     image[0].url:image,
 			//     videoLink: videoLink || '',
@@ -307,20 +307,23 @@
 	}
 	
 	const release = (isShow) => {
+		console.log('isShow',isShow)
 		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
 			let params = {}
 			if(valid){
+				console.log(valid)
 				if(goodsId.value){
 					params = {
 						id: goodsId.value,
-						image: data.form.image ? data.form.image:'https://cdn.uviewui.com/uview/swiper/2.jpg',
+						// image: data.form.image[0].url ? data.form.image[0].url:'https://cdn.uviewui.com/uview/swiper/2.jpg',
+						image: 'https://cdn.uviewui.com/uview/swiper/2.jpg',
 						isShow
 					}
-					
+					console.log(params)
 				}else{
 					params = {
-						image: data.form.image,
+						image: data.form.image[0].url,
 						isShow
 					}
 				}
@@ -353,7 +356,7 @@
 					return false
 				}
 				let dataInfo = {...data.form, ...params}
-				// console.log('dataInfo',dataInfo)
+				console.log('dataInfo',dataInfo)
 				publish(dataInfo).then(res=>{
 					if(isShow == 1){
 						uni.showToast({

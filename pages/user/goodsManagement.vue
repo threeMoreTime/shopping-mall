@@ -66,8 +66,9 @@
 			<view @click="deleGoods(item.id)">删除</view>
 		</view>
 	</view>
-	<view class="empty" v-if="current === 0 && goodsList.length == 0">
-		<view>亲，还没有任何商品哦</view>
+	<!-- && goodsList.length == 0 -->
+	<view class="empty" v-if="current === 0 ">
+		<view v-show="goodsList.length == 0">亲，还没有任何商品哦</view>
 		<view class="emptyFooter">
 			<view class="btn emptyBtn select" @click="changePath()">发布商品</view>
 		</view>
@@ -197,14 +198,17 @@
 	}
 	
 	.empty {
-		position: absolute;
-		top: 30%;
-		left: 30%;
-		
+		// position: absolute;
+		// top: 30%;
+		// left: 30%;
+		display: flex;
+		flex-direction: column; 
+		align-items: center;
+		 
 		.emptyBtn {
 			width: 174rpx;
 			height: 70rpx;
-			margin-top: 62rpx;
+			margin-top: 42rpx;
 			opacity: 1;
 		}
 		

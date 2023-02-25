@@ -505,6 +505,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/login/codeLogin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "验证码登录",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 
 	"globalStyle": {

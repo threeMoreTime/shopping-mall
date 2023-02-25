@@ -11,11 +11,13 @@
 				</view>
 				<u-input v-model="userForm.account" height=96 placeholder="请输入账号" />
 			</view> -->
-			<view class="userItem flex-space-between">
+			<view class="userItem flex-space-between position-relative">
+				<text style="position: absolute;color: red;top: 30rpx;left: 20rpx;">*</text>
 				<view class="ItemBg">
 					<u-icon name="man-add" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.inviteCode" height=96 placeholder="请输入推荐码" />
+				<u-input v-model="userForm.inviteCode" @blur="inviteCodeRegex(userForm.inviteCode,'邀请码')" height=96
+					placeholder="请输入推荐码" />
 			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
@@ -27,20 +29,26 @@
 				<view class="ItemBg">
 					<u-icon name="account" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.cardId" height=96 type="idcard" placeholder="请输入身份证号" />
+				<u-input v-model="userForm.cardId" height=96 @blur="idCardRegex(userForm.cardId)" type="idcard"
+					placeholder="请输入身份证号" />
 			</view>
-			<view class="userItem flex-space-between">
+			<view class="userItem flex-space-between position-relative">
+				<text style="position: absolute;color: red;top: 30rpx;left: 20rpx;">*</text>
 				<view class="ItemBg">
 					<u-icon name="phone" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.phone" height=96 type="number" placeholder="请输入手机号码" />
+				<u-input v-model="userForm.phone" height=96 @blur="phoneRegex(userForm.phone)" type="number"
+					placeholder="请输入手机号码" />
 			</view>
 			<view class="userItem position-relative">
+				<text style="position: absolute;color: red;top: 30rpx;left: 20rpx;">*</text>
 				<view class="flex-space-between">
 					<view class="ItemBg">
 						<u-icon name="lock" size="32"></u-icon>
 					</view>
-					<u-input v-model="userForm.verificationCode" height=96 type="number" placeholder="请输入验证码" />
+					<u-input v-model="userForm.verificationCode"
+						@blur="inviteCodeRegex(userForm.verificationCode,'验证码')" height=96 type="number"
+						placeholder="请输入验证码" />
 				</view>
 				<view class="code">
 					<u-button :disabled="isDisabled" hover-class="none" :custom-style="customStyle" @click="setTimer">
@@ -54,25 +62,30 @@
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.password" type="password" height=96 placeholder="请输入登录密码" />
+				<u-input v-model="userForm.password" @blur="pawRegex(userForm.password)" type="password" height=96
+					placeholder="请输入登录密码" />
 			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.againPassword" type="password" height=96 placeholder="请再次输入登录密码" />
+				<u-input v-model="userForm.againPassword" @blur="comparison(userForm.password,userForm.againPassword)"
+					type="password" height=96 placeholder="请再次输入登录密码" />
 			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.payPassword" type="password" height=96 placeholder="请输入支付密码" />
+				<u-input v-model="userForm.payPassword" @blur="inviteCodeRegex(userForm.payPassword,'数字支付密码')"
+					type="password" height=96 placeholder="请输入支付密码" />
 			</view>
 			<view class="userItem flex-space-between">
 				<view class="ItemBg">
 					<u-icon name="lock" size="32"></u-icon>
 				</view>
-				<u-input v-model="userForm.againPayPassword" type="password" height=96 placeholder="请再次输入支付密码" />
+				<u-input v-model="userForm.againPayPassword"
+					@blur="comparison(userForm.payPassword,userForm.againPayPassword)" type="password" height=96
+					placeholder="请再次输入支付密码" />
 			</view>
 		</view>
 		<view class="agreement" v-show="isNext === 1">
@@ -99,15 +112,17 @@
 		login,
 		info
 	} from "@/api/user.js"
-	import { 
+	import {
 		inviteCodeRegex,
 		empty,
 		idCardRegex,
 		phoneRegex,
 		pawRegex,
 		comparison
-		} from "@/utils/regex.js"
-	import {userStore} from "@/store/index.js"
+	} from "@/utils/regex.js"
+	import {
+		userStore
+	} from "@/store/index.js"
 	const isNext = ref(0)
 	const agreement = reactive({
 		name: 'agreement',
@@ -146,10 +161,10 @@
 	const setTimer = _.throttle(() => {
 		if (!(/^1[3-9]\d{9}$/).test(userForm.phone)) {
 			return uni.showToast({
-					title:"请输入正确手机号码",
-					icon:"error"
-				})
-			}
+				title: "请输入正确手机号码",
+				icon: "error"
+			})
+		}
 		let timer = setInterval(() => {
 			codeNumber.value--
 			isDisabled.value = true
@@ -159,58 +174,51 @@
 				isDisabled.value = false
 			}
 		}, 1000)
-		if(codeNumber.value == 60) {
+		if (codeNumber.value == 60) {
 			sendCode(userForm).then(res => {
 				uni.showToast({
 					title: "发送成功",
-					icon:"success"
+					icon: "success"
 				})
 			}).catch(err => {
 				uni.showToast({
 					title: err,
-					icon:'error'
+					icon: 'error'
 				})
 			})
 		}
 	}, 1000)
 	const changeInpNext = () => {
-		if(inviteCodeRegex(userForm.inviteCode,"邀请码"))
-		if(empty(userForm.realName,"姓名"))
-		if(idCardRegex(userForm.cardId))
-		if(phoneRegex(userForm.phone))
-		if(inviteCodeRegex(userForm.verificationCode,"验证码"))
-		isNext.value = 1
+		if (inviteCodeRegex(userForm.inviteCode, "邀请码"))
+			if (phoneRegex(userForm.phone))
+				if (inviteCodeRegex(userForm.verificationCode, "验证码"))
+					isNext.value = 1
 	}
 	const changeInp = () => {
 		// 在这发请求
 		if (isNext.value === 1) {
-			if(pawRegex(userForm.password))
-			if(comparison(userForm.password,userForm.againPassword))
-			if(inviteCodeRegex(userForm.payPassword,"数字支付密码"))
-			if(comparison(userForm.payPassword,userForm.againPayPassword)) {
-				if (!agreement.checked) {
-					return uni.showToast({
-						title: "请勾选协议",
-						icon: "error"
-					})
-				}
-				register(userForm).then(() => {
-					uni.showLoading({
-						title:"注册成功"
-					})
-					setTimeout(()=>{
-						uni.redirectTo({
-							url: '/pages/login/index'
-						});
-						uni.hideLoading();
-					},2000)
+			if (!agreement.checked) {
+				return uni.showToast({
+					title: "请勾选协议",
+					icon: "error"
 				})
 			}
+			register(userForm).then(() => {
+				uni.showLoading({
+					title: "注册成功"
+				})
+				setTimeout(() => {
+					uni.redirectTo({
+						url: '/pages/login/index'
+					});
+					uni.hideLoading();
+				}, 2000)
+			})
 		}
 	}
 	// 返回上一级
 	const navigateBack = () => {
-		if(isNext.value !== 0){
+		if (isNext.value !== 0) {
 			isNext.value = 0;
 			return false;
 		}

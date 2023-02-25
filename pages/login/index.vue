@@ -78,8 +78,10 @@
 			<view class="nextBtn" @click="changeInp">{{type == 0? '登录' : '确定'}}</view>
 			<view class="retrieve-password" v-if="type === 0" 
 				@click="changePath('index',{typeId: 5})">找回密码</view>
-			<view class="register" v-if="type === 0">还没有账号？<text @click="changePath('register',{})"
-					style="color: #1C6732;">立即注册</text></view>
+			<view class="register" style="color: #1C6732;" v-if="type === 0">
+				<text @click="changePath('codeLogin',{})" style="color: #1C6732;">验证码登录 &nbsp&nbsp&nbsp</text>
+				<text @click="changePath('register',{})" style="color: #1C6732;">立即注册</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -145,23 +147,23 @@
 	const codeNumber = ref(60)
 	const setTimer = _.throttle(() => {
 		if(codeNumber.value === 60)
-		if(userForm.phone != "") {
+		if(phoneRegex(userForm.phone)) {
 			sendCode(userForm).then(() => {
 				uni.showToast({
 					title: "发送成功",
 					icon:"success"
 				})
 			})
+			let timer = setInterval(() => {
+				codeNumber.value--
+				isDisabled.value = true
+				if (codeNumber.value == 0) {
+					clearInterval(timer)
+					codeNumber.value = 60
+					isDisabled.value = false
+				}
+			}, 1000)
 		}
-		let timer = setInterval(() => {
-			codeNumber.value--
-			isDisabled.value = true
-			if (codeNumber.value == 0) {
-				clearInterval(timer)
-				codeNumber.value = 60
-				isDisabled.value = false
-			}
-		}, 1000)
 	}, 500)
 	const changeInp = () => {
 		if(type.value === 5) {

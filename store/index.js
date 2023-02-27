@@ -8,6 +8,10 @@ export const userStore = defineStore('user', () => {
 	function setToken(data) {
 		token.value = data;
 		uni.setStorageSync('token', data)
+		uni.showToast({
+			title:"登录成功",
+			icon:"success"
+		})
 	} 
 	const systemConfig = reactive({
 		appAliPay: false,

@@ -97,41 +97,10 @@ export const verificationRegex = (verificationCode) => {
 	return true
 }
 
-// function regex({
-// 	phone = null,
-// 	verificationCode = null,
-// 	inviteCode = null
-// }) {
-
-
-
-// 	if (inviteCode != null) {
-// 		if (inviteCode.length !== 6) {
-// 			uni.showToast({
-// 				title: "请输入正确邀请码",
-// 				icon: "error"
-// 			})
-// 			return false
-// 		}
-// 	}
-// 	if (phone != null) {
-// 		if (!pattern.test(phone)) {
-// 			uni.showToast({
-// 				title: "请输入正确手机号码",
-// 				icon: "error"
-// 			})
-// 			return false
-// 		}
-// 	}
-// 	if (verificationCode != null) {
-// 		if (!codePatttern.test(verificationCode)) {
-// 			uni.showToast({
-// 				title: "请输入正确验证码",
-// 				icon: "error"
-// 			})
-// 			return false
-// 		}
-// 	}
-
-// 	return true
-// }
+// 统一的错误信息封装
+export const showToast = (msg, icon) => {
+  uni.showToast({
+    title: msg,
+    icon: icon,
+  });
+};

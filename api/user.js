@@ -119,3 +119,11 @@ export const updatePayPwd = (data) => {
 		url: '/client/user/updatePayPwd',
 	},data);
 };
+
+// 验证码登录
+export const loginCode = (data) => {
+	return request({
+		method: 'POST',
+		url: '/client/user/loginCode',
+	},data);
+};

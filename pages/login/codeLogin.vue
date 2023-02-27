@@ -52,11 +52,9 @@
 	} from "@dcloudio/uni-app";
 	import _ from 'lodash'
 	import {
-		login,
 		info,
 		sendCode,
-		verificationCode,
-		findBackPwd
+		loginCode
 	} from "@/api/user.js"
 	import {
 		userStore
@@ -65,7 +63,8 @@
 		phoneRegex,
 		pawRegex,
 		inviteCodeRegex,
-		comparison
+		comparison,
+		showToast
 	} from "@/utils/regex.js"
 	let customStyle = {
 		'width': '144rpx',
@@ -88,30 +87,71 @@
 		disabled: false,
 		checked: false
 	})
-	const isDisabled = ref(false)
+	// 是否禁用发送验证码
+	let isDisabled = ref(false)
+	// 全局验证码秒数
 	const codeNumber = ref(60)
+	// 定时器
+	let timer = null
+	
+	// 把发送短信的代码封装成pormise
+	const sendCodeNum = () => {
+	  return new Promise((resolve, reject) => {
+	    if (phoneRegex(userForm.phone)) {
+	      sendCode(userForm).then(() => {
+			showToast("发送成功","success")
+	        resolve()
+	      }, err => {
+			showToast(err,"error")
+	        reject()
+	      })
+	    } else {
+	      reject()
+	    }
+	  })
+	}
+	
+	// 节流函数_.throttle
 	const setTimer = _.throttle(() => {
-		if (codeNumber.value === 60)
-			if (phoneRegex(userForm.phone)) {
-				sendCode(userForm).then(() => {
-					uni.showToast({
-						title: "发送成功",
-						icon: "success"
-					})
-				})
-				let timer = setInterval(() => {
-					codeNumber.value--
-					isDisabled.value = true
-					if (codeNumber.value == 0) {
-						clearInterval(timer)
-						codeNumber.value = 60
-						isDisabled.value = false
-					}
-				}, 1000)
-			}
-	}, 500)
+	  if (codeNumber.value === 60) {
+		// 当秒数为60秒时触发sendCodeNum方法进行链式调用
+	    sendCodeNum().then(() => {
+	      let count = 60
+	      let timer = setInterval(() => {
+	        count--
+	        codeNumber.value = count
+	        isDisabled.value = true
+	        if (count === 0) {
+	          clearInterval(timer)
+	          codeNumber.value = 60
+	          isDisabled.value = false
+	        }
+	      }, 1000)
+	    }).catch(() => {})
+	  }
+	}, 1000)
+	
+	
 	const changeInp = () => {
-		
+		if(phoneRegex(userForm.phone) && inviteCodeRegex(userForm.code,'验证码')){
+			if (!agreement.checked) {
+				return uni.showToast({
+					title: "请勾选协议",
+					icon: "error"
+				})
+			}
+			loginCode(userForm).then(res => {
+				userStore().setToken(res)
+				info().then(res => {
+					userStore().userInfo = res
+				})
+				uni.switchTab({
+					url:'/pages/home/index'
+				})
+			}, err => {
+				showToast(err,"error")
+			})
+		}
 	}
 </script>
 

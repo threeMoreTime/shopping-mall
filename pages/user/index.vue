@@ -10,7 +10,7 @@
           <view class="headAndUser">
             <view class="headPortrait" @click="changeLogin">
               <image
-                :src="store.systemConfig.picWKP + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
+                :src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
                 alt="" />
             </view>
             <view class="nameAndId">
@@ -196,7 +196,7 @@
   const store = userStore()
   if (!store.userInfo.uid) {
     info().then(res => {
-      userStore().userInfo = res
+      store.userInfo = res
     })
   }
   // 未登录情况下点击头像跳转到登录页

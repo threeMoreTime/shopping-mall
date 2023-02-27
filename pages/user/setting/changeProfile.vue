@@ -10,7 +10,7 @@
 				<u-form-item :style="{'padding': '10rpx 0'}">
 					<u-input height="68" placeholder="请输入姓名" :custom-style="customStyle" v-model="dataform.realName" />
 				</u-form-item>
-				<u-button @click='updateInfo(1)' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+				<u-button @click="updateInfo({typeName: 'realName'})" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
 		<view class="pad-32 m-t-48" v-if="type === 1">
@@ -26,7 +26,7 @@
 				<u-form-item :style="{'padding': '10rpx 0'}">
 					<u-input height="68" placeholder="请输入身份证号码" :custom-style="customStyle" v-model="dataform.cardId" />
 				</u-form-item>
-				<u-button @click='updateInfo' hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+				<u-button @click="updateInfo({typeName: 'cardId'})" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 			</u-form>
 		</view>
 	</view>
@@ -57,7 +57,9 @@
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
-	import {updateUserInfo} from "@/api/user.js"
+	import {updateUserInfo,info} from "@/api/user.js"
+	import { userStore } from "@/store/index.js"
+	import {idCardRegex} from "@/utils/regex.js"
 	onLoad((option) => {
 		type.value = option?.typeId ? parseInt(option.typeId) : 0
 	})
@@ -76,23 +78,34 @@
 				break;
 		}
 	})
-	const dataform = reactive({})
+	const dataform = reactive({
+		realName: userStore().userInfo.realName || '',
+		cardId: userStore().userInfo.cardId || null,
+	})
 	
 	// updateUserInfo
-	const updateInfo = () => {
+	const updateInfo = ({typeName = ''}) => {
 		console.log("dataform: ",dataform)
-		if(Object.keys(dataform).length == 0){
+		const inputVal = dataform[typeName].trim(); // 去掉字符串前后的空格
+		if(!inputVal){
 			uni.showToast({
 				title: '输入框内容不能为空！',
 				icon:'error'
 			})
 			return false
 		}
-		updateUserInfo(dataform).then(res => {
+		if(typeName == 'cardId' && !idCardRegex(dataform.cardId)) {
+			return;
+		}
+		updateUserInfo({[typeName]: inputVal}).then(res => {  // 传入一个只包含需要更新的属性的对象
 			uni.showToast({
 				title: '修改成功！',
 				icon:"success"
 			})
+			info().then(res => {
+				userStore().userInfo = res
+			})
+			navigateBack()
 		}).catch(err => {
 			uni.showToast({
 				title: err,
@@ -103,7 +116,7 @@
 	
 	
 	// 返回上一级
-	const navigateBack = () => {
+	function navigateBack(){
 		uni.navigateBack({
 			delta: 1
 		})

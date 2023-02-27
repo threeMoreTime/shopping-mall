@@ -191,6 +191,12 @@
 				title: '地址保存成功！',
 				icon: "success"
 			})
+			navigateBack()
+		},err => {
+			uni.showToast({
+				title: err,
+				icon: "error"
+			})
 		})
 	}
 </script>

@@ -12,18 +12,18 @@
 				<view class="userInfo">
 					<view class="headAndUser">
 						<view class="headPortrait">
-							<img src="https://ts1.cn.mm.bing.net/th/id/R-C.bf504fbc3ae59e60dd8e6e90291ebc49?rik=3lJID6j%2b4WOgIQ&riu=http%3a%2f%2fe0.ifengimg.com%2f01%2f2019%2f0128%2f987B6893026017BF116335D3F0D6B512498C37CF_size82_w900_h608.jpeg&ehk=OhGESBk%2feiwZo22m0IFV1kZXrOPX46lJEgNnqoFfcdk%3d&risl=&pid=ImgRaw&r=0"
-								alt="">
+							<image :src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
+								alt=""/>
 						</view>
 						<view class="nameAndId">
 							<view class="name">
-								<text>李白</text>
-								<view class="vip">
+								<text>{{store.userInfo.nickname || '未登录'}}</text>
+								<!-- <view class="vip">
 									<view class="vipBg"></view>
 									<text>1</text>
-								</view>
+								</view> -->
 							</view>
-							<text class="Id">ID：52121121</text>
+							<text class="Id">ID：{{store.userInfo.uid || '未登录'}}</text>
 						</view>
 					</view>
 					<view class="userBtn">
@@ -36,26 +36,26 @@
 				<view class="property">
 					<view class="propertyTop">
 						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
-							<text style="font-weight: 800; font-size: 40rpx;">25035.58</text>
+							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.vouchers || 0}}</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">兑换券</text>
 						</view>
 						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',3)">
-							<text style="font-weight: 800; font-size: 40rpx;">5027.00</text>
+							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.energy || 0}}</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">能量值</text>
 						</view>
 						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',4)">
-							<text style="font-weight: 800; font-size: 40rpx;">18119.13</text>
+							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.cang || 0}}</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
 						</view>
 					</view>
 					<view class="propertyBottom">
 						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
-							<text class="integral">140.00</text>
+							<text class="integral">{{store.userInfo.integral || 0}}</text>
 							<text class="title">购物积分</text>
 						</view>
 						<view class="borderBg"></view>
 						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
-							<text class="integral">12471.22</text>
+							<text class="integral">{{store.userInfo.manageIntegral || 0}}</text>
 							<text class="title">管理积分</text>
 						</view>
 					</view>
@@ -70,19 +70,23 @@
 					</view>
 					<view class="">
 						<u-grid :col="4" :border="false">
-							<u-grid-item @click="changePath('/pages/order/order',1)">
+							<u-grid-item @click="changePath('/pages/order/order',1)" style="position: relative;">
+								<u-badge type="error" :count="orderCount.unShippedCount" :offset="[10,20]"></u-badge>
 								<view class="itemBg selected1"></view>
 								<view class="grid-text">待发货</view>
 							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/order/order',2)">
+							<u-grid-item @click="changePath('/pages/order/order',2)" style="position: relative;">
+								<u-badge type="error" :count="orderCount.receivedCount" :offset="[10,20]"></u-badge>
 								<view class="itemBg selected2"></view>
 								<view class="grid-text">待收货</view>
 							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/order/order',3)">
+							<u-grid-item @click="changePath('/pages/order/order',3)" style="position: relative;">
+								<u-badge type="error" :count="orderCount.completeCount" :offset="[10,20]"></u-badge>
 								<view class="itemBg selected3"></view>
 								<view class="grid-text">已完成</view>
 							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/order/order',4)">
+							<u-grid-item @click="changePath('/pages/order/order',4)" style="position: relative;">
+								<u-badge type="error" count="7" :offset="[10,20]"></u-badge>
 								<view class="itemBg selected4"></view>
 								<view class="grid-text">自提订单</view>
 							</u-grid-item>
@@ -123,6 +127,28 @@
 
 <script setup>
 	import {navigateBack} from "@/utils/navigate.js"
+	import {userStore} from "@/store/index.js"
+	import { getOrderCount } from "@/api/order.js"
+	import {
+	  info
+	} from "@/api/user.js"
+	import {
+	  onLoad
+	} from "@dcloudio/uni-app";
+import { reactive } from "vue";
+	
+	onLoad(
+	  () => {
+	    getUserInfo()
+	  }
+	)
+	
+	const store = userStore()
+	if (!store.userInfo.uid) {
+	  info().then(res => {
+	    userStore().userInfo = res
+	  })
+	}
 	// 路由跳转
 	const changePath = (path,id) => {
 		if (path) {
@@ -132,6 +158,27 @@
 		}
 	}
   
+	// 订单状态数据
+	const orderCount = reactive({})
+	
+	// 获取用户详情信息和订单对应状态的数量
+	const getUserInfo = () => {
+		  info().then(res => {
+			  store.userInfo = res
+		  })
+		  getOrderCount().then(({
+			  // 已完成订单数量
+			  completeCount = 0,
+			  // 待发货订单数量
+			  unShippedCount = 0,
+			  // 待收货订单数量
+			  receivedCount = 0
+		  }) => {
+			  orderCount.completeCount = completeCount
+			  orderCount.unShippedCount = unShippedCount
+			  orderCount.receivedCount = receivedCount
+		  })
+	}
   
   
 </script>
@@ -449,7 +496,7 @@
 					height: 104rpx;
 					margin-right: 50rpx;
 
-					img {
+					image {
 						width: 100%;
 						height: 100%;
 						border-radius: 50%;

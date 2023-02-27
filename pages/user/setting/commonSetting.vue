@@ -12,7 +12,7 @@
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="头像"
 							:value-style="{'display': 'flex','align-items': 'center','justify-content': 'flex-end'}"
 							@click="changeAvatar">
-							<u-avatar size="70" :src="store.userInfo.avatar"></u-avatar>
+							<u-avatar size="70" :src="store.systemConfig.picUrlPre + store.userInfo.avatar"></u-avatar>
 						</u-cell-item>
 					</u-cell-group>
 				</view>
@@ -26,9 +26,9 @@
 							@click="changePath('../../../pages/user/setting/changeProfile',1)">
 							<text>{{store.userInfo.phone}}</text>
 						</u-cell-item>
-						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="会员等级">
+						<!-- <u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="会员等级">
 							<text>v1</text>
-						</u-cell-item>
+						</u-cell-item> -->
 						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="身份证号"
 							@click="changePath('../../../pages/user/setting/changeProfile',2)">
 							<text>{{store.userInfo.cardId}}</text>
@@ -305,7 +305,7 @@
 						"model": "user"
 					},
 					success: (uploadFileRes) => {
-						console.log('啊啊啊啊',uploadFileRes)
+						// console.log('啊啊啊啊',uploadFileRes)
 						const {
 							code = 500, data = {}
 						} = JSON.parse(uploadFileRes.data)

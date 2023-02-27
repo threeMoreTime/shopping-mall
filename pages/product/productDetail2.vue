@@ -74,9 +74,13 @@
 	import { cartSave } from "@/api/cart.js"
 	import { userStore } from "@/store/index.js"
 	import { preOrder } from "@/api/order.js"
-	import {collect} from '@/api/shop.js'
+	import {collect,getLikeById} from '@/api/shop.js'
 	onLoad((option) => {
 		getList(option?.id)
+		productId.value = option?.id
+		getLikeById(option?.id).then(res => {
+			sc.value = res ? 1 : 0
+		})
 	})
 	const goodsInfo = ref({})
 	const shopInfo = ref({})
@@ -85,20 +89,16 @@
 		productAttrUnique: "",
 		cartNum: 0
 	})
-	const sc = ref(true)
+	const productId = ref(null)
+	const sc = ref(0)
 	const enshrine = () => {
-		// sc.value = !sc.value
-		let parsms = {
-			productId: 71,
-			isLike: 0,// 收藏1，取消收藏0
-		}
-		collect(parsms).then(res=>{
-			if(parsms.isLike == 0){
-				uni.$showMsg('已取消收藏','success')
-				return false
-			}
-			uni.$showMsg('已收藏','success')
-			sc.value = !sc.value
+		sc.value = !sc.value
+		sc.value = sc.value ? 1 : 0
+		collect({
+			isLike: sc.value,
+			productId: productId.value
+		}).then(res=>{
+			
 		})
 	}
 	const list = ref([])

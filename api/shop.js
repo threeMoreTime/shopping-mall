@@ -90,3 +90,10 @@ export const Commodity = () => {
 		method: 'GET'
 	})
 }
+// 查询当前商品是否被收藏
+export const getLikeById = (id) => {
+	return request({
+		url: `/client/user/product/getById/${id}`,
+		method: 'GET'
+	})
+}

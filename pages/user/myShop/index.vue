@@ -22,7 +22,7 @@
 					<view class="dele" @click="close(1)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.logo">
+					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="userStore().systemConfig.picUrlPre + dataForm.logo">
 					</u-image>
 				</view>
 			</u-form-item>
@@ -36,7 +36,7 @@
 					<view class="dele" @click="close(2)">
 						<u-icon name="close" class="close"></u-icon>
 					</view>
-					<u-image @click="photos(2)" width="100%" height="100%" border-radius="15rpx" :src="dataForm.wx">
+					<u-image @click="photos(2)" width="100%" height="100%" border-radius="15rpx" :src="userStore().systemConfig.picUrlPre + dataForm.wx">
 					</u-image>
 				</view>
 			</u-form-item>
@@ -70,7 +70,7 @@
 			</u-form-item>
 		</view>
 		<view class="card">
-			<u-form-item :label="'店铺宣传图('+ dataForm.imgs.length +'/1)'">
+			<u-form-item :label="'店铺宣传图('+ (dataForm.imgs.length>0?1:0) +'/1)'">
 				<!-- <u-upload max-count="1" :file-list="dataForm.imgs"></u-upload> -->
 				<view class="upload" @click="ChoosePicture(3)" v-if="dataForm.imgs.length == 0">
 					<u-icon name="plus" class="add"></u-icon>
@@ -81,7 +81,7 @@
 						<u-icon name="close" class="close"></u-icon>
 					</view>
 					<u-image @click="photos(3)" width="100%" height="100%" border-radius="15rpx"
-						:src="dataForm.imgs[0]"></u-image>
+						:src="userStore().systemConfig.picUrlPre + dataForm.imgs"></u-image>
 				</view>
 			</u-form-item>
 		</view>
@@ -107,9 +107,7 @@
 	import {
 		saveOrUpdate,findAllCategory
 	} from '@/api/shop.js'
-	import {
-		defaults
-	} from 'lodash';
+	import {userStore} from "@/store/index.js"
 	const action = ref('/dev/client/user/system/image')
 	const close = (id) => {
 		uni.showModal({
@@ -135,36 +133,30 @@
 			}
 		});
 	}
+	
 	// logo/wx/宣传图
 	const ChoosePicture = (id) => {
-		uni.chooseImage({
-			count: 1,
-			sizeType: ['original', 'compressed'],
-			sourceType: ['camera', 'album'],
-			success: async function(res) {
-				console.log('chooseImage res', res)
-				uni.showLoading({
-					title: '图片上传中',
-				})
-				const result = await uploadFilePromise(res.tempFiles[0])
-				console.log("result: ", JSON.parse(result).data.url);
-				switch (id) {
-					case 1:
-						dataForm.logo = 'https://cdn.uviewui.com/uview/swiper/1.jpg'
-						return
-						break;
-					case 2:
-						dataForm.wx = 'https://cdn.uviewui.com/uview/swiper/2.jpg'
-						return
-						break;
-					case 3:
-						dataForm.imgs.push('https://cdn.uviewui.com/uview/swiper/3.jpg')
-						console.log(dataForm.imgs)
-						return
-						break;
-				}
-			}
-		});
+	  const pictureTypes = {
+	    1: "logo",
+	    2: "wx",
+	    3: "imgs"
+	  };
+	  uni.chooseImage({
+	    count: 1,
+	    sizeType: ['original', 'compressed'],
+	    sourceType: ['camera', 'album'],
+	    success: async function(res) {
+	      console.log('chooseImage res', res)
+	      uni.showLoading({
+	        title: '图片上传中',
+	      })
+	      const result = await uploadFilePromise(res.tempFiles[0])
+	      const imageUrl = JSON.parse(result).data.url;
+	      if (pictureTypes[id]) {
+	        dataForm[pictureTypes[id]] = imageUrl;
+	      }
+	    }
+	  });
 	}
 	// 预览
 	const photos = (id) => {

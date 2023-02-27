@@ -9,18 +9,17 @@
 			<view class="userInfo">
 				<view class="headAndUser">
 					<view class="headPortrait">
-						<img src="https://ts1.cn.mm.bing.net/th/id/R-C.bf504fbc3ae59e60dd8e6e90291ebc49?rik=3lJID6j%2b4WOgIQ&riu=http%3a%2f%2fe0.ifengimg.com%2f01%2f2019%2f0128%2f987B6893026017BF116335D3F0D6B512498C37CF_size82_w900_h608.jpeg&ehk=OhGESBk%2feiwZo22m0IFV1kZXrOPX46lJEgNnqoFfcdk%3d&risl=&pid=ImgRaw&r=0"
-							alt="">
+						<img :src="merchantInfo.imgUrl" alt="">
 					</view>
 					<view class="nameAndId">
 						<view class="name">
-							<text>李白</text>
-							<view class="vip">
+							<text>{{merchantInfo.nick}}</text>
+							<view class="vip" v-show="merchantInfo.vip">
 								<view class="vipBg"></view>
-								<text>1</text>
+								<text>{{merchantInfo.grade}}</text>
 							</view>
 						</view>
-						<text class="Id">ID：52121121</text>
+						<text class="Id">ID：{{merchantInfo.ID}}</text>
 					</view>
 				</view>
 			</view>
@@ -91,7 +90,8 @@
 	import {isShop} from '@/api/shop.js'
 	import {onLoad} from "@dcloudio/uni-app";
 	import { reactive, toRefs } from 'vue'
-	
+	import {shopStore,userStore} from "@/store/index.js"
+	const store = shopStore()
 	const data = reactive({
 		showModal: true
 		
@@ -99,12 +99,21 @@
 	
 	const { showModal } = toRefs(data)
 	
+	const merchantInfo = reactive({
+		imgUrl: userStore().systemConfig.picUrlPre + store.shopInfo.logo || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg',
+		nick: store.shopInfo.storeName || '未注册',
+		ID: store.shopInfo.id || 0,
+		grade: '',
+		vip: false,
+	})
+	
 	onLoad(()=>{
 		haveShop()
 	})
 	const haveShop = () => {
 		isShop().then(res => {
 			console.log('res',res)
+			shopStore().shopInfo = res
 			if(res === null){
 				data.showModal = true
 			}else{

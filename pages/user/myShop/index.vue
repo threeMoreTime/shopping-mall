@@ -51,7 +51,16 @@
 				<u-select v-model="showCate" confirm-color="#24743C" mode="single-column" :default-value="[1]" :list="cateList" @confirm="confirmCate"></u-select>
 			</u-form-item>
 			<u-form-item label="所在地区">
-				<u-input v-model="dataForm.refundAddress"></u-input>
+				<!-- <u-input v-model="dataForm.refundAddress"></u-input> -->
+				<u-input v-model="dataForm.refundAddress"
+					:customStyle="{'padding': '0 15rpx' ,'color': '#030303' }" :disabled="true"
+					@click="dataForm.addressShow = true"
+					/>
+				<u-picker 
+					mode="region" 
+					v-model="dataForm.addressShow" 
+					@confirm="hanldeAddre"
+					></u-picker>
 			</u-form-item>
 			<u-form-item label="详细地址">
 				<u-input placeholder="请填写店铺详细地址" v-model="dataForm.shipAddress"></u-input>
@@ -227,14 +236,28 @@
 		cateIds: [],
 		// cate: cateList[0].label ? cateList[0].label:'',
 		// cateIds: [cateList[0].value]? [cateList[0].value]:'',
-		refundAddress: '广东省',
-		shipAddress: '广东深圳龙岗',
-		describes: '这是餐饮服务',
-		refundContact: '张三的店',
-		refundMobile: '13154658975',
-		imgs: []
+		addressShow:false,
+		refundAddress: '',
+		shipAddress: '',
+		describes: '',
+		refundContact: '',
+		refundMobile: '',
+		imgs: [],
 	})
-
+	// 点击改变当前地区
+	const hanldeAddre = (obj) => {
+		console.log(obj);
+		dataForm.province = obj.province.name
+		dataForm.city = obj.city.name
+		dataForm.area = obj.area.name
+		dataForm.diZhi = dataForm.province + dataForm.city + dataForm.area
+		// console.log(dataForm);
+		const vaules = Object.values(obj)
+		for(let i = 0; i < vaules.length; i++) {
+			dataForm.refundAddress += vaules[i].name
+		}
+		// console.log('vaules[i].name',dataForm.refundAddress)
+	}
 	const save = (id) => {
 		if (!dataForm.storeName) {
 			uni.$showMsg('店铺名称不能为空！', 'error')

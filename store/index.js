@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 
+// 店铺
+export const shopStore = defineStore('shop', ()=>{
+	const shopInfo = reactive({})
+	return {shopInfo}
+})
+
 export const userStore = defineStore('user', () => {
 	const userInfo = reactive({})
 	const token = ref(uni.getStorageSync('token') || '')

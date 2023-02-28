@@ -99,14 +99,19 @@
 	const typeId = ref(0)
 	// 按钮类型 结算(0) 删除(1)
 	const typeBtnName = computed(() => {
-		switch (typeId.value) {
-			case 0:
-				return '结算'
-				break;
-			case 1:
-				return '删除'
-				break;
-		}
+		// switch (typeId.value) {
+		// 	case 0:
+		// 		return '结算'
+		// 		break;
+		// 	case 1:
+		// 		return '删除'
+		// 		break;
+		// }
+		const typeMap = new Map([
+		  [0, '结算'],
+		  [1, '删除']
+		]); 
+		return typeMap.get(typeId.value)
 	})
 	// 按钮类型 结算(0) 删除(1)
 	const changeBtn = () => {

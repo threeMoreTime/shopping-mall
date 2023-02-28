@@ -153,14 +153,21 @@
 	// 加入购物车(0) 立即购买(1)
 	const typeId = ref(0)
 	const typeName = computed(() => {
-		switch (typeId.value) {
-			case 0:
-				return '加入购物车'
-				break;
-			case 1:
-				return '立即购买'
-				break;
-		}
+		// switch (typeId.value) {
+		// 	case 0:
+		// 		return '加入购物车'
+		// 		break;
+		// 	case 1:
+		// 		return '立即购买'
+		// 		break;
+		// }
+		const typeMap = new Map([
+		  [0, '加入购物车'],
+		  [1, '立即购买']
+		]); 
+		return typeMap.get(typeId.value)
+		
+		
 	})
 	const numValue = ref(0)
 	const shopAndBuy = (id) => {

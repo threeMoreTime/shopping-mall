@@ -108,7 +108,7 @@
 	})
 	
 	onLoad(()=>{
-		haveShop()
+		// haveShop()
 	})
 	const haveShop = () => {
 		isShop().then(res => {

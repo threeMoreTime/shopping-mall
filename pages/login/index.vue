@@ -122,26 +122,39 @@
 		type.value = option?.typeId ? +(option.typeId) : 0
 	})
 	const typeName = computed(() => {
-		switch (type.value) {
-			case 0:
-				return '登录'
-				break;
-			case 1:
-				return '修改密码'
-				break;
-			case 2:
-				return '设置新密码'
-				break;
-			case 3:
-				return '绑定手机号'
-				break;
-			case 4:
-				return '更换手机号'
-				break;
-			case 5:
-				return '请输入手机号码'
-				break;
-		}
+		// switch (type.value) {
+		// 	case 0:
+		// 		return '登录'
+		// 		break;
+		// 	case 1:
+		// 		return '修改密码'
+		// 		break;
+		// 	case 2:
+		// 		return '设置新密码'
+		// 		break;
+		// 	case 3:
+		// 		return '绑定手机号'
+		// 		break;
+		// 	case 4:
+		// 		return '更换手机号'
+		// 		break;
+		// 	case 5:
+		// 		return '请输入手机号码'
+		// 		break;
+		// }
+		
+		const nameMap = new Map([
+		  [0, '登录'],
+		  [1, '修改密码'],
+		  [2, '设置新密码'],
+		  [3, '绑定手机号'],
+		  [4, '更换手机号'],
+		  [5, '请输入手机号码'],
+		]); 
+		
+		return nameMap.get(type.value)
+		
+		
 	})
 	const isDisabled = ref(false)
 	const codeNumber = ref(60)

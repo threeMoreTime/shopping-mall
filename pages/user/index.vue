@@ -33,20 +33,20 @@
       <view class="context">
         <view class="property">
           <view class="propertyTop">
-            <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
-              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.vouchers || 0}}</text>
-              <text class="title" style="font-weight: 400; font-size: 24rpx;">兑换券</text>
-            </view>
             <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',3)">
               <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.energy || 0}}</text>
               <text class="title" style="font-weight: 400; font-size: 24rpx;">能量值</text>
+            </view>
+            <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
+              <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.integral || 0}}</text>
+              <text class="title" style="font-weight: 400; font-size: 24rpx;">购物积分</text>
             </view>
             <view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',4)">
               <text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.cang || 0}}</text>
               <text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
             </view>
           </view>
-          <view class="propertyBottom">
+         <!-- <view class="propertyBottom">
             <view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
               <text class="integral">{{store.userInfo.integral || 0}}</text>
               <text class="title">购物积分</text>
@@ -56,7 +56,7 @@
               <text class="integral">{{store.userInfo.manageIntegral || 0}}</text>
               <text class="title">管理积分</text>
             </view>
-          </view>
+          </view> -->
         </view>
         <view class="order">
           <view class="Title">
@@ -115,6 +115,39 @@
                 <view class="itemBg selected5"></view>
                 <view class="grid-text">推广中心</view>
               </u-grid-item>
+			  <u-grid-item @click="changePath('/pages/user/pay')">
+			    <view class="itemBg1 selected1"></view>
+			    <view class="grid-text">我要充值</view>
+			  </u-grid-item>
+			  <u-grid-item @click="changePath('/pages/user/energyValue')">
+			    <view class="itemBg1 selected2"></view>
+			    <view class="grid-text">能量值兑换</view>
+			  </u-grid-item>
+			  <u-grid-item @click="changePath('/pages/user/withdraw')">
+			    <view class="itemBg1 selected3"></view>
+			    <view class="grid-text">仓单提现</view>
+			  </u-grid-item>
+			  <u-grid-item @click="changePath('/pages/user/releaseRecord')">
+			    <view class="itemBg1 selected6"></view>
+			    <view class="grid-text">释放记录</view>
+			  </u-grid-item>
+			  <u-grid-item>
+			    <view class="itemBg1 selected7"></view>
+			    <view class="grid-text" @click="changePath('/pages/user/myGuaDan')">我的挂单</view>
+			  </u-grid-item>
+			  <u-grid-item @click="changePath('/pages/user/convert')">
+			    <view class="itemBg1 selected8"></view>
+			    <view class="grid-text">我要转换</view>
+			  </u-grid-item>
+              
+            </u-grid>
+          </view>
+        </view>
+        <view class="function">
+          <view class="Title">项目功能</view>
+          <view class="">
+            <u-grid :col="4" :border="false">
+              
               <u-grid-item @click="changePath('/pages/user/merchant')">
                 <view class="itemBg selected6"></view>
                 <view class="grid-text">我的店铺</view>
@@ -123,25 +156,7 @@
                 <view class="itemBg selected7"></view>
                 <view class="grid-text">我的项目</view>
               </u-grid-item>
-            </u-grid>
-          </view>
-        </view>
-        <view class="function">
-          <view class="Title">项目功能</view>
-          <view class="">
-            <u-grid :col="4" :border="false">
-              <u-grid-item @click="changePath('/pages/user/pay')">
-                <view class="itemBg1 selected1"></view>
-                <view class="grid-text">我要充值</view>
-              </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/energyValue')">
-                <view class="itemBg1 selected2"></view>
-                <view class="grid-text">能量值兑换</view>
-              </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/withdraw')">
-                <view class="itemBg1 selected3"></view>
-                <view class="grid-text">仓单提现</view>
-              </u-grid-item>
+              
               <u-grid-item @click="changePath('/pages/user/contract/myContract')">
                 <view class="itemBg1 selected4"></view>
                 <view class="grid-text">我的合同</view>
@@ -150,18 +165,15 @@
                 <view class="itemBg1 selected5"></view>
                 <view class="grid-text">工作室</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/releaseRecord')">
-                <view class="itemBg1 selected6"></view>
-                <view class="grid-text">释放记录</view>
+              <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
+                <view class="itemBg1 selected9"></view>
+                <view class="grid-text">兑换券</view>
               </u-grid-item>
-              <u-grid-item>
-                <view class="itemBg1 selected7"></view>
-                <view class="grid-text" @click="changePath('/pages/user/myGuaDan')">我的挂单</view>
+              <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
+                <view class="itemBg1 selected10"></view>
+                <view class="grid-text">管理积分</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/convert')">
-                <view class="itemBg1 selected8"></view>
-                <view class="grid-text">我要转换</view>
-              </u-grid-item>
+              
             </u-grid>
           </view>
         </view>
@@ -251,7 +263,7 @@
 
       .context {
         padding: 0 32rpx;
-        margin-top: -178rpx;
+        margin-top: -160rpx;
       }
 
       .function {
@@ -310,6 +322,16 @@
             background: url("@/static/img/transition.png") 100% no-repeat;
             background-size: 100% 100%;
           }
+		  
+		  &.selected9 {
+		    background: url("@/static/img/exchangeByuser.png") 100% no-repeat;
+		    background-size: 100% 100%;
+		  }
+		  
+		  &.selected10 {
+		    background: url("@/static/img/manage.png") 100% no-repeat;
+		    background-size: 100% 100%;
+		  }
         }
 
         .itemBg {

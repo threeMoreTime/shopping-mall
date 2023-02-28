@@ -2,6 +2,10 @@ import App from './App';
 import uView from './uni_modules/vk-uview-ui';
 import * as Pinia from 'pinia';
 
+import VConsole from 'vconsole';
+const vConsole = new VConsole()
+// vConsole.destroy();
+
 
 uni.$showMsg = function(title = '数据加载失败！', icon = 'none') {
   uni.showToast({

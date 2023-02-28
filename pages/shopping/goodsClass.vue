@@ -47,10 +47,12 @@ import {userStore} from "@/store/index.js"
 	leftcategory().then(res => {
 		tabsList.value = res
 		tabsList.value.forEach(item => {
-			item.child.map(childItem => {
-				childItem.extra = store.systemConfig.picUrlPre + childItem.extra
-			})
-		})
+		  if (item.child) {
+		    item.child.forEach(childItem => {
+		      childItem.extra = store.systemConfig.picUrlPre + (childItem.extra ?? '');
+		    });
+		  }
+		});
 		// console.log(tabsList.value);
 		tabsIndex.value = tabsList.value[0].id
 	})

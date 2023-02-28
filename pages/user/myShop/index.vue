@@ -113,6 +113,7 @@
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
+	import {navigateBack} from "@/utils/navigate.js"
 	import {
 		saveOrUpdate,findAllCategory
 	} from '@/api/shop.js'
@@ -253,45 +254,84 @@
 		}
 		// console.log('vaules[i].name',dataForm.refundAddress)
 	}
+	
+	// 共用的提示方法
+	const uniShowToast = ({msg = "",icon = "none"}) => {
+		uni.showToast({
+			title:msg,
+			icon:icon
+		})
+	}
+	
 	const save = (id) => {
 		if (!dataForm.storeName) {
-			uni.$showMsg('店铺名称不能为空！', 'error')
+			uniShowToast({
+				msg:"店铺名称不能为空",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.logo) {
-			uni.$showMsg('店铺logo不能为空！', 'error')
+			uniShowToast({
+				msg:"店铺logo不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.wx) {
-			uni.$showMsg('店主微信不能为空！', 'error')
+			uniShowToast({
+				msg:"店主微信不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.main) {
-			uni.$showMsg('主营不能为空！', 'error')
+			uniShowToast({
+				msg:"主营不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.cateIds) {
-			uni.$showMsg('分类不能为空！', 'error')
+			uniShowToast({
+				msg:"分类不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.refundAddress) {
-			uni.$showMsg('地区不能为空！', 'error')
+			uniShowToast({
+				msg:"地区不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.shipAddress) {
-			uni.$showMsg('详细地址不能为空！', 'error')
+			uniShowToast({
+				msg:"详细地址不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.describes) {
-			uni.$showMsg('简介不能为空！', 'error')
+			uniShowToast({
+				msg:"简介不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.refundContact) {
-			uni.$showMsg('联系人不能为空！', 'error')
+			uniShowToast({
+				msg:"联系人不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (!dataForm.refundMobile) {
-			uni.$showMsg('联系电话不能为空！', 'error')
+			uniShowToast({
+				msg:"联系电话不能为空！",
+				icon:"error"
+			})
 			return false
 		}
 		if (id == 1) {
@@ -308,10 +348,6 @@
 				}, 2000)
 			})
 		}
-	}
-
-	const navigateBack = () => {
-		uni.navigateBack()
 	}
 </script>
 

@@ -12,8 +12,9 @@
 				<view class="userInfo">
 					<view class="headAndUser">
 						<view class="headPortrait">
-							<image :src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
-								alt=""/>
+							<image
+								:src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
+								alt="" />
 						</view>
 						<view class="nameAndId">
 							<view class="name">
@@ -35,28 +36,17 @@
 			<view class="context">
 				<view class="property">
 					<view class="propertyTop">
-						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
-							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.vouchers || 0}}</text>
-							<text class="title" style="font-weight: 400; font-size: 24rpx;">兑换券</text>
-						</view>
 						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',3)">
 							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.energy || 0}}</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">能量值</text>
 						</view>
+						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
+							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.integral || 0}}</text>
+							<text class="title" style="font-weight: 400; font-size: 24rpx;">购物积分</text>
+						</view>
 						<view class="coin_certificate" @click="changePath('/pages/user/setting/IntegrationAndFlow',4)">
 							<text style="font-weight: 800; font-size: 40rpx;">{{store.userInfo.cang || 0}}</text>
 							<text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
-						</view>
-					</view>
-					<view class="propertyBottom">
-						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
-							<text class="integral">{{store.userInfo.integral || 0}}</text>
-							<text class="title">购物积分</text>
-						</view>
-						<view class="borderBg"></view>
-						<view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
-							<text class="integral">{{store.userInfo.manageIntegral || 0}}</text>
-							<text class="title">管理积分</text>
 						</view>
 					</view>
 				</view>
@@ -94,31 +84,34 @@
 					</view>
 				</view>
 				<view class="function">
-					<view class="Title">项目功能</view>
-					<view class="">
-						<u-grid :col="4" :border="false">
-							<u-grid-item @click="changePath('/pages/user/promotion')">
-								<view class="itemBg selected5"></view>
-								<view class="grid-text">推广中心</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/studio/studio')">
-								<view class="itemBg1 selected5"></view>
-								<view class="grid-text">工作室</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/mySheQu')">
-								<view class="itemBg selected3"></view>
-								<view class="grid-text">我的社区</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/contract/myContract')">
-								<view class="itemBg1 selected4"></view>
-								<view class="grid-text">我的合同</view>
-							</u-grid-item>
-							<u-grid-item @click="changePath('/pages/user/planting')">
-								<view class="itemBg1 selected6"></view>
-								<view class="grid-text">复投沉香树</view>
-							</u-grid-item>
-						</u-grid>
-					</view>
+				  <view class="Title">项目功能</view>
+				  <view class="">
+				    <u-grid :col="4" :border="false">
+				      
+				      <u-grid-item @click="changePath('/pages/user/merchant')">
+				        <view class="itemBg selected6"></view>
+				        <view class="grid-text">我的店铺</view>
+				      </u-grid-item>
+				      
+				      <u-grid-item @click="changePath('/pages/user/contract/myContract')">
+				        <view class="itemBg1 selected4"></view>
+				        <view class="grid-text">我的合同</view>
+				      </u-grid-item>
+				      <u-grid-item @click="changePath('/pages/user/studio/studio')">
+				        <view class="itemBg1 selected5"></view>
+				        <view class="grid-text">工作室</view>
+				      </u-grid-item>
+				      <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
+				        <view class="itemBg1 selected9"></view>
+				        <view class="grid-text">兑换券</view>
+				      </u-grid-item>
+				      <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
+				        <view class="itemBg1 selected10"></view>
+				        <view class="grid-text">管理积分</view>
+				      </u-grid-item>
+				      
+				    </u-grid>
+				  </view>
 				</view>
 			</view>
 		</view>
@@ -126,61 +119,67 @@
 </template>
 
 <script setup>
-	import {navigateBack} from "@/utils/navigate.js"
-	import {userStore} from "@/store/index.js"
-	import { getOrderCount } from "@/api/order.js"
 	import {
-	  info
+		navigateBack
+	} from "@/utils/navigate.js"
+	import {
+		userStore
+	} from "@/store/index.js"
+	import {
+		getOrderCount
+	} from "@/api/order.js"
+	import {
+		info
 	} from "@/api/user.js"
 	import {
-	  onLoad
+		onLoad
 	} from "@dcloudio/uni-app";
-import { reactive } from "vue";
-	
+	import {
+		reactive
+	} from "vue";
+
 	onLoad(
-	  () => {
-	    getUserInfo()
-	  }
+		() => {
+			getUserInfo()
+		}
 	)
-	
+
 	const store = userStore()
 	if (!store.userInfo.uid) {
-	  info().then(res => {
-	    userStore().userInfo = res
-	  })
+		info().then(res => {
+			userStore().userInfo = res
+		})
 	}
 	// 路由跳转
-	const changePath = (path,id) => {
+	const changePath = (path, id) => {
 		if (path) {
 			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
+				url: id ? path + '?typeId=' + id : path
 			})
 		}
 	}
-  
+
 	// 订单状态数据
 	const orderCount = reactive({})
-	
+
 	// 获取用户详情信息和订单对应状态的数量
 	const getUserInfo = () => {
-		  info().then(res => {
-			  store.userInfo = res
-		  })
-		  getOrderCount().then(({
-			  // 已完成订单数量
-			  completeCount = 0,
-			  // 待发货订单数量
-			  unShippedCount = 0,
-			  // 待收货订单数量
-			  receivedCount = 0
-		  }) => {
-			  orderCount.completeCount = completeCount
-			  orderCount.unShippedCount = unShippedCount
-			  orderCount.receivedCount = receivedCount
-		  })
+		info().then(res => {
+			store.userInfo = res
+		})
+		getOrderCount().then(({
+			// 已完成订单数量
+			completeCount = 0,
+			// 待发货订单数量
+			unShippedCount = 0,
+			// 待收货订单数量
+			receivedCount = 0
+		}) => {
+			orderCount.completeCount = completeCount
+			orderCount.unShippedCount = unShippedCount
+			orderCount.receivedCount = receivedCount
+		})
 	}
-  
-  
 </script>
 
 <style lang="scss" scoped>
@@ -194,11 +193,12 @@ import { reactive } from "vue";
 			width: 100%;
 			background-color: #FBFBFB;
 			padding-bottom: 100rpx;
+
 			.context {
 				padding: 0 32rpx;
-				margin-top: -178rpx;
+				margin-top: -160rpx;
 			}
-			
+
 			.function {
 				margin-top: 16rpx;
 				width: 686rpx;
@@ -206,87 +206,108 @@ import { reactive } from "vue";
 				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 				border-radius: 20rpx;
 				padding: 26rpx 28rpx;
+
 				.Title {
 					font-weight: 800;
 					font-size: 32rpx;
 				}
+
 				.itemBg1 {
 					width: 50rpx;
 					height: 50rpx;
-					
+
 					&.selected1 {
 						background: url("@/static/img/recharge.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected2 {
 						background: url("@/static/img/conversion.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected3 {
 						background: url("@/static/img/withdraw.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected4 {
 						background: url("@/static/img/contract.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected5 {
 						background: url("@/static/img/studio.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected6 {
 						background: url("@/static/img/planting.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected7 {
 						background: url("@/static/img/pending.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected8 {
 						background: url("@/static/img/transition.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+					
+					&.selected9 {
+					  background: url("@/static/img/exchangeByuser.png") 100% no-repeat;
+					  background-size: 100% 100%;
+					}
+					
+					&.selected10 {
+					  background: url("@/static/img/manage.png") 100% no-repeat;
+					  background-size: 100% 100%;
+					}
 				}
+
 				.itemBg {
 					width: 50rpx;
 					height: 50rpx;
-					
+
 					&.selected1 {
 						background: url("@/static/img/warehouseReceipt.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected2 {
 						background: url("@/static/img/energy.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected3 {
 						background: url("@/static/img/community.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
-					
+
 					&.selected4 {
 						background: url("@/static/img/myDeal.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected5 {
 						background: url("@/static/img/promotion.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected6 {
 						background: url("@/static/img/store.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
+
 					&.selected7 {
 						background: url("@/static/img/project.png") 100% no-repeat;
 						background-size: 100% 100%;
 					}
 				}
 			}
+
 			.grid-text {
 				font-size: 24rpx;
 				font-weight: 400;
@@ -412,9 +433,11 @@ import { reactive } from "vue";
 					}
 				}
 			}
+
 			.setBox {
 				display: flex;
 			}
+
 			.arrowsBg1 {
 				// transform: rotate(180deg);
 				transform: translate(32rpx, 106rpx);
@@ -424,6 +447,7 @@ import { reactive } from "vue";
 				background: url("@/static/img/arrows.png") 100% no-repeat;
 				background-size: 100% 100%;
 			}
+
 			.TopTitle {
 				width: 750rpx;
 				height: 540rpx;
@@ -508,6 +532,7 @@ import { reactive } from "vue";
 					display: flex;
 				}
 			}
+
 			.set {
 				transform: translate(560rpx, 86rpx);
 				height: 88rpx;
@@ -515,6 +540,7 @@ import { reactive } from "vue";
 				padding: 0 34rpx;
 				display: flex;
 				align-items: center;
+
 				// justify-content: right;
 				.msgBg {
 					margin-right: 34rpx;

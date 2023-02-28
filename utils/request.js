@@ -1,11 +1,13 @@
 import { userStore } from "../store/index.js"
 import {info} from "@/api/user.js"
+import {H5TestUrl} from './config.js'
+
 const httpTokenRequest = (opts = {}, data = {}) => {
 	if (!opts.url) {
 		console.error('!url');
 		return false;
 	}
-	const url = '/dev' + opts.url;
+	const url = H5TestUrl + opts.url;
 	// 在pinia仓库里面获取token
 	const token = userStore().token;
 	const method = opts.method || 'GET';

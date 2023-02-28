@@ -46,17 +46,6 @@
               <text class="title" style="font-weight: 400; font-size: 24rpx;">仓单</text>
             </view>
           </view>
-         <!-- <view class="propertyBottom">
-            <view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',1)">
-              <text class="integral">{{store.userInfo.integral || 0}}</text>
-              <text class="title">购物积分</text>
-            </view>
-            <view class="borderBg"></view>
-            <view class="integralAndtitle" @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
-              <text class="integral">{{store.userInfo.manageIntegral || 0}}</text>
-              <text class="title">管理积分</text>
-            </view>
-          </view> -->
         </view>
         <view class="order">
           <view class="Title">

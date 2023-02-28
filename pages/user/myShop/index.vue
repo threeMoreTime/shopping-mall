@@ -167,21 +167,16 @@
 	    }
 	  });
 	}
+	
 	// 预览
 	const photos = (id) => {
-		let imgList = []
-		switch (id) {
-			case 1:
-				imgList.push(dataForm.logo)
-				break;
-			case 2:
-				imgList.push(dataForm.wx)
-				break;
-			case 3:
-				imgList = dataForm.imgs
-				break;
-		}
-		console.log("imgList: ", imgList);
+		const imgMap = new Map([
+		  [1, dataForm.logo],
+		  [2, dataForm.wx],
+		  [3, dataForm.imgs],
+		]); 
+		const imgList = [userStore().systemConfig.picUrlPre + imgMap.get(id)];
+		// console.log("imgList: ", imgList);
 		uni.previewImage({
 			count: imgList.length,
 			urls: imgList,
@@ -228,10 +223,10 @@
 	const showCate = ref(false)
 	const cateList = reactive([])
 	const dataForm = reactive({
-		storeName: 'XX小店',
+		storeName: '',
 		logo: '',
 		wx: '',
-		main: '餐饮',
+		main: '',
 		cate: '',
 		cateIds: [],
 		// cate: cateList[0].label ? cateList[0].label:'',

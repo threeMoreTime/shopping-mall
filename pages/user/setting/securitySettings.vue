@@ -203,17 +203,23 @@
 	const type = ref(0)
 	// 当前页面的类型名称
 	const typeName = computed(() => {
-		switch (type.value) {
-			case 0:
-				return '换绑手机号'
-				break;
-			case 1:
-				return '修改密码'
-				break;
-			case 2:
-				return '修改支付密码'
-				break;
-		}
+		// switch (type.value) {
+		// 	case 0:
+		// 		return '换绑手机号'
+		// 		break;
+		// 	case 1:
+		// 		return '修改密码'
+		// 		break;
+		// 	case 2:
+		// 		return '修改支付密码'
+		// 		break;
+		// }
+		const typeMap = new Map([
+		  [0, '换绑手机号'],
+		  [1, '修改密码'],
+		  [2, '修改支付密码']
+		]); 
+		return typeMap.get(type.value)
 	})
 
 	const actions = {

@@ -89,8 +89,17 @@
 		productAttrUnique: "",
 		cartNum: 0
 	})
+	// 订单id号
 	const productId = ref(null)
+	// 是否收藏 0否 1是
 	const sc = ref(0)
+	// 共用的提示方法
+	const uniShowToast = ({msg = "",icon = "none"}) => {
+		uni.showToast({
+			title:msg,
+			icon:icon
+		})
+	}
 	const enshrine = () => {
 		sc.value = !sc.value
 		sc.value = sc.value ? 1 : 0
@@ -98,7 +107,21 @@
 			isLike: sc.value,
 			productId: productId.value
 		}).then(res=>{
-			
+			if(sc.value === 1) {
+				return uniShowToast({
+					msg:"收藏成功",
+					icon:"success"
+				})
+			}
+			uniShowToast({
+				msg:"取消收藏",
+				icon:"success"
+			})
+		},err => {
+			uniShowToast({
+				msg:err,
+				icon:"error"
+			})
 		})
 	}
 	const list = ref([])
@@ -163,9 +186,9 @@
 			isShow.value = false
 			changePath('/pages/order/QueRenDingDan',{preOrderNo})
 		},() => {
-			uni.showToast({
-				title:"购买失败",
-				icon:'error'
+			uniShowToast({
+				msg:err,
+				icon:"error"
 			})
 		})
 	}
@@ -175,15 +198,15 @@
 		addCartForm.productAttrUnique = selectShop.id
 		addCartForm.cartNum = selectShop.buy_num
 		cartSave(addCartForm).then(res => {
-			uni.showToast({
-				title: "加入购物车成功",
-				icon:'success'
+			uniShowToast({
+				msg:"加入购物车成功",
+				icon:"success"
 			})
 			isShow.value = false
 		},err => {
-			uni.showToast({
-				title: "加入购物车失败",
-				icon:'error'
+			uniShowToast({
+				msg:err,
+				icon:"error"
 			})
 		})
 		// changePath('/pages/order/QueRenDingDan',{})

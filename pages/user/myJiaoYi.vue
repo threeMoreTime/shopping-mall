@@ -1,7 +1,7 @@
 <template>
   <view class="bg">
     <view class="topHeZi">
-      <view class="arrowsBg" @click="navigateBack"></view>
+      <view class="arrowsBg" @click="navigateBack()"></view>
       <view class="title">我的交易</view>
     </view>
     <view class="DaBox">
@@ -15,170 +15,75 @@
         </view>
       </view>
     </view>
-   <view class="" v-show="titleIndex === 0 ?true :false">
-     <view class="jiaoYiChangGongTopBox"  >
-           <view class="TopBox1">对方编号:</view>
-           <view class="TopBox2">828282</view>
-             <text class="riqi1">2022-11-29&nbsp;17:19:41</text>
-           <view class="TopBox3" style="text-align: center;">买入</view>
-         </view>
-         <!-- 第1个 -->
-         <view class="jiaoYiChangGongBottomBox">
-           <view
-                style="
-                  margin: 0px auto;
-                  padding: 0px;
-                  overflow: hidden;
-                  width: 300px;
-                  height: 1px;  
-                  background-color: #707070;
-                  
-opacity: 0.17;
-                  "
-              ></view>
-           <view class="Top">
-             
-             <view class="bottomBox1">单价</view>
-             <view class="bottomBox2">数量</view>
-
-             <view class="bottomBox4">总额</view>
-           </view>
-  
-           <view class="Bottom">
-             <view class="bottomBox5">7.80</view>
-             <view class="bottomBox6">100.00</view>
-     
-             <view class="bottomBox8">780.00</view>
-           </view>
-         </view>
-         
-         <!-- 第2个 -->
-         <view class="ssss" style="transform: translateY(-100rpx);">
-           <view class="jiaoYiChangGongTopBox">
-             <view class="TopBox1">对方编号:</view>
-                      <text class="TopBox2">828282</text>
-               <text class="riqi">2022-11-29&nbsp;17:19:41</text>
-             <view class="TopBox3" style="width: 72rpx;
-     height: 64rpx;
-     background: #FF0000;
-     border-radius: 0rpx 0rpx 32rpx 32rpx; text-align: center;">卖出</view>
-           </view>
-           <view class="jiaoYiChangGongBottomBox">
-             <view
-                  style="
-                    margin: 0px auto;
-                    padding: 0px;
-                    overflow: hidden;
-                    width: 300px;
-                    height: 1px;  
-                    background-color: #707070;
-                    
-opacity: 0.17;
-                    "
-                ></view>
-             <view class="Top">
-               <view class="bottomBox1">单价</view>
-               <view class="bottomBox2">数量</view>
-         
-               <view class="bottomBox4">总额</view>
-             </view>
-             <view class="Bottom">
-               <view class="bottomBox5">7.80</view>
-               <view class="bottomBox6">100.00</view>
-               <view class="bottomBox7">100.00</view>
-     
-             </view>
-           </view>
-         </view>
-       
-       
-   </view>
-   
-   
-   
-   
-   
-   
-  <!-- tab 右 -->
-  <view class="cardBox"  v-show="titleIndex === 1 ?true :false">
-  <!-- 第一块 -->
-      <view class="cardItem1">
-        <text class="text1">1111111111111111</text>
-        <text class="text2">已完成</text>
-      </view>
- 
-     <!-- 第二块 -->
-          <view class="cardItem2">
-            <view class="Item1">
-              <text style="width: 54rpx;
-height: 34rpx;
-font-size: 24rpx;
-font-weight: 400;
-color: #7A7A7A;
-line-height: 24rpx;">数量:</text>
-              <text style="width: 76rpx;
-height: 34rpx;
-font-size: 24rpx;
-font-weight: bold;
-color: #000000;
-line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
-            </view>
-            <view class="Item2">
-              <text style="width: 54rpx;
-height: 34rpx;
-font-size: 24rpx;
-font-weight: 400;
-color: #7A7A7A;
-line-height: 24rpx;">总额:</text>
-              <text
-              style="width: 76rpx;
-              height: 34rpx;
-              font-size: 24rpx;
-              font-weight: bold;
-              color: #000000;
-              line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
-            </view>
-            <view class="Item3">
-              <text style="
-height: 34rpx;
-font-size: 24rpx;
-font-weight: 400;
-color: #7A7A7A;
-line-height: 24rpx;">出售方:</text>
-              <text style="width: 76rpx;
-height: 34rpx;
-font-size: 24rpx;
-font-weight: bold;
-color: #000000;
-line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
-            </view>
-            <view class="Item4">
-              <text style="
-height: 34rpx;
-font-size: 24rpx;
-font-weight: 400;
-color: #7A7A7A;
-line-height: 24rpx;">购买方:</text>
-              <text style="width: 76rpx;
-height: 34rpx;
-font-size: 24rpx;
-font-weight: bold;
-color: #000000;
-line-height: 24rpx;">&nbsp;&nbsp;888.00</text>
-            </view>     
-          </view>
-          <view class="cardItem3">
-        <text class="item1" @click="JiaoYiXiangQing('/pages/user/JiaoYiXiangQing')" style="
-color: #FFFFFF;
-font-size: 24rpx;
-font-weight: 400;
-padding-top: 4rpx;
-">查看详情</text>
-          </view>
-
-  </view>
- 
-    <!-- -------		 -->
+	<view class="context">
+		<view class="ListBox" v-show="titleIndex === 0">
+			<view class="itemBox">
+				<view class="itemTop">
+					<view class="">
+						<text style="color: #4E4E4E;">对方编号：</text>
+						<text style="color: #000000;font-weight: bold;font-size: 24rpx;">848241</text>
+					</view>
+					<view style="margin-top: 10rpx;color: #929292;">2022-11-29  17:19:41</view>
+					<!-- titleType2类名是卖出的样式 -->
+					<view class="titleType">买入</view>
+				</view>
+				<view class="itemBottom">
+					<view class="itemBottomBox">
+						<text style="padding: 20rpx 0 10rpx;">单价</text>
+						<text class="itemBottomTitle">7.80</text>
+					</view>
+					<view class="itemBottomBox">
+						<text style="padding: 10rpx 0;">数量</text>
+						<text class="itemBottomTitle">100.00</text>
+					</view>
+					<view class="itemBottomBox">
+						<text style="padding: 10rpx 0;">总额</text>
+						<text class="itemBottomTitle">780.00</text>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="ListBox" v-show="titleIndex === 1">
+			<view class="itemBox">
+				<view class="itemTitle">
+					<text>1672831324134042006</text>
+					<text style="font-size: 28rpx;color: #FF0000;">已完成</text>
+				</view>
+				<view class="itemCtx">
+					<view class="itemCtxText">
+						<text>数量: <text class="itemCtxCount">888.00</text></text>
+						<text style="padding: 16rpx 0 0rpx;">出售方: <text class="itemCtxCount">888.00</text></text>
+					</view>
+					<view class="itemCtxText">
+						<text>总额: <text class="itemCtxCount">888.00</text></text>
+						<text style="padding: 16rpx 0 0rpx;">购买方: <text class="itemCtxCount">888.00</text></text>
+					</view>
+				</view>
+				<view class="itemBtn">
+					<view class="btn" @click="seeDetails(1)">查看详情</view>
+				</view>
+			</view>
+			<view class="itemBox">
+				<view class="itemTitle">
+					<text>1672831324134042006</text>
+					<text style="font-size: 28rpx;color: #FF0000;">待付款</text>
+				</view>
+				<view class="itemCtx">
+					<view class="itemCtxText">
+						<text>数量: <text class="itemCtxCount">888.00</text></text>
+						<text style="padding: 16rpx 0 0rpx;">出售方: <text class="itemCtxCount">888.00</text></text>
+					</view>
+					<view class="itemCtxText">
+						<text>总额: <text class="itemCtxCount">888.00</text></text>
+						<text style="padding: 16rpx 0 0rpx;">购买方: <text class="itemCtxCount">888.00</text></text>
+					</view>
+				</view>
+				<view class="itemBtn">
+					<view class="btn" @click="seeDetails(0)">查看详情</view>
+				</view>
+			</view>
+		</view>
+	</view>
   </view>
 </template>
 <script setup>
@@ -188,7 +93,7 @@ padding-top: 4rpx;
     ref,
     toRefs
   } from "vue";
-    // import { navigateTo, navigateBack } from '../../utils/navigate';
+  import { navigateBack,changePath } from "@/utils/navigate.js"
   const isShow = ref(true)
     // const tabIsShow = ref(true)//tab控制显示左右切换
   const data = reactive({
@@ -197,7 +102,7 @@ padding-top: 4rpx;
         id: 1
       },
       {
-        title: '创单',
+        title: '仓单',
         id: 2
       }
     ],
@@ -209,24 +114,18 @@ padding-top: 4rpx;
   } = toRefs(data)
   
   
-  // 返回上一级wx
-  function navigateBack() {
-    uni.navigateBack({
-      delta: 1
-    })
-  }
   // 点击切换改变样式
   const changTitle = (index) => {
     titleIndex.value = index
   }
   
-  // 路由跳转
-  const JiaoYiXiangQing = (path,id) => {
-  	if (path) {
-  		uni.navigateTo({
-  			url: id? path + '?typeId=' + id : path
-  		})
-  	}
+  // 查看详情
+  const seeDetails = (detailsId) => {
+	  const detailsObj = {
+		  0: '/pages/user/payWarehouse',
+		  1: '/pages/user/JiaoYiXiangQing'
+	  }
+	  changePath(detailsObj[detailsId])
   }
 </script>
 <style lang="scss" scoped>
@@ -235,7 +134,102 @@ padding-top: 4rpx;
     width: 100%;
     height: 176rpx;
     background: #24743C;
-
+	.context {
+		margin-top: 28rpx;
+		.ListBox {
+			padding: 0 32rpx;
+		}
+		.itemBox {
+			padding:24rpx;
+			width: 686rpx;
+			background: #FFFFFF;
+			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+			border-radius: 16rpx;
+			margin-bottom: 24rpx;
+			.itemBtn {
+				padding-top: 14rpx;
+				display: flex;
+				justify-content: right;
+				.btn {
+					padding: 8rpx 20rpx;
+					background: #24743C;
+					border-radius: 18rpx;
+					font-size: 24rpx;
+					font-weight: 400;
+					color: #FFFFFF;
+				}
+			}
+			.itemCtxCount {
+				font-weight: bold;
+				color: #000000;
+			}
+			.itemCtx {
+				border-top: 2rpx solid rgba(112, 112, 112, 0.17);
+				border-bottom: 2rpx solid rgba(112, 112, 112, 0.17);
+				padding: 18rpx 0 30rpx;
+				display: flex;
+				align-items: center;
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #7A7A7A;
+				.itemCtxText {
+					display: flex;
+					flex-direction: column;
+					margin-right: 100rpx;
+				}
+			}
+			.itemTitle {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				font-size: 20rpx;
+				font-weight: 400;
+				color: #303030;
+				padding-bottom: 16rpx;
+			}
+			.itemBottomTitle {
+				font-weight: 800;
+				font-size: 32rpx;
+				color: #000000;
+			}
+			.itemBottomBox {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-size: 24rpx;
+				font-weight: 400;
+			}
+			.itemBottom {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+			}
+			.itemTop {
+				position: relative;
+				font-size: 20rpx;
+				font-weight: 400;
+				padding-bottom: 20rpx;
+				border-bottom: 2rpx solid rgba(112, 112, 112, 0.17);
+				.titleType {
+					position: absolute;
+					top: -24rpx;
+					right: 0;
+					width: 72rpx;
+					height: 64rpx;
+					line-height: 64rpx;
+					text-align: center;
+					background: #24743C;
+					border-radius: 0rpx 0rpx 32rpx 32rpx;
+					font-weight: 400;
+					font-size: 28rpx;
+					color: #FFFFFF;
+				}
+				.titleType2 {
+					background: #FF0000;
+				}
+			}
+		}
+	}
     // position: relative;
     .topHeZi {
       display: flex;

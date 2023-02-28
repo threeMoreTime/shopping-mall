@@ -1,5 +1,4 @@
-import {userStore} from '@/store/index';
-const store = userStore()
+import {userStore} from "../store/index.js"
 	
 export const uploadFilePromise = (tempFiles) => {
 		return new Promise((resolve, reject) => {
@@ -8,7 +7,7 @@ export const uploadFilePromise = (tempFiles) => {
 				fileType: "image",
 				file: tempFiles,
 				header: {
-					'Authorization': store.token,
+					'Authorization': userStore().token,
 				},
 				formData: {
 					"model": "user"
@@ -23,7 +22,10 @@ export const uploadFilePromise = (tempFiles) => {
 				},
 				fail: (err) => {
 					uni.hideLoading();
-					uni.$showMsg('图片上传失败')
+					uni.showToast({
+						title:'图片上传失败',
+						icon:'error'
+					})
 				}
 			});
 		})

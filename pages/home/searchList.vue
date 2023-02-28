@@ -74,7 +74,7 @@
 	}
 	const getListByKeyword = (keyword) => {
 		indexSearch(keyword).then(res => {
-			console.log(res);
+			// console.log(res);
 		})
 	}
 	// 点击商品跳转到商品详情页

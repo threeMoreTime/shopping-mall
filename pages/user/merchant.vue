@@ -9,17 +9,17 @@
 			<view class="userInfo">
 				<view class="headAndUser">
 					<view class="headPortrait">
-						<img :src="merchantInfo.imgUrl" alt="">
+						<img :src="merchantInfo?.imgUrl" alt="">
 					</view>
 					<view class="nameAndId">
 						<view class="name">
-							<text>{{merchantInfo.nick}}</text>
-							<view class="vip" v-show="merchantInfo.vip">
+							<text>{{merchantInfo?.nick}}</text>
+							<view class="vip" v-show="merchantInfo?.vip">
 								<view class="vipBg"></view>
-								<text>{{merchantInfo.grade}}</text>
+								<text>{{merchantInfo?.grade}}</text>
 							</view>
 						</view>
-						<text class="Id">ID：{{merchantInfo.ID}}</text>
+						<text class="Id">ID：{{merchantInfo?.ID}}</text>
 					</view>
 				</view>
 			</view>
@@ -100,9 +100,9 @@
 	const { showModal } = toRefs(data)
 	
 	const merchantInfo = reactive({
-		imgUrl: userStore().systemConfig.picUrlPre + store.shopInfo.logo || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg',
-		nick: store.shopInfo.storeName || '未注册',
-		ID: store.shopInfo.id || 0,
+		imgUrl: userStore().systemConfig.picUrlPre + store.shopInfo?.logo || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg',
+		nick: store.shopInfo?.storeName || '未注册',
+		ID: store.shopInfo?.id || 0,
 		grade: '',
 		vip: false,
 	})

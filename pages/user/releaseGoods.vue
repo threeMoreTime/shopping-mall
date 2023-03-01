@@ -129,7 +129,6 @@
 	<view class="footer" v-show="current === 0">
 		<view class="footerBtn">
 			<button type="primary" class="custom-style"  @click="release(0)">保存到仓库</button>
-			<button type="primary" class="custom-style" @click="release(1)">发布商品</button>			
 		</view>
 	</view>
 	<view style="height: 200rpx;"></view>
@@ -138,6 +137,7 @@
 <script setup>
 	import {publish,getById,isSpecType,Commodity} from '@/api/shop.js'
 	import {reactive, toRefs, ref} from 'vue';
+	import { userStore } from "@/store/index.js"
 	import {onReady, onLoad,onShow} from "@dcloudio/uni-app";
 	
 	const imageUpload = ref(null)
@@ -195,11 +195,7 @@
 		rules,
 		videoSrc
 	} = toRefs(data);
-	data.form.image = reactive([
-		{
-			url: 'https://cdn.uviewui.com/uview/swiper/1.jpg',
-		}
-	])
+	data.form.image = reactive([])
 	onReady(() => {
 		uform.value.setRules(rules)
 	})
@@ -219,7 +215,8 @@
 	const goodsId = ref()
 	const detail = (id) =>{
 		getById(id).then(res=>{
-			// console.log('res',res)
+			console.log('res',res)
+			console.log('cateList',cateList)
 			let cate = cateList.find(p => {
 				return p.value === res.cateIds[0]
 			})
@@ -228,12 +225,13 @@
 			specification.value = res.specType
 				data.form.image.push({url:res.image})
 				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,stock,isPostage,postage,description} = res
+				data.form.storeName = res.storeName
 				data.form = {
 					storeName,
 			    storeInfo,
 			    cateIds,
 			//     shopCateIds,
-			//     image[0].url:[{url: 'https://cdn.uviewui.com/uview/swiper/2.jpg',}],
+			    image:[{url: userStore().systemConfig.picUrlPre + res.image}],
 			//     image[0].url:image,
 			//     videoLink: videoLink || '',
 					unitName,
@@ -244,6 +242,7 @@
 			    postage,
 			    description,
 				}
+				console.log('image',data.form.image)
 		})
 	}
 	const cateList = reactive([])

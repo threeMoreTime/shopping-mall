@@ -2,11 +2,8 @@ import App from './App';
 import uView from './uni_modules/vk-uview-ui';
 import * as Pinia from 'pinia';
 
-import VConsole from 'vconsole';
-const isDev = process.env.NODE_ENV === 'development'
-if (isDev) {
-  const vConsole = new VConsole()
-}
+// import VConsole from 'vconsole';
+// const vConsole = new VConsole()
 // vConsole.destroy();
 
 

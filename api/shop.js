@@ -9,9 +9,16 @@ export const isShop = () => {
 }
 
 // 店铺管理
-export const shopManage = (query) => {
+export const shopManage = (data) => {
 	return request({
-		url: `/client/shop/info/list/${query}`,
+		url: `/client/shop/info/list/${data.isShow}`,
+		method: 'GET'
+	},data)
+}
+
+export const statistics = () => {
+	return request({
+		url: '/client/shop/info/statistics',
 		method: 'GET'
 	})
 }

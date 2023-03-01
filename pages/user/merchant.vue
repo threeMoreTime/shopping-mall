@@ -56,16 +56,16 @@
 				</view>
 				<view class="bottom">
 					<view class="bottomItem">
-						<text>今日成交额</text>
-						<text class="price">￥0</text>
+						<text>今日订单数</text>
+						<text class="price">{{orderNum}}</text>
 					</view>
+					<!-- <view class="bottomItem">
+						<text>今日店铺访客</text>
+						<text class="price">0</text>
+					</view> -->
 					<view class="bottomItem">
 						<text>今日成交额</text>
-						<text class="price">￥0</text>
-					</view>
-					<view class="bottomItem">
-						<text>今日成交额</text>
-						<text class="price">￥0</text>
+						<text class="price">￥{{turnover}}</text>
 					</view>
 				</view>
 			</view>
@@ -87,16 +87,16 @@
 </template>
 
 <script setup>
-	import {isShop} from '@/api/shop.js'
+	import {isShop,statistics} from '@/api/shop.js'
 	import {onLoad} from "@dcloudio/uni-app";
-	import { reactive, toRefs } from 'vue'
+	import { ref,reactive, toRefs } from 'vue'
 	import {shopStore,userStore} from "@/store/index.js"
 	const store = shopStore()
 	const data = reactive({
 		showModal: true
-		
 	})
-	
+	const turnover = ref(0)
+	const orderNum = ref(0)
 	const { showModal } = toRefs(data)
 	
 	const merchantInfo = reactive({
@@ -108,8 +108,16 @@
 	})
 	
 	onLoad(()=>{
-		// haveShop()
+		haveShop()
+		statisticsData()
 	})
+	
+	const statisticsData =()=>{
+		statistics().then(res=>{
+			orderNum.value = res.orderNum
+			turnover.value = res.turnover
+		})
+	}
 	const haveShop = () => {
 		isShop().then(res => {
 			console.log('res',res)

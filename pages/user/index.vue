@@ -1,22 +1,22 @@
 <template>
-  <view class="bg">
-    <view class="box">
-      <view class="TopTitle">
-        <view class="set">
-          <view class="msgBg" @click="changePath('/pages/user/systemBullestin')"></view>
-          <view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
-        </view>
-        <view class="userInfo">
-          <view class="headAndUser">
-            <view class="headPortrait" @click="changeLogin">
-              <image
-                :src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
-                alt="" />
-            </view>
-            <view class="nameAndId">
-              <view class="name">
-                <text>{{store.userInfo.nickname || '未登录'}}</text>
-                <!-- <view class="vip">
+	<view class="bg">
+		<view class="box">
+			<view class="TopTitle">
+				<view class="set">
+					<view class="msgBg" @click="changePath('/pages/user/systemBullestin')"></view>
+					<view class="setBg" @click="changePath('/pages/user/setting/index')"></view>
+				</view>
+				<view class="userInfo">
+					<view class="headAndUser">
+						<view class="headPortrait" @click="changeLogin">
+							<image
+								:src="store.systemConfig.picUrlPre + store.userInfo.avatar || 'https://img.ixintu.com/download/jpg/20201115/4939f541273cedfc32fa2e67fb2ede02_512_512.jpg!bg'"
+								alt="" />
+						</view>
+						<view class="nameAndId">
+							<view class="name">
+								<text>{{store.userInfo.nickname || '未登录'}}</text>
+								<!-- <view class="vip">
 									<view class="vipBg"></view>
 									<text>1</text>
 								</view> -->
@@ -172,433 +172,434 @@
 </template>
 
 <script setup>
-  import {
-    computed,
-    ref,
-    reactive
-  } from "vue";
-  import {
-    userStore
-  } from "@/store/index.js"
-  import {
-    info
-  } from "@/api/user.js"
-  import { getOrderCount } from "@/api/order.js"
+	import {
+		computed,
+		ref,
+		reactive
+	} from "vue";
+	import {
+		userStore
+	} from "@/store/index.js"
+	import {
+		info
+	} from "@/api/user.js"
+	import {
+		getOrderCount
+	} from "@/api/order.js"
 
-  import {
-    onLoad
-  } from "@dcloudio/uni-app";
-  onLoad(
-    () => {
-      getUserInfo()
-    }
-  )
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	onLoad(
+		() => {
+			getUserInfo()
+		}
+	)
 
-  const store = userStore()
-  if (!store.userInfo.uid) {
-    info().then(res => {
-      store.userInfo = res
-    })
-  }
-  // 未登录情况下点击头像跳转到登录页
-  const changeLogin = () => {
-    if (!store.userInfo.uid) {
-      changePath("/pages/login/index")
-    }
-  }
-  // 路由跳转
-  const changePath = (path, id) => {
-    if (path) {
-      uni.navigateTo({
-        url: id ? path + '?typeId=' + id : path
-      })
-    }
-  }
-  // 订单状态数据
-  const orderCount = reactive({})
+	const store = userStore()
+	if (!store.userInfo.uid) {
+		info().then(res => {
+			store.userInfo = res
+		})
+	}
+	// 未登录情况下点击头像跳转到登录页
+	const changeLogin = () => {
+		if (!store.userInfo.uid) {
+			changePath("/pages/login/index")
+		}
+	}
+	// 路由跳转
+	const changePath = (path, id) => {
+		if (path) {
+			uni.navigateTo({
+				url: id ? path + '?typeId=' + id : path
+			})
+		}
+	}
+	// 订单状态数据
+	const orderCount = reactive({})
 
-  // 获取用户详情信息和订单对应状态的数量
-  const getUserInfo = () => {
-	  info().then(res => {
-		  store.userInfo = res
-	  })
-	  getOrderCount().then(({
-		  // 已完成订单数量
-		  completeCount = 0,
-		  // 待发货订单数量
-		  unShippedCount = 0,
-		  // 待收货订单数量
-		  receivedCount = 0
-	  }) => {
-		  orderCount.completeCount = completeCount
-		  orderCount.unShippedCount = unShippedCount
-		  orderCount.receivedCount = receivedCount
-	  })
-  }
-
+	// 获取用户详情信息和订单对应状态的数量
+	const getUserInfo = () => {
+		info().then(res => {
+			store.userInfo = res
+		})
+		getOrderCount().then(({
+			// 已完成订单数量
+			completeCount = 0,
+			// 待发货订单数量
+			unShippedCount = 0,
+			// 待收货订单数量
+			receivedCount = 0
+		}) => {
+			orderCount.completeCount = completeCount
+			orderCount.unShippedCount = unShippedCount
+			orderCount.receivedCount = receivedCount
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
-  .bg {
-    width: 100%;
-    height: 100vh;
-    background-color: #FBFBFB;
-    position: relative;
+	.bg {
+		width: 100%;
+		height: 100vh;
+		background-color: #FBFBFB;
+		position: relative;
 
-    .box {
-      width: 100%;
-      background-color: #FBFBFB;
-      padding-bottom: 100rpx;
+		.box {
+			width: 100%;
+			background-color: #FBFBFB;
+			padding-bottom: 100rpx;
 
-      .context {
-        padding: 0 32rpx;
-        margin-top: -160rpx;
-      }
+			.context {
+				padding: 0 32rpx;
+				margin-top: -160rpx;
+			}
 
-      .function {
-        margin-top: 16rpx;
-        width: 686rpx;
-        background: #FFFFFF;
-        box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-        border-radius: 20rpx;
-        padding: 26rpx 28rpx;
+			.function {
+				margin-top: 16rpx;
+				width: 686rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+				border-radius: 20rpx;
+				padding: 26rpx 28rpx;
 
-        .Title {
-          font-weight: 800;
-          font-size: 32rpx;
-        }
+				.Title {
+					font-weight: 800;
+					font-size: 32rpx;
+				}
 
-        .itemBg1 {
-          width: 50rpx;
-          height: 50rpx;
+				.itemBg1 {
+					width: 50rpx;
+					height: 50rpx;
 
-          &.selected1 {
-            background: url("@/static/img/recharge.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected1 {
+						background: url("@/static/img/recharge.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected2 {
-            background: url("@/static/img/conversion.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected2 {
+						background: url("@/static/img/conversion.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected3 {
-            background: url("@/static/img/withdraw.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected3 {
+						background: url("@/static/img/withdraw.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected4 {
-            background: url("@/static/img/contract.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected4 {
+						background: url("@/static/img/contract.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected5 {
-            background: url("@/static/img/studio.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected5 {
+						background: url("@/static/img/studio.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected6 {
-            background: url("@/static/img/release.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected6 {
+						background: url("@/static/img/release.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected7 {
-            background: url("@/static/img/pending.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected7 {
+						background: url("@/static/img/pending.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected8 {
-            background: url("@/static/img/transition.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
-		  
-		  &.selected9 {
-		    background: url("@/static/img/exchangeByuser.png") 100% no-repeat;
-		    background-size: 100% 100%;
-		  }
-		  
-		  &.selected10 {
-		    background: url("@/static/img/manage.png") 100% no-repeat;
-		    background-size: 100% 100%;
-		  }
-        }
+					&.selected8 {
+						background: url("@/static/img/transition.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-        .itemBg {
-          width: 50rpx;
-          height: 50rpx;
+					&.selected9 {
+						background: url("@/static/img/exchangeByuser.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected1 {
-            background: url("@/static/img/warehouseReceipt.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected10 {
+						background: url("@/static/img/manage.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+				}
 
-          &.selected2 {
-            background: url("@/static/img/energy.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+				.itemBg {
+					width: 50rpx;
+					height: 50rpx;
 
-          &.selected3 {
-            background: url("@/static/img/community.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected1 {
+						background: url("@/static/img/warehouseReceipt.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected4 {
-            background: url("@/static/img/myDeal.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected2 {
+						background: url("@/static/img/energy.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected5 {
-            background: url("@/static/img/promotion.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected3 {
+						background: url("@/static/img/community.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected6 {
-            background: url("@/static/img/store.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected4 {
+						background: url("@/static/img/myDeal.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected7 {
-            background: url("@/static/img/project.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
-        }
-      }
+					&.selected5 {
+						background: url("@/static/img/promotion.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-      .grid-text {
-        font-size: 24rpx;
-        font-weight: 400;
-        color: #3A2A08;
-        margin-top: 14rpx;
-      }
+					&.selected6 {
+						background: url("@/static/img/store.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-      .order {
-        margin-top: 16rpx;
-        width: 686rpx;
-        background: #FFFFFF;
-        box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-        border-radius: 20rpx;
-        padding: 0 28rpx;
+					&.selected7 {
+						background: url("@/static/img/project.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+				}
+			}
 
-        .itemBg {
-          width: 50rpx;
-          height: 50rpx;
+			.grid-text {
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #3A2A08;
+				margin-top: 14rpx;
+			}
 
-          &.selected1 {
-            background: url("@/static/img/sending.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+			.order {
+				margin-top: 16rpx;
+				width: 686rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+				border-radius: 20rpx;
+				padding: 0 28rpx;
 
-          &.selected2 {
-            background: url("@/static/img/delivery.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+				.itemBg {
+					width: 50rpx;
+					height: 50rpx;
 
-          &.selected3 {
-            background: url("@/static/img/accomplish.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
+					&.selected1 {
+						background: url("@/static/img/sending.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-          &.selected4 {
-            background: url("@/static/img/orderAll.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+					&.selected2 {
+						background: url("@/static/img/delivery.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-        .Title {
-          padding: 24rpx 0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
+					&.selected3 {
+						background: url("@/static/img/accomplish.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
 
-        .allOrder {
-          font-weight: 400;
-          font-size: 24rpx;
-          color: #ABABAB;
-          display: flex;
-          align-items: center;
+					&.selected4 {
+						background: url("@/static/img/orderAll.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+				}
 
-          .arrowsBg {
-            margin-left: 10rpx;
-            width: 11rpx;
-            height: 23rpx;
-            background: url("@/static/img/arrowsBg.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+				.Title {
+					padding: 24rpx 0;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
 
-        .titleText {
-          font-weight: 800;
-          font-size: 32rpx;
-        }
-      }
+				.allOrder {
+					font-weight: 400;
+					font-size: 24rpx;
+					color: #ABABAB;
+					display: flex;
+					align-items: center;
 
-      .property {
-        width: 686rpx;
-        background: #FFFFFF;
-        box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-        border-radius: 16rpx;
-        padding: 0 30rpx;
+					.arrowsBg {
+						margin-left: 10rpx;
+						width: 11rpx;
+						height: 23rpx;
+						background: url("@/static/img/arrowsBg.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+				}
 
-        .propertyBottom {
-          font-weight: bold;
-          display: flex;
-          justify-content: space-around;
-          padding: 22rpx 0 30rpx;
+				.titleText {
+					font-weight: 800;
+					font-size: 32rpx;
+				}
+			}
 
-          .integralAndtitle {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+			.property {
+				width: 686rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+				border-radius: 16rpx;
+				padding: 0 30rpx;
 
-            .integral {
-              font-size: 40rpx;
-            }
+				.propertyBottom {
+					font-weight: bold;
+					display: flex;
+					justify-content: space-around;
+					padding: 22rpx 0 30rpx;
 
-            .title {
-              margin-top: 10rpx;
-              font-size: 24rpx;
-            }
-          }
-        }
+					.integralAndtitle {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
 
-        .borderBg {
-          border: 2rpx solid rgba(112, 112, 112, 0.07);
-        }
+						.integral {
+							font-size: 40rpx;
+						}
 
-        .propertyTop {
-          display: flex;
-          justify-content: space-between;
-          padding: 22rpx 0 28rpx;
-          border-bottom: 2rpx solid rgba(112, 112, 112, 0.07);
-        }
+						.title {
+							margin-top: 10rpx;
+							font-size: 24rpx;
+						}
+					}
+				}
 
-        .coin_certificate {
-          width: 205rpx;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          border-right: 2rpx solid rgba(112, 112, 112, 0.07);
+				.borderBg {
+					border: 2rpx solid rgba(112, 112, 112, 0.07);
+				}
 
-          &:last-child {
-            border-right: 0rpx solid rgba(112, 112, 112, 0.07);
-          }
+				.propertyTop {
+					display: flex;
+					justify-content: space-between;
+					padding: 22rpx 0 28rpx;
+					border-bottom: 2rpx solid rgba(112, 112, 112, 0.07);
+				}
 
-          .title {
-            padding: 12rpx 0;
-          }
-        }
-      }
+				.coin_certificate {
+					width: 205rpx;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					border-right: 2rpx solid rgba(112, 112, 112, 0.07);
 
-      .TopTitle {
-        width: 750rpx;
-        height: 540rpx;
-        background: #1C6732;
-        border-radius: 0rpx 0rpx 160rpx 0rpx;
-      }
+					&:last-child {
+						border-right: 0rpx solid rgba(112, 112, 112, 0.07);
+					}
 
-      .userInfo {
-        transform: translateY(106rpx);
-        width: 100%;
-        // height: 104rpx;
-        padding: 0 34rpx;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: #FFF;
+					.title {
+						padding: 12rpx 0;
+					}
+				}
+			}
 
-        .userBtn {
-          width: 148rpx;
-          height: 52rpx;
-          background: #E6AF49;
-          box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
-          border-radius: 26rpx;
-          font-weight: 400;
-          font-size: 28rpx;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+			.TopTitle {
+				width: 750rpx;
+				height: 540rpx;
+				background: #1C6732;
+				border-radius: 0rpx 0rpx 160rpx 0rpx;
+			}
 
-          .vipBg {
-            margin-right: 12rpx;
-            width: 28rpx;
-            height: 23rpx;
-            background: url("@/static/img/btnVipBg.png") 100% no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+			.userInfo {
+				transform: translateY(106rpx);
+				width: 100%;
+				// height: 104rpx;
+				padding: 0 34rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				color: #FFF;
 
-        .nameAndId {
-          .name {
-            font-size: 40rpx;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            margin-bottom: 8rpx;
+				.userBtn {
+					width: 148rpx;
+					height: 52rpx;
+					background: #E6AF49;
+					box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
+					border-radius: 26rpx;
+					font-weight: 400;
+					font-size: 28rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
 
-            .vip {
-              margin-left: 18rpx;
-              font-size: 24rpx;
-              display: flex;
-              align-items: flex-end;
+					.vipBg {
+						margin-right: 12rpx;
+						width: 28rpx;
+						height: 23rpx;
+						background: url("@/static/img/btnVipBg.png") 100% no-repeat;
+						background-size: 100% 100%;
+					}
+				}
 
-              .vipBg {
-                width: 40rpx;
-                height: 32rpx;
-                background: url("@/static/img/vipBg.png") 100% no-repeat;
-                background-size: 100% 100%;
-              }
-            }
-          }
+				.nameAndId {
+					.name {
+						font-size: 40rpx;
+						font-weight: 800;
+						display: flex;
+						align-items: center;
+						margin-bottom: 8rpx;
 
-          .Id {
-            font-size: 24rpx;
-            font-weight: 400;
-          }
-        }
+						.vip {
+							margin-left: 18rpx;
+							font-size: 24rpx;
+							display: flex;
+							align-items: flex-end;
 
-        .headPortrait {
-          width: 104rpx;
-          height: 104rpx;
-          margin-right: 50rpx;
+							.vipBg {
+								width: 40rpx;
+								height: 32rpx;
+								background: url("@/static/img/vipBg.png") 100% no-repeat;
+								background-size: 100% 100%;
+							}
+						}
+					}
 
-          image {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            z-index: 9;
-          }
-        }
+					.Id {
+						font-size: 24rpx;
+						font-weight: 400;
+					}
+				}
 
-        .headAndUser {
-          display: flex;
-        }
-      }
+				.headPortrait {
+					width: 104rpx;
+					height: 104rpx;
+					margin-right: 50rpx;
 
-      .set {
-        transform: translate(560rpx, 86rpx);
-        height: 88rpx;
-        width: 100%;
-        padding: 0 34rpx;
-        display: flex;
-        align-items: center;
+					image {
+						width: 100%;
+						height: 100%;
+						border-radius: 50%;
+						z-index: 9;
+					}
+				}
 
-        // justify-content: right;
-        .msgBg {
-          margin-right: 34rpx;
-          width: 42rpx;
-          height: 37rpx;
-          background: url("@/static/img/msgBg.png") 100% no-repeat;
-          background-size: 100% 100%;
-        }
+				.headAndUser {
+					display: flex;
+				}
+			}
 
-        .setBg {
-          width: 35rpx;
-          height: 40rpx;
-          background: url("@/static/img/setBg.png") 100% no-repeat;
-          background-size: 100% 100%;
-        }
-      }
-    }
-  }
+			.set {
+				transform: translate(560rpx, 86rpx);
+				height: 88rpx;
+				width: 100%;
+				padding: 0 34rpx;
+				display: flex;
+				align-items: center;
+
+				// justify-content: right;
+				.msgBg {
+					margin-right: 34rpx;
+					width: 42rpx;
+					height: 37rpx;
+					background: url("@/static/img/msgBg.png") 100% no-repeat;
+					background-size: 100% 100%;
+				}
+
+				.setBg {
+					width: 35rpx;
+					height: 40rpx;
+					background: url("@/static/img/setBg.png") 100% no-repeat;
+					background-size: 100% 100%;
+				}
+			}
+		}
+	}
 </style>

@@ -1,4 +1,5 @@
 /* APP调试 */
+// export const requestUrl = 'http://192.168.1.69:8860';
 export const requestUrl = 'http://192.168.1.39:8860';
 
 /* H5调试 */

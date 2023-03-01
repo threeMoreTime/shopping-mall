@@ -154,7 +154,7 @@
                 <view class="itemBg1 selected5"></view>
                 <view class="grid-text">工作室</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',2)">
+              <u-grid-item @click="changePath('/pages/user/management/exchange')">
                 <view class="itemBg1 selected9"></view>
                 <view class="grid-text">兑换券</view>
               </u-grid-item>

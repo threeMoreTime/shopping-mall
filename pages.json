@@ -525,6 +525,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/management/exchange",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "兑换券",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 
 	"globalStyle": {

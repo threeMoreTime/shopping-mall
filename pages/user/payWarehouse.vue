@@ -2,7 +2,7 @@
 	<view class="bg">
 		<view class="tabBox">
 			<view class="tabBoxs">
-				<view class="arrowsBg" @click="navigateBack"></view>
+				<view class="arrowsBg" @click="navigateBack()"></view>
 				<view class="title">交易详情</view>
 			</view>
 		</view>
@@ -25,26 +25,121 @@
 			</view>
 		</view>
 		<view class="context">
-			<view class="card">
-				
+			<view class="card" style="padding-bottom: 40rpx;">
+				<view class="cardTitle">卖家信息</view>
+				<view class="userInfo">
+					<u-avatar size="76" src="https://picx.zhimg.com/v2-2774c513e2360e60423ab7ddb9b2d798_r.jpg?source=1940ef5c"></u-avatar>
+					<view class="nameAndphone">
+						<text class="userName">毛毛</text>
+						<text>15026822373</text>
+					</view>
+					<view class="userNo">编号：971027</view>
+				</view>
+				<view class="gathering">
+					<view class="titleAndTabs">
+						<text>收款信息</text>
+						<view class="tabs">
+							<!-- tabsItemActivate -->
+							<view class="tabsItem" 
+								v-for="item in tabsList" 
+								:key="item.id"
+								:class="{'tabsItemActivate' : item.id === tabsListIndex}"
+								@click="handleTabClick(item.id)"
+								>{{item.name}}</view>
+						</view>
+					</view>
+					<view class="bankInfo" v-show="tabsListIndex === 1">
+						<view class="bankInfoItem">
+							<text>收款银行</text>
+							<text style="color: #313131;">中国银行</text>
+						</view>
+						<view class="bankInfoItem">
+							<text>银行卡号</text>
+							<text style="color: #313131;">6115651512121212</text>
+						</view>
+						<view class="bankInfoItem">
+							<text>开户姓名</text>
+							<text style="color: #313131;">中国银行青岛李沧支</text>
+						</view>
+					</view>
+					<view class="apply" v-show="tabsListIndex === 2">
+						<view class="applyImg">
+							<image src="../../static/img/gold.png" mode=""></image>
+						</view>
+						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥1.00</text></view>
+					</view>
+					<view class="apply" v-show="tabsListIndex === 3">
+						<view class="applyImg">
+							<image src="../../static/img/sales.png" mode=""></image>
+						</view>
+						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥1.00</text></view>
+					</view>
+				</view>
 			</view>
+			<view class="card">
+				<view class="cardTitle">打款截图</view>
+				<u-upload 
+					:width="190" 
+					:height="190" 
+					:maxCount="uploadFrom.maxCount"
+					:action="uploadFrom.action"
+					:header="uploadFrom.header"
+					:formData="uploadFrom.formData"
+					:name="uploadFrom.name"
+					@on-success="handleSuccess"></u-upload>
+			</view>
+			<view class="card">
+				<u-input 
+					v-model="payPassword" 
+					type="password" 
+					placeholder="请输入支付密码"
+					height="84"
+					:border="false" />
+			</view>
+			<view class="btn">我已打款</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import {
+		reactive,
 		ref
 	} from "vue";
-
-	// 返回上一级
-	const navigateBack = () => {
-		uni.navigateBack({
-			delta: 1
-		})
+	import {navigateBack} from "@/utils/navigate.js"
+	import {userStore} from "@/store/index.js"
+	// 支付密码
+	const payPassword = ref(null)
+	const tabsList = [
+		{id:1,name: '银行卡'},
+		{id:2,name: '支付宝'},
+		{id:3,name: '微信'}
+	]
+	const tabsListIndex = ref(1)
+	const handleTabClick = (id) => {
+		if(id) {
+			tabsListIndex.value = id
+		}
 	}
-	const Btn = () => {
-		console.log(111111111111);
+	// 上传参数
+	const uploadFrom = reactive({
+		action: '/dev/client/user/system/image',
+		maxCount: '3',
+		header: {
+			'Authorization': userStore().token || ''
+		},
+		formData: {
+			"model": "user"
+		},
+		name: 'multipart'
+	})
+	// 存放上传的图片路径
+	const uploadImg = ref([])
+	const handleSuccess = (data, index, lists, name) => {
+		if (!Array.isArray(lists) || lists.length === 0) {
+		  throw new Error('上传数据错误!');
+		}
+		uploadImg.value = lists.map(item => userStore().systemConfig.picUrlPre + item.response.data.url)
 	}
 </script>
 
@@ -58,6 +153,115 @@
 			width: 100%;
 			background-color: #FBFBFB;
 			margin-top: 18rpx;
+			padding: 0 32rpx 64rpx;
+			.btn {
+				width: 686rpx;
+				height: 88rpx;
+				text-align: center;
+				line-height: 88rpx;
+				background: #24743C;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+				border-radius: 16rpx;
+				font-size: 32rpx;
+				font-weight: 400;
+				color: #FFFFFF;
+				margin-top: 150rpx;
+			}
+			.gathering {
+				width: 638rpx;
+				background: #ECECEC;
+				border-radius: 16rpx;
+				padding: 0 20rpx;
+				.apply {
+					text-align: center;
+					font-size: 24rpx;
+					font-weight: bold;
+					image {
+						width: 312rpx;
+						height: 254rpx;
+					}
+					.applyImg {
+						display: flex;
+						justify-content: center;
+					}
+				}
+				.bankInfo {
+					font-size: 24rpx;
+					font-weight: 400;
+					color: #A2A2A2;
+					.bankInfoItem {
+						padding-bottom: 24rpx;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+					}
+				}
+				.titleAndTabs {
+					font-size: 28rpx;
+					font-weight: bold;
+					color: #313131;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 18rpx 0 40rpx;
+					.tabsItem {
+						color: #24743C;
+						border-radius: 22rpx;
+						padding: 6rpx 18rpx;
+						margin-left: 16rpx;
+						border: 2rpx solid #24743C;
+					}
+					.tabsItemActivate {
+						background: #24743C;
+						color: #FFFFFF;
+					}
+					.tabs {
+						font-size: 20rpx;
+						font-weight: 400;
+						display: flex;
+						align-items: center;
+					}
+				}
+			}
+			.userInfo {
+				display: flex;
+				align-items: center;
+				padding: 20rpx 0 30rpx;
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #6D6D6D;
+				position: relative;
+				.userName {
+					font-weight: bold;
+					color: #313131;
+					font-size: 32rpx;
+					margin-bottom: 8rpx;
+				}
+				.nameAndphone {
+					display: flex;
+					flex-direction: column;
+					margin-left: 30rpx;
+				}
+				.userNo {
+					position: absolute;
+					right: 0;
+				}
+			}
+			.cardTitle {
+				font-size: 32rpx;
+				font-weight: bold;
+				color: #313131;
+				padding: 16rpx 0;
+				border-bottom: 2rpx solid rgba(112, 112, 112, 0.14);
+			}
+			.card {
+				padding: 0 26rpx;
+				width: 686rpx;
+				background: #FFFFFF;
+				box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+				border-radius: 16rpx;
+				margin-bottom: 24rpx;
+			}
 		}
 		.Box-card2 {
 			margin: 18rpx 0 0 24rpx;

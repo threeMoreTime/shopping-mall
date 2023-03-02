@@ -32,13 +32,14 @@
 					height="84"
 					:border="false" />
 			</view>
-			<view class="btn">我已打款</view>
+			<view class="btn">确认兑换</view>
 		</view>
 	</view>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { changePath } from "@/utils/navigate.js"
 const countNum = ref(null)
 const payPassword = ref(null)
 </script>

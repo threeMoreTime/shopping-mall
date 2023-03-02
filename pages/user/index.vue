@@ -158,7 +158,7 @@
                 <view class="itemBg1 selected9"></view>
                 <view class="grid-text">兑换券</view>
               </u-grid-item>
-              <u-grid-item @click="changePath('/pages/user/setting/IntegrationAndFlow',0)">
+              <u-grid-item @click="changePath('/pages/user/management/managingPoints')">
                 <view class="itemBg1 selected10"></view>
                 <view class="grid-text">管理积分</view>
               </u-grid-item>

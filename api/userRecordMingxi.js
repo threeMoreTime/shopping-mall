@@ -15,9 +15,8 @@ export const yuehuanjuan = (params) => {
 export const guanlijifen = (params) => {
   return request({
     url: '/client/user/manageIntegral/list',
-    method: 'get',
-    params // Query
-  })
+    method: 'GET'
+  },params)
 }
 
 

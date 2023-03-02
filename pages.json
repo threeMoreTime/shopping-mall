@@ -536,6 +536,26 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/management/goldExchange",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "黄金兑换",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/management/managingPoints",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "管理积分",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 
 	"globalStyle": {

@@ -4,7 +4,7 @@
 		<view class="title">发布商品</view>
 		<view class=""></view>
 	</view>
-	<view class="tabBar">
+<!-- 	<view class="tabBar">
 		<u-tabs 
 			:list="tabBarList" 
 			font-size="28rpx" 
@@ -19,9 +19,8 @@
 			}"
 		>
 		</u-tabs>
-	</view>
+	</view> -->
 	<u-form 
-		v-show="current === 0" 
 		:model="form" 
 		:rules="rules"
 		ref="uform" 
@@ -91,6 +90,9 @@
 			<u-form-item label="商品市场价" prop="otPrice">
 				<u-input v-model="form.otPrice" placeholder="划线价"></u-input>
 			</u-form-item>
+			<u-form-item label="成本价" prop="cost">
+				<u-input v-model="form.cost" placeholder="成本价"></u-input>
+			</u-form-item>
 			<u-form-item label="商品库存" prop="stock">
 				<u-input v-model="form.stock" placeholder="数量"></u-input>
 			</u-form-item>
@@ -107,7 +109,7 @@
 			</u-form-item>
 		</view>
 	</u-form>
-	<view class="box switch" v-show="current != 0">
+	<!-- <view class="box switch" v-show="current != 0">
 		<text>{{ switchName }}</text>
 		<u-switch 
 			v-model="specification" 
@@ -125,7 +127,7 @@
 			v-show="current === 3"
 			active-color="#24743C"
 		></u-switch>
-	</view>
+	</view> -->
 	<view class="footer" v-show="current === 0">
 		<view class="footerBtn">
 			<button type="primary" class="custom-style"  @click="release(0)">保存到仓库</button>
@@ -162,6 +164,7 @@
 			unitName: '',
 	    price: "",
 	    otPrice: "",
+	    cost: "",
 	    stock: '',
 	    isPostage: false,
 	    postage: '',
@@ -224,7 +227,7 @@
 			
 			specification.value = res.specType
 				data.form.image.push({url:res.image})
-				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,stock,isPostage,postage,description} = res
+				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,cost,stock,isPostage,postage,description} = res
 				data.form.storeName = res.storeName
 				data.form = {
 					storeName,
@@ -237,6 +240,7 @@
 					unitName,
 			    price,
 			    otPrice,
+					cost,
 			    stock,
 			    isPostage,
 			    postage,
@@ -338,9 +342,17 @@
 				if(!data.form.price){
 					uni.$showMsg('请输入价格','error')
 					return false
-				}
+				}	
 				if(!data.form.otPrice){
 					uni.$showMsg('请输入商品市场价','error')
+					return false
+				}
+				if(!data.form.cost){
+					uni.$showMsg('请输入成本价','error')
+					return false
+				}
+				if(data.form.price < data.form.cost * 1.25){
+					uni.$showMsg('价格偏低','error')
 					return false
 				}
 				if(!data.form.stock){

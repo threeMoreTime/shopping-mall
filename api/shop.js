@@ -104,3 +104,12 @@ export const getLikeById = (id) => {
 		method: 'GET'
 	})
 }
+
+// 未通过原因
+export const getByProductId = (id) => {
+	return request({
+		url: `/client/product/audit/getByProductId/${id}`,
+		method: 'GET'
+	})
+}
+

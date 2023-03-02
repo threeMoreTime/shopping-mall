@@ -57,17 +57,20 @@
 		<view class="cardFooter" v-show="current === 0">
 			<view v-if="item.status == 2" @click="s_upOrDown(item.id, 1)">上架</view>
 			<view v-else-if="item.status == 0">审核中</view>
-			<view v-else style="color: red;">未通过</view>
+			<view v-else style="color: red;" @click="nopassShow(item.id)">未通过</view>
 			<view @click="changePath(item.id)">编辑</view>
 			<view @click="deleGoods(item.id)">删除</view>
 		</view>
 	</view>
 	<!-- && goodsList.length == 0 -->
 	<view class="empty" v-if="current === 0 ">
-		<view v-show="goodsList.length == 0">亲，还没有任何商品哦</view>
+		<view v-if="entrepot.length == 0">亲，还没有任何商品哦</view>
 		<view class="emptyFooter">
 			<view class="btn emptyBtn select" @click="changePath()">添加商品</view>
 		</view>
+		<u-modal v-model="show" title="原因" showCancelButton confirmText="现在处理" cancelText="稍后处理" @confirm="nopassConfirm" :content-style="{textAlign: 'center'}">
+			<view v-html="content"></view>
+		</u-modal>
 	</view>
 </template>
 
@@ -75,7 +78,8 @@
 	import {
 		shopManage,
 		upOrDown,
-		deleById
+		deleById,
+		getByProductId
 	} from '@/api/shop.js'
 	import {
 		ref,
@@ -90,6 +94,28 @@
 		onReachBottom,
 		onPullDownRefresh
 	} from "@dcloudio/uni-app";
+		
+		
+	const show = ref(false)
+	const content = ref('')
+	const shopId = ref(null)
+	const nopassShow = (id) => {
+		shopId.value = id
+		getByProductId(id).then(res => {
+			content.value = ''
+			for(let i in res){
+				content.value += res[i] + "</br>"
+			}
+		})
+		show.value = true
+		
+	}
+	const nopassConfirm = () => {
+		uni.navigateTo({
+			url: `releaseGoods?id=${shopId.value}`
+		})
+	}
+	
 	const data = reactive({
 		current: 1,
 		page: 1,

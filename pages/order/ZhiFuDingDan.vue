@@ -125,8 +125,8 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 			{
 				id: 3,
 				name: '兑换卷加管理积分',
-				payChannel: 'bank',
-				payType: '',
+				payChannel: 'vouchers',
+				payType: 'vouchers',
 				bgIcon: '../../static/img/ooooooooooo.png'
 			}
 		]

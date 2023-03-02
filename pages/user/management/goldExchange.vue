@@ -7,18 +7,19 @@
 		</view>
 		<view class="context">
 			<view class="ListBox">
-				<view class="ItemBox">
+				<view class="ItemBox" v-for="item in GoldProductsList">
 					<view class="ItemBottomCtx">
-						<image src="@/static/img/gold.png" alt=""/>
+						<image :src="item.image" alt=""/>
 						<view class="ItemBottomText">
-							<text>黄金10克金条</text>
+							<text>{{item.storeName}}</text>
+							<text>/{{item.unitName}}</text>
 							<view class="goldCtx">
-								<text class="gold">3000</text>
 								<text class="goldForm">￥</text>
+								<text class="gold">{{item.price}}</text>
 							</view>
-							<text class="market">已售2.6万</text>
+							<text class="market">已售 {{item.sales}}</text>
 						</view>
-						<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail2', {})">兑换</view>
+						<view class="ItemBottomBtn" @click="changePath('/pages/product/productDetail2', {id: item.id})">兑换</view>
 					</view>
 				</view>
 			</view>
@@ -28,6 +29,18 @@
 
 <script setup>
 	import { navigateBack,changePath } from "@/utils/navigate.js"
+	import {findGoldProducts} from "@/api/project.js"
+	import { userStore } from "@/store/index.js"
+import { ref } from "vue";
+	const GoldProductsList = ref([])
+	findGoldProducts().then(res => {
+		if(res?.length && res instanceof Array) {
+			GoldProductsList.value = res
+			GoldProductsList.value.forEach(item => {
+				item.image = userStore().systemConfig.picUrlPre + item.image
+			})
+		}
+	})
 </script>
 
 <style lang="scss" scoped>

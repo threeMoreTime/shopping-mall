@@ -131,9 +131,9 @@
 				// console.log(res);
 				shopInfo.value = res.productInfo
 				// 对content标签img改成image
-				shopInfo.value.content = shopInfo.value.content.replace(/<img\b/gi, '<image');
+				shopInfo.value.content = shopInfo.value.content?.replace(/<img\b/gi, '<image');
 				// 对content的src拼接上userStore().systemConfig.picUrlPre
-				shopInfo.value.content = shopInfo.value.content.replace(/(<image[^>]+src=")([^"]+)(")/, `$1${userStore().systemConfig.picUrlPre}$2$3`);
+				shopInfo.value.content = shopInfo.value.content?.replace(/(<image[^>]+src=")([^"]+)(")/, `$1${userStore().systemConfig.picUrlPre}$2$3`);
 				shopInfo.value.image = userStore().systemConfig.picUrlPre + shopInfo.value.image
 				// 目前只有一个图片，直接push
 				list.value.push(shopInfo.value.image)

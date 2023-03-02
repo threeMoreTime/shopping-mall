@@ -18,7 +18,7 @@
 				<view class="plantTrees">
 					<text>兑换种树积分</text>
 					<u-input 
-						v-model="countNum" 
+						v-model="reqForm.exchangeNum" 
 						type="number" 
 						:border="false" 
 						input-align="right"
@@ -27,13 +27,13 @@
 				</view>
 				<view class="exchange">
 					<text>需要兑换券</text>
-					<text>{{countNum || 0}}</text>
+					<text>{{reqForm.exchangeNum || 0}}</text>
 				</view>
 			</view>
 			<view class="cart" style="padding: 0 10rpx;">
-				<u-input v-model="payPassword" type="password" placeholder="请输入支付密码" height="84" :border="false" />
+				<u-input v-model="reqForm.payPassword" type="password" placeholder="请输入支付密码" height="84" :border="false" />
 			</view>
-			<view class="btn">确认兑换</view>
+			<view class="btn" @click="handleExchange">确认兑换</view>
 		</view>
 	</view>
 </template>
@@ -47,9 +47,12 @@
 		changePath,
 		navigateBack
 	} from "@/utils/navigate.js"
-	import {findPjUserInfo} from "@/api/project.js"
-	const countNum = ref(null)
-	const payPassword = ref(null)
+	import {findPjUserInfo,exchangeIntegral} from "@/api/project.js"
+	import {payPwdRegex,showToast} from "@/utils/regex.js"
+	const reqForm = reactive({
+		exchangeNum: null,
+		payPassword: null
+	})
 	const PjUserInfo = reactive({
 		frozenVouchers: 0,
 		id: 0,
@@ -64,6 +67,27 @@
 	findPjUserInfo().then(res => {
 		Object.assign(PjUserInfo,res)
 	})
+	const handleExchange = async () => {
+		if (!reqForm.exchangeNum > 0) {
+		    return showToast("请输入大于0的值", "error");
+		  }
+		  
+		if (!payPwdRegex(reqForm.payPassword)) {
+		    return;
+		  }
+		  
+		try {
+		    await exchangeIntegral(reqForm);
+		    const res = await findPjUserInfo();
+		    Object.assign(PjUserInfo, res);
+		    showToast("兑换成功", "success");
+		  } catch (err) {
+		    showToast(err, "error");
+		  } finally {
+		    reqForm.exchangeNum = null;
+		    reqForm.payPassword = null;
+		  }
+	}
 </script>
 
 <style lang="scss" scoped>

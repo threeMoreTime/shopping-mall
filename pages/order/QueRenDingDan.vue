@@ -152,7 +152,7 @@
 		getPreOrderList(preOrderNo).then(res => {
 			// console.log(res);
 			orderList.value = res.orderInfoVo?.orderDetailList
-			oldPre.value = res.orderInfoVo?.proTotalFee
+			oldPre.value = res.orderInfoVo?.payFee
 			orderList.value.map(item => {
 				item.image = store.systemConfig.picUrlPre + item.image
 			})

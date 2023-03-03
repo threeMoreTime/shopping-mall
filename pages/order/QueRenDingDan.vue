@@ -113,24 +113,43 @@
 					"addressId": store.storeOrderAddress.id})
 					.then(price => {
 						// console.log(price,"price");
+						for(let i = 0; i < price.orderDetailList.length; i++){
+							if(i.isPostage){
+								freightFee.value = 0
+							}else{
+								freightFee.value = price.freightFee
+							}
+							
+						}
 						countNum.value = price.payFee
-						freightFee.value = price.freightFee
+						console.log('countNum.value',countNum.value)
+						console.log('freightFee.value',freightFee.value)
+						
 				})
 			}
 		})
 	})
-	onShow(() => {
-		if(store.storeOrderAddress.id) {
-			getOrderPrice(
-				{"preOrderNo": preOrder.value,
-				"addressId": store.storeOrderAddress.id})
-				.then(price => {
-					// console.log(price,"price");
-					countNum.value = price.payFee
-					freightFee.value = price.freightFee
-			})
-		}
-	})
+	// onShow(() => {
+	// 	if(store.storeOrderAddress.id) {
+	// 		getOrderPrice(
+	// 			{"preOrderNo": preOrder.value,
+	// 			"addressId": store.storeOrderAddress.id})
+	// 			.then(price => {
+	// 				console.log(price,"price");
+	// 				for(let i; i < price.orderDetailList.length; i++){
+	// 					if(i.isPostage){
+	// 						freightFee.value = 0
+	// 					}else{
+	// 						freightFee.value = price.freightFee
+	// 					}
+	// 				}
+	// 				countNum.value = price.payFee
+					
+	// 				console.log('countNum.value',countNum.value)
+	// 				console.log('freightFee.value',freightFee.value)
+	// 		})
+	// 	}
+	// })
 	const store = userStore()
 	if(!store.userInfo?.uid) {
 		info().then(res => {

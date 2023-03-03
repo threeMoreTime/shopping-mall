@@ -17,14 +17,14 @@
 				</view>
 			</view>
 			<view class="ListBox">
-				<view class="ItemBox cart">
+				<view class="ItemBox cart" v-for="item in managingList">
 					<view class="ItemBoxCtx">
-						<text>联创分红</text>
-						<text>-30000.00</text>
+						<text>{{item.title}}</text>
+						<text>{{item.typeName}}</text>
 					</view>
 					<view class="ItemBoxCtx">
-						<text style="font-size: 20rpx;color: #929292;font-weight: 400;">2023-01-03  09:50:35</text>
-						<text style="font-size: 20rpx;color: #929292;font-weight: 400;">余额：14000.00</text>
+						<text style="font-size: 20rpx;color: #929292;font-weight: 400;">{{item.createTime}}</text>
+						<text style="font-size: 20rpx;color: #929292;font-weight: 400;">余额：{{item.balance}}</text>
 					</view>
 				</view>
 			</view>
@@ -37,10 +37,10 @@
 	import { userStore } from "@/store/index.js"
 	import { guanlijifen } from "@/api/userRecordMingxi.js"
 	import {findPjUserInfo} from "@/api/project.js"
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 	let pageFrom = {
 		page: 1,
-		limit: 10
+		limit: 30
 	}
 	const PjUserInfo = reactive({
 		frozenVouchers: 0,
@@ -56,8 +56,14 @@ import { reactive } from "vue";
 	findPjUserInfo().then(res => {
 		Object.assign(PjUserInfo,res)
 	})
+	const managingList =ref([])
 	guanlijifen(pageFrom).then(res => {
-		console.log(res);
+		if(res.list?.length && res.list instanceof Array) {
+			managingList.value = res.list
+			managingList.value.map(item => {
+				item.typeName = item.type === 1 ? `+${item.integral}` : `-${item.integral}`
+			})
+		}
 	})
 </script>
 

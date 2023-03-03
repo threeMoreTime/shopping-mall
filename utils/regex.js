@@ -76,7 +76,7 @@ export const inviteCodeRegex = (inviteCode,strName) => {
 }
 
 export const payPwdRegex = (pwd) => {
-	if (pwd.length !== 6) {
+	if (pwd?.length !== 6 && !codePatttern.test(pwd)) {
 		uni.showToast({
 			title: "请输入6位数字支付密码",
 			icon: "error"

@@ -58,12 +58,24 @@
 		</view>
 		<view class="box">
 			<u-form-item label="商品图片(1/1)">
-				<u-upload 
+				<!-- <u-upload 
 					ref="imageUpload"
 					:max-count="1" 
 					:file-list=form.image
 					:auto-upload="false"
-				></u-upload>
+				></u-upload> -->
+				<!-- v-if="dataForm.logo.length == 0" -->
+				<view class="upload" @click="ChoosePicture(1)" v-if="data.form.image.length == 0">
+					<u-icon name="plus" class="add"></u-icon>
+					<view class="change">选择图片</view>
+				</view>
+				<view class="upload2" v-else>
+					<view class="dele" @click="close(1)">
+						<u-icon name="close" class="close"></u-icon>
+					</view>
+					<u-image @click="photos(1)" width="100%" height="100%" border-radius="15rpx" :src="userStore().systemConfig.picUrlPre + data.form.image">
+					</u-image>
+				</view>
 			</u-form-item>
 			<u-form-item label="视频(可选)" :border-bottom="false">
 				<view class="upload" @click="uploadVideo" v-show="!form.videoLink">
@@ -96,7 +108,7 @@
 			<u-form-item label="商品库存" prop="stock">
 				<u-input v-model="form.stock" placeholder="数量"></u-input>
 			</u-form-item>
-			<u-form-item label="快递运费" prop="postage" v-show="form.isPostage">
+			<u-form-item label="快递运费" prop="postage" v-show="!form.isPostage">
 				<u-input v-model="form.postage" placeholder="元"></u-input>
 			</u-form-item>
 			<u-form-item label="包邮">
@@ -141,6 +153,7 @@
 	import {reactive, toRefs, ref} from 'vue';
 	import { userStore } from "@/store/index.js"
 	import {onReady, onLoad,onShow} from "@dcloudio/uni-app";
+	import {uploadFilePromise} from '@/utils/fileUpload.js'
 	
 	const imageUpload = ref(null)
 	const uform = ref()
@@ -159,7 +172,7 @@
 	    storeInfo: "",
 	    cateIds: [],
 	//     shopCateIds: [1],
-	    image: [],// string
+	    image: '',// string
 	    videoLink: '',// string
 			unitName: '',
 	    price: "",
@@ -226,7 +239,7 @@
 			data.categoryValue = cate.label
 			
 			specification.value = res.specType
-				data.form.image.push({url:res.image})
+				// data.form.image.push({url:res.image})
 				let {storeName,storeInfo,cateIds,shopCateIds,image,videoLink,unitName,price,otPrice,cost,stock,isPostage,postage,description} = res
 				data.form.storeName = res.storeName
 				data.form = {
@@ -234,7 +247,8 @@
 			    storeInfo,
 			    cateIds,
 			//     shopCateIds,
-			    image:[{url: userStore().systemConfig.picUrlPre + res.image}],
+			//     image:[{url: userStore().systemConfig.picUrlPre + res.image}],
+			    image: userStore().systemConfig.picUrlPre + res.image,
 			//     image[0].url:image,
 			//     videoLink: videoLink || '',
 					unitName,
@@ -250,6 +264,61 @@
 		})
 	}
 	const cateList = reactive([])
+	const close = (id) => {
+		uni.showModal({
+			title: '提示',
+			content: '您确定要删除此项吗？',
+			success: function(res) {
+				if (res.confirm) {
+					switch (id) {
+						case 1:
+							data.form.image = ''
+							return
+							break;
+					}
+				}
+			}
+		});
+	}
+	
+	//商品图片
+	const ChoosePicture = (id) => {
+	  const pictureTypes = {
+	    1: "image",
+	  };
+	  uni.chooseImage({
+	    count: 1,
+	    sizeType: ['original', 'compressed'],
+	    sourceType: ['camera', 'album'],
+	    success: async function(res) {
+	      console.log('chooseImage res', res)
+	      uni.showLoading({
+	        title: '图片上传中',
+	      })
+	      const result = await uploadFilePromise(res.tempFiles[0])
+	      const imageUrl = JSON.parse(result).data.url;
+	      if (pictureTypes[id]) {
+	        data.form[pictureTypes[id]] = imageUrl;
+	      }
+	    }
+	  });
+	}
+	
+	// 预览
+	const photos = (id) => {
+		const imgMap = new Map([
+		  [1, data.form.image],
+		]); 
+		const imgList = [userStore().systemConfig.picUrlPre + imgMap.get(id)];
+		// console.log("imgList: ", imgList);
+		uni.previewImage({
+			count: imgList.length,
+			urls: imgList,
+			success: function(res) {
+				console.log(res);
+			}
+		});
+	}
 	// 商品类目
 	const seleCommodity = () => {
 		cateList.length = 0
@@ -310,8 +379,10 @@
 	}
 	
 	const release = (isShow) => {
+		console.log(isShow)
 		// data.form.fileList = imageUpload.value.lists
 		uform.value.validate((valid) => {
+			console.log(valid)
 			let params = {}
 			if(valid){
 				if(goodsId.value){
@@ -322,11 +393,16 @@
 						isShow
 					}
 				}else{
+					if(data.form.image.length == 0){
+						uni.$showMsg('请选择商品图片','error')
+						return false
+					}
 					params = {
-						image: data.form.image[0].url,
+						image: userStore().systemConfig.picUrlPre + data.form.image,
 						isShow
 					}
 				}
+				console.log('params',params)
 				if(!data.form.storeName){
 					uni.$showMsg('请输入商品名称','error')
 					return false
@@ -358,6 +434,12 @@
 				if(!data.form.stock){
 					uni.$showMsg('请输入商品库存','error')
 					return false
+				}
+				if(!data.form.isPostage){
+					if(!data.form.postage){
+						uni.$showMsg('请输入邮费','error')
+						return false
+					}
 				}
 				if(!data.form.description){
 					uni.$showMsg('请输入图文详情','error')
@@ -402,7 +484,53 @@
 </script>
 
 <style lang="scss" scoped>
+	.upload {
+		width: 200rpx;
+		height: 200rpx;
+		border-radius: 15rpx;
+		background-color: #f4f5f6;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	
+		.add {
+			font-size: 40rpx;
+			color: #606266;
+		}
+	
+		.change {
+			color: #606266;
+		}
+	}
+	
+	.upload2 {
+		border-radius: 15rpx;
+		// background-color: #f4f5f6;
+		width: 200rpx;
+		height: 200rpx;
+		position: relative;
+	
+		.dele {
+			z-index: 999;
+			width: 40rpx;
+			height: 40rpx;
+			border-radius: 50%;
+			position: absolute;
+			right: 10rpx;
+			top: 10rpx;
+			background-color: #fa3534;
+			color: #fef8ff;
+	
+			.close {
+				z-index: 999 !important;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		}
+	}
 	.tabs {
 		width: 100%;
 		height: 176rpx;

@@ -5,8 +5,8 @@ import * as Pinia from 'pinia';
 import VConsole from 'vconsole';
 // const isDev = process.env.NODE_ENV === 'development'
 // if (isDev) {
-//   const vConsole = new VConsole()
 // }
+// const vConsole = new VConsole()
 // vConsole.destroy();
 
 

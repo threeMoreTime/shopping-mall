@@ -411,14 +411,19 @@
 	function changleStyle(index) {
 		tabIndex.value = index
 		tradeList.value = []
-		switch (tabIndex.value) {
-			case 0:
-				tradeListFrom.type = "SELL"
-				break;
-			case 1:
-				tradeListFrom.type = "BUY"
-				break
+		const menuList = {
+			0: "SELL",
+			1: "BUY"
 		}
+		tradeListFrom.type = menuList[index]
+		// switch (tabIndex.value) {
+		// 	case 0:
+		// 		tradeListFrom.type = "SELL"
+		// 		break;
+		// 	case 1:
+		// 		tradeListFrom.type = "BUY"
+		// 		break
+		// }
 		if (tabIndex.value == 0 || tabIndex.value == 1) {
 			// 查询挂单数据
 			findTradeList(tradeListFrom).then(res => {

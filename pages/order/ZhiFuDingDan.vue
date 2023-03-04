@@ -1,7 +1,7 @@
 <template>
 	<view class="bg">
 		<view class="popup" v-show="popupShow">
-			<u-icon class="close" name="close"></u-icon>
+			<u-icon class="close" name="close" @click="close"></u-icon>
 			<h3 class="h3">请输入支付密码</h3>
 			<view class="money">
 				<text>付款</text>
@@ -164,6 +164,11 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 	let keyShow = ref(false)
 	let valueInput = ref('') // 输入的密码
 	
+	const close = () =>{
+		popupShow.value = false
+		maskShow.value = false
+		keyShow.value = false
+	}
 	const getKey = () =>{
 		keyShow.value = true
 	}
@@ -322,6 +327,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 			background-color: #FFFFFF;
 			
 			.close{
+				z-index: 999;
 				width: 100%;
 				position: absolute;
 				top: 5%;

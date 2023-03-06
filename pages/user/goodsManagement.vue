@@ -67,7 +67,7 @@
 		<!-- <view v-if="entrepot.length == 0">亲，还没有任何商品哦</view> -->
 		<u-empty v-if="entrepot.length == 0" style="margin-top: 100rpx;" text="亲，还没有任何商品哦" mode="list"></u-empty>
 		<view class="emptyFooter">
-			<view v-if="entrepot.length < 10" class="btn emptyBtn select" @click="changePath()">添加商品</view>
+			<view v-if="entrepot.length <= 10" class="btn emptyBtn select" @click="changePath()">添加商品</view>
 			<view v-if="entrepot.length > 10" class="addgoods" @click="changePath()"><u-icon class="iconadd" name="plus"></u-icon></view>
 		</view>
 		<u-modal v-model="show" title="原因" showCancelButton confirmText="现在处理" cancelText="稍后处理" @confirm="nopassConfirm" :content-style="{textAlign: 'center'}">

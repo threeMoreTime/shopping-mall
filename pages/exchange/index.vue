@@ -295,43 +295,36 @@
 		dataForm.tradeId = id
 	}
 
-	const hendlAddTrade = (keyword) => {
-		if (keyword === 'addTrade') {
-			addTrade(dataForm).then(res => {
-				uni.showToast({
-					title: "挂单成功",
-					icon: "success"
-				})
-				isPopupShow.value = false
-				info().then(res => {
-					userStore().userInfo = res
-				})
-			}, () => {
-				uni.showToast({
-					title: "挂单失败",
-					icon: "error"
-				})
-			})
-		} else {
-			addOrder(dataForm).then(res => {
-				uni.showToast({
-					title: "交易成功",
-					icon: "success"
-				})
-				isPopupShowByOrder.value = false
-				findTradeList(tradeListFrom).then(res => {
-					tradeList.value = res.list
-					info().then(res => {
-						userStore().userInfo = res
-					})
-				})
-			}, () => {
-				uni.showToast({
-					title: "交易失败",
-					icon: "error"
-				})
-			})
-		}
+	// 定义 showToast 函数
+	const showToast = (title, icon) => {
+	  uni.showToast({
+	    title: title,
+	    icon: icon
+	  })
+	}
+	
+	// 定义 handleAddTrade 函数
+	const handleAddTrade = async (keyword) => {
+	  try {
+	    if (keyword === 'addTrade') {
+	      await addTrade(dataForm)
+	      showToast('挂单成功', 'success')
+	      isPopupShow.value = false
+	    } else {
+	      await addOrder(dataForm)
+	      showToast('交易成功', 'success')
+	      isPopupShowByOrder.value = false
+	      const { list } = await findTradeList(tradeListFrom)
+	      tradeList.value = list
+	    }
+		dataForm.price = null
+		dataForm.payPassword = null
+		dataForm.amount = null
+	    const { data } = await info()
+	    userStore().userInfo = data
+	  } catch (err) {
+	    showToast(err, 'error')
+	  }
 	}
 
 	// 存放k线图的数据
@@ -373,9 +366,9 @@
 	function getServerData(arr) {
 			let res = {
 				xAxis: {
-					data: arr.map(item => item.id)
+					data: arr.map(item => item.time)
 				},
-				categories: arr.map(item => item.id),
+				categories: arr.map(item => item.time),
 				series: [{
 					name: 'k线图',
 					data: arr.map(d => [d.openPrice, d.closePrice, d.highestPrice, d.lowestPrice])

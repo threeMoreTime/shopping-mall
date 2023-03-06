@@ -60,16 +60,16 @@
 			<view class="dataForm" v-if="type === 2">
 				<u-cell-group>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
-						<u-input height="68" placeholder="请输入原密码" :custom-style="customStyle"
+						<u-input type="password" height="68" placeholder="请输入原密码" :custom-style="customStyle"
 							v-model="dataform.oldPassword" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false" :style="{'padding':'10rpx 26rpx'}">
-						<u-input height="68" placeholder="请输入新的密码" :custom-style="customStyle"
+						<u-input type="password" height="68" placeholder="请输入新的密码" :custom-style="customStyle"
 							v-model="dataform.newPassword" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false"
 						:style="{'padding':'10rpx 26rpx','position':'relative'}">
-						<u-input height="68" placeholder="请再次输入新的密码" :custom-style="customStyle"
+						<u-input type="password" height="68" placeholder="请再次输入新的密码" :custom-style="customStyle"
 							v-model="dataform.newPassword2" />
 					</u-cell-item>
 					<u-cell-item hover-class="none" :arrow="false"

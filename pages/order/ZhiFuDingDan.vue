@@ -201,36 +201,16 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 				payType: orderFrom.payType,
 				payPassword: valueInput.value
 			});
-			if (tradeAppRequestBody) {
-				await uni.requestPayment({
-					provider: orderFrom.payType,
-					orderInfo: tradeAppRequestBody,
-					success: (res) => {
-						// console.log(res);
-						popupShow.value = false
-						maskShow.value = false
-						keyShow.value = false
-						uni.showLoading({
-							title: "支付成功"
-						});
-						setTimeout(function() {
-							uni.hideLoading();
-							changePath("/pages/order/order", {
-								typeId: 1
-							});
-						}, 2000);
-					},
-					fail: () => {
-						uni.showToast({
-							title: "支付失败",
-							icon: "error"
-						});
-						uni.navigateBack({
-							delta: 2
-						});
-					},
+			uni.showLoading({
+				title: "支付成功"
+			});
+			setTimeout(function() {
+				uni.hideLoading();
+				changePath("/pages/order/order", {
+					typeId: 1
 				});
-			}
+			}, 2000);
+			console.log("tradeAppRequestBody: ",tradeAppRequestBody);
 		} catch (err) {
 			uni.showToast({
 				title: err,

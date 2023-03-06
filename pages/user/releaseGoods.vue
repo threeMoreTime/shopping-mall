@@ -57,7 +57,7 @@
 			</view> -->
 		</view>
 		<view class="box">
-			<u-form-item label="商品图片(1/1)">
+			<u-form-item :label="'商品图片('+ (data.form.image.length>0?1:0) +'/1)'">
 				<!-- <u-upload 
 					ref="imageUpload"
 					:max-count="1" 
@@ -248,7 +248,8 @@
 			    cateIds,
 			//     shopCateIds,
 			//     image:[{url: userStore().systemConfig.picUrlPre + res.image}],
-			    image: userStore().systemConfig.picUrlPre + res.image,
+			//     image: userStore().systemConfig.picUrlPre + res.image,
+			    image: res.image,
 			//     image[0].url:image,
 			//     videoLink: videoLink || '',
 					unitName,

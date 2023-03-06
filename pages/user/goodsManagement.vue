@@ -64,9 +64,11 @@
 	</view>
 	<!-- && goodsList.length == 0 -->
 	<view class="empty" v-if="current === 0 ">
-		<view v-if="entrepot.length == 0">亲，还没有任何商品哦</view>
+		<!-- <view v-if="entrepot.length == 0">亲，还没有任何商品哦</view> -->
+		<u-empty v-if="entrepot.length == 0" style="margin-top: 100rpx;" text="亲，还没有任何商品哦" mode="list"></u-empty>
 		<view class="emptyFooter">
-			<view class="btn emptyBtn select" @click="changePath()">添加商品</view>
+			<view v-if="entrepot.length <= 10" class="btn emptyBtn select" @click="changePath()">添加商品</view>
+			<view v-if="entrepot.length > 10" class="addgoods" @click="changePath()"><u-icon class="iconadd" name="plus"></u-icon></view>
 		</view>
 		<u-modal v-model="show" title="原因" showCancelButton confirmText="现在处理" cancelText="稍后处理" @confirm="nopassConfirm" :content-style="{textAlign: 'center'}">
 			<view v-html="content"></view>
@@ -94,7 +96,6 @@
 		onReachBottom,
 		onPullDownRefresh
 	} from "@dcloudio/uni-app";
-		
 		
 	const show = ref(false)
 	const content = ref('')
@@ -295,12 +296,28 @@
 			width: 174rpx;
 			height: 70rpx;
 			margin-top: 42rpx;
+			margin-bottom: 20rpx;
 			opacity: 1;
 		}
 
 		.emptyFooter {
 			display: flex;
 			justify-content: center;
+			.addgoods{
+				position: fixed;
+				bottom: 15%;
+				right: 20px;
+				width: 100rpx;
+				height: 100rpx;
+				// border: solid;
+				background-color: #1c6732;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 70rpx;
+				color: #f5f5f5;
+			}
 		}
 	}
 

@@ -99,14 +99,9 @@
 		reactive,
 		ref,
 		toRefs
-	} from "vue";
-	import {
-		homeIndex,
-		productType
-	} from "@/api/homepage.js"
-	import {
-		userStore
-	} from "@/store/index.js"
+	} from "vue";	
+	import {homeIndex,productType} from "@/api/homepage.js"
+	import {userStore} from "@/store/index.js"
 	const store = userStore()
 	const rollText = ref(null)
 	const data = reactive({

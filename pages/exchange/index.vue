@@ -130,7 +130,7 @@
 					<view class="inpItem">
 						<u-input v-model="dataForm.payPassword" type="password" height="88" placeholder="请输入支付密码" />
 					</view>
-					<view class="btn" @click="hendlAddTrade('addOrder')">确认</view>
+					<view class="btn" @click="handleAddTrade('addOrder')">确认</view>
 				</view>
 			</u-popup>
 			<u-popup v-model="isPopupShow" mode="bottom" border-radius="16">
@@ -154,7 +154,7 @@
 					<view class="inpItem">
 						<u-input v-model="dataForm.payPassword" type="password" height="88" placeholder="请输入支付密码" />
 					</view>
-					<view class="btn" @click="hendlAddTrade('addTrade')">确认</view>
+					<view class="btn" @click="handleAddTrade('addTrade')">确认</view>
 				</view>
 			</u-popup>
 		</view>
@@ -320,7 +320,7 @@
 		dataForm.price = null
 		dataForm.payPassword = null
 		dataForm.amount = null
-	    const { data } = await info()
+	    const data = await info()
 	    userStore().userInfo = data
 	  } catch (err) {
 	    showToast(err, 'error')

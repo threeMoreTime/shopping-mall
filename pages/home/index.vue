@@ -35,12 +35,10 @@
 				</view>
 			</view>
 			<view class="indexTitle">
-				<image src="@/static/img/indexTitleBg.png" alt=""/>
+				<image src="@/static/img/indexTitleBg.png" alt="" />
 			</view>
 			<view class="tabBox">
-				<u-tabs 
-					height="70" 
-					bg-color="#FBFBFB" duration="0.3" gutter="10" active-color="#3A2A08" bar-width="60"
+				<u-tabs height="70" bg-color="#FBFBFB" duration="0.3" gutter="10" active-color="#3A2A08" bar-width="60"
 					bar-height="8" :bar-style="{
 						'background-color': '#1FA848',
 						'color': '#3A2A08',
@@ -55,12 +53,12 @@
 			<view class="ctxList">
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<image src="@/static/img/logoBg.png" alt=""/>
+						<image src="@/static/img/logoBg.png" alt="" />
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<image src="@/static/img/camera.png" alt=""/>
+							<image src="@/static/img/camera.png" alt="" />
 							<view class="ItemBottomText">
 								<text>数码相机</text>
 								<view class="goldCtx">
@@ -74,12 +72,12 @@
 				</view>
 				<view class="ctxListItem">
 					<view class="ItemTop">
-						<image src="@/static/img/logoBg.png" alt=""/>
+						<image src="@/static/img/logoBg.png" alt="" />
 						<text class="ItemTitle">数码电子</text>
 					</view>
 					<view class="ItemBottom">
 						<view class="ItemBottomCtx">
-							<image src="@/static/img/watches.png" alt=""/>
+							<image src="@/static/img/watches.png" alt="" />
 							<view class="ItemBottomText">
 								<text>时尚手表</text>
 								<view class="goldCtx">
@@ -102,22 +100,33 @@
 		ref,
 		toRefs
 	} from "vue";
-	import {homeIndex,productType} from "@/api/homepage.js"
-	import {userStore} from "@/store/index.js"
+	import {
+		homeIndex,
+		productType
+	} from "@/api/homepage.js"
+	import {
+		userStore
+	} from "@/store/index.js"
 	const store = userStore()
 	const rollText = ref(null)
 	const data = reactive({
 		tabList: [],
 		current: 0,
 		swiperList: [],
+		tabCtxList: []
 	})
 	const {
 		swiperList,
 		tabList,
-		current
+		current,
+		tabCtxList
 	} = toRefs(data)
 	// 获取首页数据
-	homeIndex().then(({banner = [],roll = [],categorys = []}) => {
+	homeIndex().then(({
+		banner = [],
+		roll = [],
+		categorys = []
+	}) => {
 		swiperList.value = banner
 		tabList.value = categorys
 		// console.log(tabList.value);
@@ -126,9 +135,7 @@
 			item.pic = store.systemConfig.picUrlPre + item.pic
 		})
 		// 默认发送一次请求商品类型请求
-		productType(tabList.value[0].id).then(res => {
-			console.log(res);
-		})
+		getProjectList()
 	})
 	// 用户点击搜索后触发
 	// const changeCancel = () => {
@@ -139,17 +146,31 @@
 		console.log(index)
 	}
 	
-	// 用户点击tabs后触发
-	const changeTabs = (index = 0) => {
-		productType(tabList.value[index].id).then(res => {
-			console.log(res);
-		})
+	// 获取项目分类列表
+	const getProjectList = async (index = 0) => {
+		try {
+			const res = await productType({
+				cateId: tabList.value[index].id
+			});
+			tabCtxList.value = res.map(item => ({
+				...item,
+				icon: store.systemConfig.picUrlPre + item.icon
+			}));
+			console.log(tabCtxList.value);
+		} catch (error) {
+			throw error
+		}
 	}
+	
+	// 用户点击tabs后触发
+	const changeTabs = async (index = 0) => {
+		getProjectList(index)
+	};
 	// 路由跳转
-	const changePath = (path,id) => {
+	const changePath = (path, id) => {
 		if (path) {
 			uni.navigateTo({
-				url: id? path + '?typeId=' + id : path
+				url: id ? path + '?typeId=' + id : path
 			})
 		}
 	}
@@ -168,41 +189,45 @@
 		width: 100%;
 		background-color: #FBFBFB;
 	}
-	
+
 	.ctxList {
 		width: 100%;
 		margin-top: 32rpx;
 	}
-	
+
 	.ctxListItem {
 		width: 686rpx;
 		height: 248rpx;
 		background: #FFFFFF;
-		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+		box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 		border-radius: 16rpx 16rpx 16rpx 16rpx;
 		padding: 0 34rpx;
 		font-size: 28rpx;
 		color: #3A2A08;
 		font-weight: bold;
 		margin-bottom: 32rpx;
+
 		.ItemBottom {
 			height: 166rpx;
 			width: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+
 			image {
 				width: 120rpx;
 				height: 120rpx;
 			}
+
 			.ItemBottomCtx {
 				display: flex;
 				align-items: center;
 			}
-			
+
 			.ItemBottomText {
 				margin-left: 18rpx;
 			}
+
 			.ItemBottomBtn {
 				// width: 126rpx;
 				padding: 0 16rpx;
@@ -215,27 +240,33 @@
 				text-align: center;
 				line-height: 48rpx;
 			}
+
 			.goldCtx {
 				margin-top: 16rpx;
 			}
+
 			.gold {
 				color: #E60808;
 			}
+
 			.goldForm {
 				font-size: 20rpx;
 				font-weight: bold;
 				color: #3A0808;
 			}
 		}
+
 		.ItemTop {
 			width: 100%;
 			height: 82rpx;
 			border-bottom: 2rpx solid rgba(112, 112, 112, 0.08);
 			display: flex;
 			align-items: center;
+
 			.ItemTitle {
 				margin-left: 22rpx;
 			}
+
 			image {
 				width: 42rpx;
 				height: 42rpx;
@@ -268,6 +299,7 @@
 			background: #FFFFFF;
 			border-radius: 36rpx;
 		}
+
 		.searchBg {
 			width: 35rpx;
 			height: 36rpx;
@@ -281,6 +313,7 @@
 		width: 100%;
 		padding: 0 32rpx;
 		margin-top: -172rpx;
+
 		.wrap {
 			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 			border-radius: 20rpx;
@@ -292,10 +325,11 @@
 		width: 686rpx;
 		height: 130rpx;
 		margin-bottom: 10rpx;
+
 		image {
 			width: 100%;
 			height: 100%;
-			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0,0,0,0.16);
+			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
 			border-radius: 16rpx 16rpx 16rpx 16rpx;
 		}
 	}

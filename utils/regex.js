@@ -24,7 +24,7 @@ export const empty = (emptyStr, strName) => {
 	if (emptyStr == "") {
 		uni.showToast({
 			title: strName + "不能为空",
-			icon: "error"
+			icon: "none"
 		})
 		return false
 	}
@@ -34,8 +34,8 @@ export const empty = (emptyStr, strName) => {
 export const pawRegex = (password) => {
 	if (!pawPatttern.test(password)) {
 		uni.showToast({
-			title: "密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线",
-			icon: "error"
+			title: "密码必须以\n字母开头，\n长度在6~18之间，\n只能包含字符、\n数字和下划线",
+			icon: "none"
 		})
 		return false
 	}
@@ -45,8 +45,8 @@ export const pawRegex = (password) => {
 export const idCardRegex = (idCard) => {
 	if (!idCardpattern.test(idCard)) {
 		uni.showToast({
-			title: "请输入正确身份证",
-			icon: "error"
+			title: "请输入正确\n身份证",
+			icon: "none"
 		})
 		return false
 	}
@@ -56,8 +56,8 @@ export const idCardRegex = (idCard) => {
 export const phoneRegex = (phone) => {
 	if (!pattern.test(phone)) {
 		uni.showToast({
-			title: "请输入正确手机号码",
-			icon: "error"
+			title: "请输入正确\n手机号码",
+			icon: "none"
 		})
 		return false
 	}
@@ -67,8 +67,8 @@ export const phoneRegex = (phone) => {
 export const inviteCodeRegex = (inviteCode,strName) => {
 	if (inviteCode.length !== 6) {
 		uni.showToast({
-			title: "请输入6位" + strName,
-			icon: "error"
+			title: "请输入6位\n" + strName,
+			icon: "none"
 		})
 		return false
 	}
@@ -78,8 +78,8 @@ export const inviteCodeRegex = (inviteCode,strName) => {
 export const payPwdRegex = (pwd) => {
 	if (pwd?.length !== 6 && !codePatttern.test(pwd)) {
 		uni.showToast({
-			title: "请输入6位数字支付密码",
-			icon: "error"
+			title: "请输入6位数字\n支付密码",
+			icon: "none"
 		})
 		return false
 	}
@@ -89,8 +89,8 @@ export const payPwdRegex = (pwd) => {
 export const verificationRegex = (verificationCode) => {
 	if (!codePatttern.test(verificationCode)) {
 		uni.showToast({
-			title: "请输入正确验证码",
-			icon: "error"
+			title: "请输入正确\n验证码",
+			icon: "none"
 		})
 		return false
 	}

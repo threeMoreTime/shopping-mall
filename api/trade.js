@@ -72,3 +72,11 @@ export const addOrder = (data) => {
 		method: 'POST'
 	},data)
 }
+
+// 仓单交易，买入
+export const addCangOrder = (data) => {
+	return request({
+		url: '/client/trade/addCangOrder',
+		method: 'POST'
+	},data)
+}

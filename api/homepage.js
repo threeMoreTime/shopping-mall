@@ -9,12 +9,14 @@ export const homeIndex = () => {
 }
 
 // 首页商品列表
-export const productType = (type) => {
+export const productType = (data) => {
 	return request({
-		url: `/client/homepage/index/product/${type}`,
+		url: `/client/project/list`,
 		method: 'GET'
-	})
+	},data)
 }
+
+
 
 // 首页搜索
 export const indexSearch = (keyword) => {

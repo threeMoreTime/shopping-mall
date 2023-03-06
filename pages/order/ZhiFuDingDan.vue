@@ -1,5 +1,18 @@
 <template>
 	<view class="bg">
+		<view class="popup" v-show="popupShow">
+			<u-icon class="close" name="close" @click="close"></u-icon>
+			<h3 class="h3">请输入支付密码</h3>
+			<view class="money">
+				<text>付款</text>
+				<text class="money_2">￥{{payCount}}</text>
+			</view>
+			<hr style="width: 90%;margin: 0 auto 20rpx;border:0px;border-bottom:1px solid #efefef;">
+			<u-message-input @click="getKey" :focus="true" maxlength="6" v-model="valueInput" :dot-fill="true" :breathe="true"></u-message-input>
+			<u-keyboard mode="number" @confirm="confirmKey" @change="valChange" @backspace="backspace" :show-tips="false" :safe-area-inset-bottom="true" v-model="keyShow" z-index="9999" :mask="false"></u-keyboard>
+		</view>
+		<view class="mask" v-show="maskShow" @click="back"></view>
+
 		<view class="topHeZi">
 			<view class="arrowsBg" @click="navigateBack"></view>
 			<view class="title">支付订单</view>
@@ -101,7 +114,7 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 	const freightFee = ref(0)
 	// 总计
 	const payCount = computed(() => {
-		return oldPre.value + freightFee.value
+		return Number(oldPre.value + freightFee.value).toFixed(2)
 	})
 	// 订单号
 	const preOrderNo = ref(null)
@@ -146,7 +159,98 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 		console.log(orderFrom);
 	}
 
+	let popupShow = ref(false)
+	let maskShow = ref(false)
+	let keyShow = ref(false)
+	let valueInput = ref('') // 输入的密码
+	
+	const close = () =>{
+		popupShow.value = false
+		maskShow.value = false
+		keyShow.value = false
+	}
+	const getKey = () =>{
+		keyShow.value = true
+	}
+	// 键盘输入
+	const valChange = (val) =>{
+		if(valueInput.value.length < 6){
+			valueInput.value += val
+			return false
+		}
+	}
+	// 退格键被点击
+	const backspace = () =>{
+		valueInput.value = valueInput.value.slice(0, -1)
+	}
+	// 键盘确定
+	const confirmKey = async () =>{
+		if(valueInput.value.length < 6){
+			uni.$showMsg('请输入密码','error')
+			return false
+		}
+		try {
+			const {
+				orderNo
+			} = await createOrder(orderFrom);
+			const {
+				tradeAppRequestBody
+			} = await payPayment({
+				orderNo,
+				payChannel: orderFrom.payChannel,
+				payType: orderFrom.payType,
+				payPassword: valueInput.value
+			});
+			if (tradeAppRequestBody) {
+				await uni.requestPayment({
+					provider: orderFrom.payType,
+					orderInfo: tradeAppRequestBody,
+					success: (res) => {
+						// console.log(res);
+						popupShow.value = false
+						maskShow.value = false
+						keyShow.value = false
+						uni.showLoading({
+							title: "支付成功"
+						});
+						setTimeout(function() {
+							uni.hideLoading();
+							changePath("/pages/order/order", {
+								typeId: 1
+							});
+						}, 2000);
+					},
+					fail: () => {
+						uni.showToast({
+							title: "支付失败",
+							icon: "error"
+						});
+						uni.navigateBack({
+							delta: 2
+						});
+					},
+				});
+			}
+		} catch (err) {
+			uni.showToast({
+				title: err,
+				icon: "error"
+			});
+		}
+	}
+	const back = ()=>{
+		popupShow.value = false
+		maskShow.value = false
+		keyShow.value = false
+	}
+	
 	const clickBuy = async () => {
+		if(orderFrom.payType == "vouchers"){
+			popupShow.value = true
+			maskShow.value = true
+			keyShow.value = true
+			return false
+		}
 		try {
 			const {
 				orderNo
@@ -199,7 +303,57 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 		width: 100%;
 		background: #24743C;
 		height: 176rpx;
-
+		.mask {
+			z-index: 10;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top:0;
+			left: 0;
+			background-color: rgba(0, 0, 0, 1);
+			opacity: 0.51;
+			overflow: hidden;
+		}
+		.popup{
+			position: fixed;
+			bottom: 0;
+			// margin-top: 100%;
+			// transform: translateX(-50%);
+			z-index: 999;
+			width: 100%;
+			height: 70vh;
+			border-top-right-radius: 15rpx;
+			border-top-left-radius: 15rpx;
+			background-color: #FFFFFF;
+			
+			.close{
+				z-index: 999;
+				width: 100%;
+				position: absolute;
+				top: 5%;
+				left: 2%;
+			}
+			.h3{
+				width: 100%;
+				text-align: center;
+				position: absolute;
+				top: 5%;
+			}
+			.money{
+				width: 100%;
+				height: 150rpx;
+				// border: solid red;
+				margin-top: 20%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				.money_2{
+					font-size: 60rpx;
+					font-weight: bold;
+				}
+			}
+		}
 		.payType {
 			padding: 14rpx 30rpx;
 			margin: 26rpx auto;

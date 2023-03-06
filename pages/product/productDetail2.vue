@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container">		
 		<view class="tabs">
 			<view class="arrowsBg" @click="navigateBack"></view>
 			<view></view>
@@ -37,6 +37,7 @@
 				<view class="btn" @click="shopAndBuy(0)">加入购物车</view>
 				<view class="btn2" @click="shopAndBuy(1)">立即购买</view>
 			</view>
+			
 			<vk-data-goods-sku-popup 
 				:amount-type="0"
 				ref="skuPopup" 
@@ -75,6 +76,7 @@
 	import { userStore } from "@/store/index.js"
 	import { preOrder } from "@/api/order.js"
 	import {collect,getLikeById} from '@/api/shop.js'
+
 	onLoad((option) => {
 		getList(option?.id)
 		productId.value = option?.id
@@ -128,7 +130,7 @@
 	const getList = (id) => {
 		if(id) {
 			productDetail(id).then(res => {
-				// console.log(res);
+				console.log('SSSSSSSSSSS',res);
 				shopInfo.value = res.productInfo
 				// 对content标签img改成image
 				shopInfo.value.content = shopInfo.value.content?.replace(/<img\b/gi, '<image');
@@ -214,7 +216,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped>	
 	.contentImg {
 		width: 750rpx;
 	}

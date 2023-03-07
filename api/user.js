@@ -89,13 +89,26 @@ export const addFeedback = (data) => {
 }
 
 // 添加银行卡
+// export const addBankCard = (data) => {
+// 	return request({
+// 		url: '/client/user/addBankCard',
+// 		method: 'POST'
+// 	}, data)
+// }
 export const addBankCard = (data) => {
 	return request({
-		url: '/client/user/addBankCard',
+		url: '/client/user/bindBankCard',
 		method: 'POST'
 	}, data)
 }
 
+// 修改银行卡
+export const updateBankCard = (data) => {
+	return request({
+		url: '/client/user/updateBankCard',
+		method: 'POST'
+	}, data)
+}
 // 查询银行卡
 export const findBankCard = (query) => {
 	return request({
@@ -105,10 +118,10 @@ export const findBankCard = (query) => {
 };
 
 // 删除银行卡
-export const delBankCard = (query) => {
+export const delBankCard = (payPassword) => {
 	return request({
 		method: 'GET',
-    url: `/client/user/delBankCard/${id}`,
+    url: `/client/user/delBankCard/${payPassword}`,
 	});
 };
 

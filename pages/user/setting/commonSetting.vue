@@ -72,20 +72,20 @@
 				</u-form>
 			</view>
 			<view class="dataform pad-32" v-if="type === 3">
-				<view class="cellView" v-for="(item,index) in bankCardInfo" :key='item.id'>
-					<u-cell-group :title="'卡'+ (index + 1)"
+				<view class="cellView">
+					<u-cell-group v-show="Object.keys(bankCardInfo).length > 0"
 						:title-style="{'font-size': '28rpx','font-weight': '500','padding':'5rpx 26rpx'}">
-						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="item.userName"
+						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="bankCardInfo.realName"
 							:arrow="false" :style="{'height':'104rpx'}">
-							<text>{{item.bankName}}</text>
+							<text>{{bankCardInfo.bankName}}</text>
 						</u-cell-item>
-						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="item.bankCardNo"
+						<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" :title="bankCardInfo.bankCardNo"
 							:arrow="false" :style="{'height':'104rpx'}">
+							<text @click="unbind">解绑</text>
 						</u-cell-item>
 					</u-cell-group>
 				</view>
-				<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle" @click="changeBankcard">
-					添加银行卡</u-button>
+				<u-button hover-class="none" :hair-line="false" :custom-style="customBtnStyle" @click="changeBankcard(bankCardInfo)">{{bankCardName}}</u-button>
 			</view>
 			<view class="dataform pad-32 m-t-48" v-if="type === 4">
 				<u-form :model="dataform">
@@ -94,25 +94,42 @@
 						<u-input height="68" placeholder="请输入银行名称" :custom-style="customStyle"
 							v-model="dataform.bankName" />
 					</u-form-item>
+					<u-form-item label="开户行" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
+						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
+						<u-input height="68" placeholder="请输入开户行" :custom-style="customStyle"
+							v-model="dataform.bankOpenName" />
+					</u-form-item>
 					<u-form-item label="持卡人" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
 						<u-input height="68" placeholder="请输入持卡人" :custom-style="customStyle"
-							v-model="dataform.userName" />
+							v-model="dataform.realName" />
 					</u-form-item>
 					<u-form-item label="账号" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
 						<u-input height="68" placeholder="请输入账号" :custom-style="customStyle"
 							v-model="dataform.bankCardNo" />
 					</u-form-item>
+					<u-form-item label="身份证" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
+						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
+						<u-input height="68" placeholder="请输入身份证" :custom-style="customStyle"
+							v-model="dataform.cardId" />
+					</u-form-item>
 					<u-form-item label="支付密码" label-position="top" :label-style="{'font-size': '24rpx','font-weight': '500','color': '#757575',
 						'height': '34rpx','padding': '0 26rpx'}" :style="{'padding': '10rpx 0'}">
-						<u-input height="68" placeholder="请输入支付密码" :custom-style="customStyle"
+						<u-input type="password" :password-icon="false" height="68" placeholder="请输入支付密码" :custom-style="customStyle"
 							v-model="dataform.payPassword" />
 					</u-form-item>
-					<u-button @click="bankSubmit" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">
-						提交</u-button>
+					<u-button v-if="Object.keys(bankCardInfo).length > 0" @click="updateBank" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
+					<u-button v-else @click="bankSubmit" hover-class="none" :hair-line="false" :custom-style="customBtnStyle">提交</u-button>
 				</u-form>
 			</view>
+			<view class="popup" v-show="popupShow">
+				<u-icon class="close" name="close" @click="close"></u-icon>
+				<u-message-input style="margin-top: 5%;" @click="getKey" :focus="true" maxlength="6" v-model="valueInput" :dot-fill="true" :breathe="true"></u-message-input>
+				<u-keyboard mode="number" @confirm="confirmKey" @change="valChange" @backspace="backspace" :show-tips="false" :safe-area-inset-bottom="true" v-model="keyShow" z-index="9999" :mask="false"></u-keyboard>
+			</view>
+			<view class="mask" v-show="maskShow" @click="back"></view>
+			
 		</view>
 	</view>
 </template>
@@ -133,7 +150,9 @@
 		updateUserInfo,
 		addFeedback,
 		findBankCard,
-		addBankCard
+		addBankCard,
+		updateBankCard,
+		delBankCard
 	} from "@/api/user.js"
 	const store = userStore()
 	let customStyle = {
@@ -175,7 +194,7 @@
 				return '银行信息'
 				break;
 			case 4:
-				return '添加银行卡信息'
+				return bankCardName=='添加银行卡'? '添加银行卡信息':'修改银行卡信息'
 				break;
 		}
 	})
@@ -183,11 +202,14 @@
 		content: "",
 		mobile: "",
 		bankName: '',
-		userName: '',
+		bankOpenName: '',
+		// userName: '',
 		bankCardNo: '',
 		payPassword: '',
+		realName: '',
+		cardId: '',
 	})
-	const bankCardInfo = ref([])
+	const bankCardInfo = ref({})
 	// 返回上一级
 	const navigateBack = () => {
 		uni.navigateBack({
@@ -198,44 +220,97 @@
 	const gainBankCard = () => {
 		findBankCard().then(res => {
 			bankCardInfo.value = res
-			console.log('bankCardInfo', bankCardInfo.value)
+			if(Object.keys(bankCardInfo.value).length === 0){
+				bankCardName.value = '添加银行卡'
+			}else{
+				bankCardName.value = '修改银行卡'
+			}
 		})
 	}
+	// bankCardInfo?'修改银行卡':'添加银行卡'
+	const bankCardName = ref(null)
 
+  // 解绑
+	let popupShow = ref(false)
+	let maskShow = ref(false)
+	let keyShow = ref(false)
+	let valueInput = ref('') // 输入的密码
+	const unbind = () => {
+		popupShow.value = true
+		maskShow.value = true
+		keyShow.value = true
+	}
+	const getKey = () =>{
+		keyShow.value = true
+	}
+	// 键盘输入
+	const valChange = (val) =>{
+		if(valueInput.value.length < 6){
+			valueInput.value += val
+			return false
+		}
+	}
+	// 退格键被点击
+	const backspace = () =>{
+		valueInput.value = valueInput.value.slice(0, -1)
+	}
+	// 键盘确定
+	const confirmKey = () =>{
+		console.log('valueInput',valueInput.value)
+		if(valueInput.value.length < 6){
+			uni.$showMsg('请输入密码','error')
+			return false
+		}
+		let payPassword = valueInput.value
+		delBankCard(payPassword).then(res=>{
+			uni.$showMsg('解绑成功','success')
+			popupShow.value = false
+			maskShow.value = false
+			keyShow.value = false
+			gainBankCard()
+		})
+	}
+	const back = ()=>{
+		popupShow.value = false
+		maskShow.value = false
+		keyShow.value = false
+	}
+  // 修改银行卡
+	const updateBank = () => {
+		bankSubmit()
+	}
 	// 添加银行卡
 	const bankSubmit = () => {
 		let params = {
 			bankName: dataform.bankName,
+			bankOpenName: dataform.bankOpenName,
 			bankCardNo: dataform.bankCardNo,
-			userName: dataform.userName,
+			realName: dataform.realName,
 			payPassword: dataform.payPassword,
+			cardId: dataform.cardId,
 		}
 		if (!params.bankName) {
-			uni.showToast({
-				title: '请输入银行名称！',
-				icon: 'error'
-			})
+			uni.$showMsg('请输入银行名称!', 'error')
+			return false
+		}
+		if (!params.bankOpenName) {
+			uni.$showMsg('请输入开户行!', 'error')
+			return false
+		}
+		if (!params.realName) {
+			uni.$showMsg('请输入真实姓名', 'error')
 			return false
 		}
 		if (!params.bankCardNo) {
-			uni.showToast({
-				title: '请输入银行卡号！',
-				icon: 'error'
-			})
+			uni.$showMsg('请输入银行卡号!', 'error')
 			return false
 		}
-		if (!params.userName) {
-			uni.showToast({
-				title: '请输入用户名！',
-				icon: 'error'
-			})
+		if (!params.cardId) {
+			uni.$showMsg('请输入身份证', 'error')
 			return false
 		}
 		if (!params.payPassword) {
-			uni.showToast({
-				title: '请输入支付密码！',
-				icon: 'error'
-			})
+			uni.$showMsg('请输入支付密码', 'error')
 			return false
 		}
 		if (!/^[0-9]\d{5}$/.test(params.payPassword)) {
@@ -245,12 +320,27 @@
 			})
 			return false
 		}
-		addBankCard(params).then(res => {
-			uni.showToast({
-				title: '添加银行卡成功！',
-				icon: "success"
+		if(bankCardName.value == '添加银行卡'){
+			addBankCard(params).then(res => {
+				uni.showToast({
+					title: '添加银行卡成功！',
+					icon: "success"
+				})
+				setTimeout(()=>{
+					type.value = 3
+				},2000)
 			})
-		})
+		}else{
+			updateBankCard(params).then(res => {
+				uni.showToast({
+					title: '修改银行卡成功！',
+					icon: "success"
+				})
+				setTimeout(()=>{
+					type.value = 3
+				},2000)
+			})
+		}
 	}
 
 	// 提交意见
@@ -353,8 +443,25 @@
 		})
 	}
 	// 跳转添加银行卡
-	const changeBankcard = () => {
+	const changeBankcard = (data) => {
+		if(Object.keys(bankCardInfo.value).length === 0){
+			typeName.value = '添加银行卡信息'
+		}else{
+			typeName.value = '修改银行卡信息'
+		}
 		type.value = 4
+		dataform.bankName = data.bankName
+		dataform.bankOpenName = data.bankOpenName
+		dataform.bankCardNo = data.bankCardNo
+		dataform.realName = data.realName
+		dataform.cardId = data.cardId
+		// dataform = {
+		// 	bankName: data.bankName,
+		// 	bankOpenName: data.bankOpenName,
+		// 	bankCardNo: data.bankCardNo,
+		// 	realName: data.realName,
+		// 	cardId: data.cardId,
+		// }
 	}
 	// 路由跳转
 	const changePath = (path, id) => {
@@ -367,6 +474,57 @@
 </script>
 
 <style lang="scss" scoped>
+	.mask {
+		z-index: 10;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top:0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 1);
+		opacity: 0.51;
+		overflow: hidden;
+	}
+	.popup{
+		position: fixed;
+		bottom: 0;
+		// margin-top: 100%;
+		// transform: translateX(-50%);
+		z-index: 999;
+		width: 100%;
+		height: 45vh;
+		border-top-right-radius: 15rpx;
+		border-top-left-radius: 15rpx;
+		background-color: #FFFFFF;
+		
+		.close{
+			z-index: 999;
+			width: 100%;
+			position: absolute;
+			top: 5%;
+			left: 2%;
+		}
+		.h3{
+			width: 100%;
+			text-align: center;
+			position: absolute;
+			top: 5%;
+		}
+		.money{
+			width: 100%;
+			height: 150rpx;
+			// border: solid red;
+			margin-top: 20%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			.money_2{
+				font-size: 60rpx;
+				font-weight: bold;
+			}
+		}
+	}
 	.bg {
 		width: 100%;
 		height: 100vh;

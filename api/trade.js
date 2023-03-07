@@ -80,3 +80,11 @@ export const addCangOrder = (data) => {
 		method: 'POST'
 	},data)
 }
+
+// 查询能量、仓单订单
+export const findOrderList = (data) => {
+	return request({
+		url: '/client/trade/findOrderList',
+		method: 'GET'
+	},data)
+}

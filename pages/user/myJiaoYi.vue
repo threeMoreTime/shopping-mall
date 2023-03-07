@@ -5,10 +5,10 @@
       <view class="title">我的交易</view>
     </view>
     <view class="DaBox">
-      <view class="tishiBox" v-for="item, index in dateList" :key="item.id"
-        :class="[index === titleIndex ? 'boxListTitleItem1' : '']" >
+      <view class="tishiBox" v-for="item in dateList" :key="item.id"
+        :class="[item.id === titleIndex ? 'boxListTitleItem1' : '']" >
         <view class="left">
-          <text class="leftBox" @click="changTitle(index)">
+          <text class="leftBox" @click="changTitle(item.id)">
             {{item.title}}
             <!-- tab -->
           </text>
@@ -16,34 +16,34 @@
       </view>
     </view>
 	<view class="context">
-		<view class="ListBox" v-show="titleIndex === 0">
-			<view class="itemBox">
+		<view class="ListBox" v-show="titleIndex === 1">
+			<view class="itemBox" v-for="item in classifyList" :key="item.id">
 				<view class="itemTop">
 					<view class="">
 						<text style="color: #4E4E4E;">对方编号：</text>
-						<text style="color: #000000;font-weight: bold;font-size: 24rpx;">848241</text>
+						<text style="color: #000000;font-weight: bold;font-size: 24rpx;">{{item.tradeUid}}</text>
 					</view>
-					<view style="margin-top: 10rpx;color: #929292;">2022-11-29  17:19:41</view>
+					<view style="margin-top: 10rpx;color: #929292;">{{item.createTime}}</view>
 					<!-- titleType2类名是卖出的样式 -->
 					<view class="titleType">买入</view>
 				</view>
 				<view class="itemBottom">
 					<view class="itemBottomBox">
 						<text style="padding: 20rpx 0 10rpx;">单价</text>
-						<text class="itemBottomTitle">7.80</text>
+						<text class="itemBottomTitle">{{item.price}}</text>
 					</view>
 					<view class="itemBottomBox">
 						<text style="padding: 10rpx 0;">数量</text>
-						<text class="itemBottomTitle">100.00</text>
+						<text class="itemBottomTitle">{{item.amount}}</text>
 					</view>
 					<view class="itemBottomBox">
 						<text style="padding: 10rpx 0;">总额</text>
-						<text class="itemBottomTitle">780.00</text>
+						<text class="itemBottomTitle">{{item.trunover}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="ListBox" v-show="titleIndex === 1">
+		<view class="ListBox" v-show="titleIndex === 2">
 			<view class="itemBox">
 				<view class="itemTitle">
 					<text>1672831324134042006</text>
@@ -94,6 +94,7 @@
     toRefs
   } from "vue";
   import { navigateBack,changePath } from "@/utils/navigate.js"
+  import {findOrderList} from "@/api/trade.js"
   const isShow = ref(true)
     // const tabIsShow = ref(true)//tab控制显示左右切换
   const data = reactive({
@@ -106,17 +107,29 @@
         id: 2
       }
     ],
-    titleIndex: 0
+    titleIndex: 1,
+	classifyList: []
   })
   const {
     dateList,
-    titleIndex
+    titleIndex,
+	classifyList
   } = toRefs(data)
   
   
   // 点击切换改变样式
   const changTitle = (index) => {
     titleIndex.value = index
+	getfindOrderList(index)
+  }
+  
+  async function getfindOrderList(classifyNo = 1){
+	  try{
+		  const res = await findOrderList({classify: classifyNo})
+		  classifyList.value = res
+	  } catch(err) {
+		  throw new Error(err)
+	  }
   }
   
   // 查看详情
@@ -127,6 +140,7 @@
 	  }
 	  changePath(detailsObj[detailsId])
   }
+  getfindOrderList()
 </script>
 <style lang="scss" scoped>
   .bg {

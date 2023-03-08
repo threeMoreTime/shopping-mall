@@ -16,11 +16,11 @@
 			<view class="item flex-space-between itemText">
 				<view class="flex-col">
 					<text class="titles">数量</text>
-					<text>16011</text>
+					<text>{{OrderInfo?.volume}}</text>
 				</view>
 				<view class="flex-col">
 					<text class="titles">总额</text>
-					<text>6111111</text>
+					<text>{{OrderInfo?.trunover}}</text>
 				</view>
 			</view>
 		</view>
@@ -96,7 +96,7 @@
 					height="84"
 					:border="false" />
 			</view>
-			<view class="btn">我已打款</view>
+			<view class="btn" @click="handlePay(OrderInfo?.id)">我已打款</view>
 		</view>
 	</view>
 </template>
@@ -142,7 +142,7 @@
 	// 上传参数
 	const uploadFrom = reactive({
 		action: '/dev/client/user/system/image',
-		maxCount: '3',
+		maxCount: '1',
 		header: {
 			'Authorization': userStore().token || ''
 		},
@@ -158,6 +158,7 @@
 		  throw new Error('上传数据错误!');
 		}
 		uploadImg.value = lists.map(item => userStore().systemConfig.picUrlPre + item.response.data.url)
+		console.log(uploadImg.value);
 	}
 </script>
 

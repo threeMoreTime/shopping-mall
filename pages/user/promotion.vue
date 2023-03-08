@@ -31,7 +31,7 @@ import { ref } from "vue";
 .bg {
 	width: 100%;
 	height: 100vh;
-	background: url("@/static/img/promotionBg.png") 100% no-repeat;
+	background: url("@/static/img/promotionBg.jpg") 100% no-repeat;
 	background-size: 100% 100%;
 	.InvitationCode {
 		padding: 20rpx 0;

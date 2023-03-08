@@ -87,7 +87,7 @@
 			isPopupShow.value = false
 			uni.$showMsg("交易成功", "success")
 		} catch(err) {
-			uni.$showMsg(err, "error")
+			uni.$showMsg(err, "none")
 		}
 	}
 

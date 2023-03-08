@@ -28,12 +28,12 @@
 			<view class="card" style="padding-bottom: 40rpx;">
 				<view class="cardTitle">卖家信息</view>
 				<view class="userInfo">
-					<u-avatar size="76" src="https://picx.zhimg.com/v2-2774c513e2360e60423ab7ddb9b2d798_r.jpg?source=1940ef5c"></u-avatar>
+					<u-avatar size="76" :src="OrderInfo.tradeUserInfo?.avatar || ''"></u-avatar>
 					<view class="nameAndphone">
-						<text class="userName">毛毛</text>
-						<text>15026822373</text>
+						<text class="userName">{{OrderInfo.tradeUserInfo?.nickname}}</text>
+						<text>{{OrderInfo.tradeUserInfo?.phone}}</text>
 					</view>
-					<view class="userNo">编号：971027</view>
+					<view class="userNo">编号：{{OrderInfo.tradeUserInfo?.uid}}</view>
 				</view>
 				<view class="gathering">
 					<view class="titleAndTabs">
@@ -51,28 +51,28 @@
 					<view class="bankInfo" v-show="tabsListIndex === 1">
 						<view class="bankInfoItem">
 							<text>收款银行</text>
-							<text style="color: #313131;">中国银行</text>
+							<text style="color: #313131;">{{OrderInfo.tradeUserInfo?.bankName}}</text>
 						</view>
 						<view class="bankInfoItem">
 							<text>银行卡号</text>
-							<text style="color: #313131;">6115651512121212</text>
+							<text style="color: #313131;">{{OrderInfo.tradeUserInfo?.bankCardNo}}</text>
 						</view>
 						<view class="bankInfoItem">
 							<text>开户姓名</text>
-							<text style="color: #313131;">中国银行青岛李沧支</text>
+							<text style="color: #313131;">{{OrderInfo.tradeUserInfo?.bankOpenName}}</text>
 						</view>
 					</view>
 					<view class="apply" v-show="tabsListIndex === 2">
 						<view class="applyImg">
-							<image src="../../static/img/gold.png" mode=""></image>
+							<image :src="OrderInfo.tradeUserInfo?.zhifubaoPaymentPic" mode=""></image>
 						</view>
-						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥1.00</text></view>
+						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥{{OrderInfo?.trunover}}</text></view>
 					</view>
 					<view class="apply" v-show="tabsListIndex === 3">
 						<view class="applyImg">
-							<image src="../../static/img/sales.png" mode=""></image>
+							<image :src="OrderInfo.tradeUserInfo?.weixinPaymentPic" mode=""></image>
 						</view>
-						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥1.00</text></view>
+						<view style="padding: 16rpx 0 22rpx;">请扫码支付<text style="color: #D50000;">￥{{OrderInfo?.trunover}}</text></view>
 					</view>
 				</view>
 			</view>
@@ -108,6 +108,24 @@
 	} from "vue";
 	import {navigateBack} from "@/utils/navigate.js"
 	import {userStore} from "@/store/index.js"
+	import {tradeOrderDetails} from "@/api/trade.js"
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	onLoad((option) => {
+		getOrderDetails(option?.id)
+	})
+	
+	// 订单信息
+	const OrderInfo = reactive({})
+	// 获取订单信息
+	function getOrderDetails(id = 0) {
+		return tradeOrderDetails(id).then(res => {
+			res.tradeUserInfo.avatar = userStore().systemConfig.picUrlPre + res.tradeUserInfo.avatar
+			Object.assign(OrderInfo,res)
+			console.log(OrderInfo);
+		})
+	}
 	// 支付密码
 	const payPassword = ref(null)
 	const tabsList = [

@@ -1,6 +1,17 @@
 <template>
 	<view class="bg">
 		<view class="box">
+			<view class="farmIntegral">
+				<view style="display: flex;flex-direction: column;align-items: center;">
+					<view class="farmIntegralBg"></view>
+					<text class="titleFarm">积分 {{1000}}</text>
+				</view>
+				<view class="farmTree">
+					<view class="minitreeBg"></view>
+					<text>我的树木</text>
+					<view class="arrowsBg"></view>
+				</view>
+			</view>
 			<view class="watering">
 				<view class="wateringBg"></view>
 				<text>1000</text>
@@ -102,6 +113,52 @@
 			height: 100%;
 			// background: url("@/static/img/farmGame.png") 100% no-repeat;
 			// background-size: 100% 100%;
+			.minitreeBg {
+				margin-right: 10rpx;
+				width: 52rpx;
+				height: 72rpx;
+				background: url("@/static/img/treeBG1.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+			.farmTree {
+				display: flex;
+				align-items: center;
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #028836;
+				background: #C5FCFA;
+				border-radius: 56rpx;
+				padding: 8rpx 18rpx;
+			}
+			.arrowsBg {
+				margin-left: 10rpx;
+				// transform: rotate(180deg);
+				width: 18rpx;
+				height: 33rpx;
+				background: url("@/static/img/arrowsBg.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+			.titleFarm {
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #028836;
+				background: #FFFFFF;
+				border-radius: 20rpx;
+				padding: 6rpx 8rpx;
+			}
+			.farmIntegralBg {
+				width: 110rpx;
+				height: 110rpx;
+				background: url("@/static/img/farmIntegralBg.png") 100% no-repeat;
+				background-size: 100% 100%;
+			}
+			.farmIntegral {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 32rpx;
+				transform: translateY(106rpx);
+			}
 			.watering {
 				width: 133rpx;
 				position: absolute;

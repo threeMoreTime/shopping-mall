@@ -96,3 +96,11 @@ export const tradeOrderDetails = (id) => {
 		method: 'GET'
 	})
 }
+
+// 仓单交易,上传支付凭证
+export const payCangOrder = (data) => {
+	return request({
+		url: '/client/trade/payCangOrder',
+		method: 'POST'
+	},data)
+}

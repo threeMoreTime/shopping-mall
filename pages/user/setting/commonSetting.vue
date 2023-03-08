@@ -219,6 +219,12 @@
 	// 获取银行卡信息
 	const gainBankCard = () => {
 		findBankCard().then(res => {
+			console.log('res',res)
+			if(res == null){
+				bankCardInfo.value = {}
+				bankCardName.value = '添加银行卡'
+				return false
+			}
 			bankCardInfo.value = res
 			if(Object.keys(bankCardInfo.value).length === 0){
 				bankCardName.value = '添加银行卡'

@@ -88,3 +88,11 @@ export const findOrderList = (data) => {
 		method: 'GET'
 	},data)
 }
+
+// 仓单订单详情
+export const tradeOrderDetails = (id) => {
+	return request({
+		url: `/client/trade/tradeOrderDetails/${id}`,
+		method: 'GET'
+	})
+}

@@ -124,7 +124,7 @@
 				</u-form>
 			</view>
 			<view class="popup" v-show="popupShow">
-				<u-icon class="close" name="close" @click="close"></u-icon>
+				<u-icon class="close" name="close" ></u-icon>
 				<u-message-input style="margin-top: 5%;" @click="getKey" :focus="true" maxlength="6" v-model="valueInput" :dot-fill="true" :breathe="true"></u-message-input>
 				<u-keyboard mode="number" @confirm="confirmKey" @change="valChange" @backspace="backspace" :show-tips="false" :safe-area-inset-bottom="true" v-model="keyShow" z-index="9999" :mask="false"></u-keyboard>
 			</view>

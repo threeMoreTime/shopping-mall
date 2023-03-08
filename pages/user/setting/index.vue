@@ -17,8 +17,8 @@
 					></u-cell-item>
 					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="银行信息"
 						@click="changePath('../../../pages/user/setting/commonSetting',{typeId: 3})"></u-cell-item>
-					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="微信收款码"></u-cell-item>
-					<u-cell-item :title-style="{'font-size': '28rpx','font-weight': '500'}" title="支付宝收款码">
+					<u-cell-item @click="changePath('../../../pages/user/setting/collectionCode',{id:1})" :title-style="{'font-size': '28rpx','font-weight': '500'}" title="微信收款码"></u-cell-item>
+					<u-cell-item @click="changePath('../../../pages/user/setting/collectionCode',{id:2})" :title-style="{'font-size': '28rpx','font-weight': '500'}" title="支付宝收款码">
 					</u-cell-item>
 				</u-cell-group>
 			</view>

@@ -48,10 +48,10 @@
 
   // 选择二维码
 	const ChoosePicture = (id) => {
-		const pictureTypes = {
-		  1: "wx",
-		  2: "alipay",
-		};
+		// const pictureTypes = {
+		//   1: "wx",
+		//   2: "alipay",
+		// };
 	  uni.chooseImage({
 	    count: 1,
 	    sizeType: ['original', 'compressed'],

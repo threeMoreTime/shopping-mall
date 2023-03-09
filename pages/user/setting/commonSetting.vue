@@ -246,6 +246,11 @@
 		maskShow.value = true
 		keyShow.value = true
 	}
+	const close = () =>{
+		popupShow.value = false
+		maskShow.value = false
+		keyShow.value = false
+	}
 	const getKey = () =>{
 		keyShow.value = true
 	}

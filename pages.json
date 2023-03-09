@@ -74,6 +74,14 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
+		},{
+			"path": "pages/user/setting/collectionCode",
+			"style": {
+				"navigationBarTitleText": "收款码",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#24743C",
+				"navigationStyle": "custom"
+			}
 		},
 		{
 			"path": "pages/user/setting/about",

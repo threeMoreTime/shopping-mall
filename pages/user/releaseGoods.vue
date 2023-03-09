@@ -35,7 +35,7 @@
 			</u-form-item>
 		</view>
 		<view class="box">
-			<u-form-item 
+			<!-- <u-form-item 
 				label="选择商品类目" 
 				right-icon="arrow-right" 
 				@click.capture="onCategory"
@@ -49,7 +49,19 @@
 					:default-value="[1]"
 					:list="cateList"
 				></u-select>
-			</u-form-item>				
+			</u-form-item> -->
+			
+			
+			<u-form-item
+				label="选择商品类目" 
+				right-icon="arrow-right" 
+				@click.capture="onCategory"
+			>
+			<u-input v-model="data.categoryValue" disabled bor disabledColor="#ffffff" placeholder="请选择分类">
+			</u-input>
+			<u-select v-model="form.category" mode="mutil-column-auto" :list="cateList" @confirm="activeCategory"></u-select>
+			</u-form-item>
+			
 			<!-- <view @click="changePath('/pages/user/storeClass')">
 				<u-form-item label="店铺分类" :border-bottom="false" right-icon="arrow-right">
 					<u-select></u-select>
@@ -231,12 +243,18 @@
 	const goodsId = ref()
 	const detail = (id) =>{
 		getById(id).then(res=>{
-			console.log('res',res)
-			console.log('cateList',cateList)
+			// console.log('res',res)
+			// console.log('cateList',cateList)
+			let cateValue = ''
 			let cate = cateList.find(p => {
 				return p.value === res.cateIds[0]
 			})
-			data.categoryValue = cate.label
+			// console.log('cate',cate)
+			let	cate2 = cate.children.find(i => {
+				return i.value === res.cateIds[1]
+			})
+			// console.log('cate2',cate2)
+			data.categoryValue = cate.label+ ' '+ cate2.label
 			
 			specification.value = res.specType
 				// data.form.image.push({url:res.image})
@@ -264,7 +282,7 @@
 				console.log('image',data.form.image)
 		})
 	}
-	const cateList = reactive([])
+	let cateList = reactive([])
 	const close = (id) => {
 		uni.showModal({
 			title: '提示',
@@ -320,16 +338,28 @@
 			}
 		});
 	}
+	
+	const recursion = (allData = []) => {
+		let realData = []
+		allData.forEach((v, i) => {
+			v.value = v.id
+			v.label = v.name
+			if(Reflect.has(v, 'child')){
+				v.children = v.child
+				v.children = recursion(v.children)
+			}
+			realData.push(v)
+		})
+		return realData
+	}
+	
 	// 商品类目
 	const seleCommodity = () => {
 		cateList.length = 0
 		Commodity().then(res=>{
-			res.map(e => {
-				cateList.push({
-					value: e.id,
-					label: e.name
-				})
-			})
+			// console.log('seleCommodity res',res)
+			// console.log('recursion,',recursion(res))
+			cateList = recursion(res)
 		})
 	}
 	const tabsChange = (index)=> {
@@ -373,10 +403,16 @@
 	}
 	
 	const activeCategory = (res) => {
-		data.form.cateIds.length = 0
-		// console.log(data.categoryValue, res)
-		data.categoryValue = res[0].label
-		data.form.cateIds.push(res[0].value)
+		// console.log('res',res)
+		let arr = []
+		let arr2 = []
+		res.map(p => {
+			arr.push(p.value)
+			arr2.push(p.label)
+		})
+		data.categoryValue = arr2[0]+ ' '+ arr2[1]
+		data.form.cateIds = [...arr]
+		// console.log('data.form.cateIds',data.form.cateIds)
 	}
 	
 	const release = (isShow) => {

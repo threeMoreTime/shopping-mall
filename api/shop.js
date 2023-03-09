@@ -93,7 +93,7 @@ export const isSpecType = (id,specType) => {
 // 商品类目
 export const Commodity = () => {
 	return request({
-		url: '/client/category/findAllCategory',
+		url: '/client/category/leftcategory',
 		method: 'GET'
 	})
 }

@@ -72,6 +72,11 @@
 				}
 				updateUserInfo(params).then(res=>{
 					console.log('res',res)
+					if(id == 1){
+						userStore().userInfo.weixinPaymentPic = collectionCode[id-1]
+					}else{
+						userStore().userInfo.zhifubaoPaymentPic = collectionCode[id-1]
+					}
 					uni.$showMsg('收款码设置成功','success')
 				})
 	    }

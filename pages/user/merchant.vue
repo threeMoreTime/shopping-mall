@@ -122,6 +122,9 @@
 		isShop().then(res => {
 			console.log('res',res)
 			shopStore().shopInfo = res
+			merchantInfo.imgUrl = userStore().systemConfig.picUrlPre + store.shopInfo?.logo,
+			merchantInfo.nick = store.shopInfo.storeName,
+			merchantInfo.ID = store.shopInfo.id
 			if(res === null){
 				data.showModal = true
 			}else{

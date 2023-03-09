@@ -21,7 +21,7 @@
 									<text>1</text>
 								</view> -->
               </view>
-              <text class="Id">ID：{{store.userInfo.uid || '未登录'}}</text>
+              <text class="Id">ID：{{store.userInfo.uid ?? '未登录'}}</text>
             </view>
           </view>
           <view class="userBtn">

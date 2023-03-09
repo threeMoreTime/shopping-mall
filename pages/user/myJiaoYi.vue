@@ -59,12 +59,12 @@
 							<text>总额: <text class="itemCtxCount">{{item.trunover}}</text></text>
 							<text
 								style="padding: 16rpx 0 0rpx;"
-								v-show="item.status != 2"
+								
 								>购买方: <text class="itemCtxCount">{{userStore().userInfo.uid || 0}}</text></text>
 						</view>
 					</view>
 					<view class="itemBtn">
-						<view class="btn" @click="seeDetails(item.status,item.id)">查看详情</view>
+						<view class="btn" @click="seeDetails(item.status,item)">查看详情</view>
 					</view>
 				</view>
 			</view>
@@ -144,13 +144,15 @@
 	}
 
 	// 查看详情
-	const seeDetails = (detailsId,id) => {
+	const seeDetails = (detailsId,item) => {
 		const detailsObj = {
 			2: '/pages/user/JiaoYiXiangQing',
-			4: '/pages/user/JiaoYiXiangQing',
-			1: '/pages/user/payWarehouse'
+			1: '/pages/user/payWarehouse',
 		}
-		changePath(detailsObj[detailsId],{id})
+		if(detailsId != 1) {
+			return changePath('/pages/user/JiaoYiXiangQing',{id: item.id,status: item.statusName})
+		}
+		changePath(detailsObj[detailsId],{id: item.id,status: item.statusName})
 	}
 	getfindOrderList()
 </script>

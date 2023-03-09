@@ -13,7 +13,7 @@
 					<text 
 						style="font-size: 40rpx;
 						font-weight: 800;
-						padding-top: 10rpx;">{{userStore().userInfo.plantTreeIntegral || 0}}</text>
+						padding-top: 10rpx;">{{userStore().userInfo.plantTreeIntegral ?? 0}}</text>
 				</view>
 			</view>
 			<view class="ListBox">

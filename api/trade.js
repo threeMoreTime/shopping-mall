@@ -104,3 +104,11 @@ export const payCangOrder = (data) => {
 		method: 'POST'
 	},data)
 }
+
+// 处理仓单交易,确认/驳回
+export const processCangOrder = (data) => {
+	return request({
+		url: '/client/trade/processCangOrder',
+		method: 'POST'
+	},data)
+}

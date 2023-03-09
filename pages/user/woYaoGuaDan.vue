@@ -47,8 +47,8 @@ line-height: 29rpx;
 					<!-- 第三个 -->
 					<view class="listItem">
 						<view class="flex-col flex-col-end">
-							<text class="title-color-000">
-								<u-input v-model.number="dataform.payPassword" type="text" :border="false" placeholder="请输入密码" />
+							<text class="title-color-000" style="width: 630rpx;">
+								<u-input v-model.number="dataform.payPassword" type="password" :border="false" placeholder="请输入密码" />
 							</text>
 						</view>
 
@@ -108,11 +108,8 @@ import { reactive } from "vue";
 					delta: 1
 				})
 			},1000)
-		},() => {
-			uni.showToast({
-				title:"挂单失败",
-				icon:"error"
-			})
+		},(err) => {
+			uni.$showMsg(err)
 		})
 	}
 </script>

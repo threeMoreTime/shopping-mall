@@ -8,8 +8,8 @@
 		</view>
 		<!-- 已完成  交易编号 -->
 		<view class="Box-jiaoyi">
-			<text class="item1">已完成</text>
-			<text class="item2">交易编号:</text>
+			<text class="item1">{{statusName}}</text>
+			<text class="item2">交易编号: {{OrderInfo?.orderNum}}</text>
 		</view>
 		<!-- 已完成  交易编号 -->
 
@@ -17,11 +17,11 @@
 			<view class="item flex-space-between itemText">
 				<view class="flex-col">
 					<text class="titles">数量</text>
-					<text>16011</text>
+					<text>{{OrderInfo?.volume}}</text>
 				</view>
 				<view class="flex-col">
 					<text class="titles">总额</text>
-					<text>6111111</text>
+					<text>{{OrderInfo?.trunover}}</text>
 				</view>
 			</view>
 		</view>
@@ -32,16 +32,16 @@
 		<view class="Box-card">
 			<text class="text-msg">卖家信息</text>
 			<view class="Msg">
-				<image src="../../static/img/men.png" mode="" class="img"></image>
+				<image :src="OrderInfo.tradeUserInfo?.avatar" mode="" class="img"></image>
 			</view>
 
 			<view class="AAA">
-				<text>猫猫</text>
-				<text>11111111111</text>
+				<text>{{OrderInfo.tradeUserInfo?.nickname}}</text>
+				<text>{{OrderInfo.tradeUserInfo?.phone}}</text>
 			</view>
 
 			<view class="BBB">
-				<text>编号:&nbsp;1dddd11dd11</text>
+				<text>编号:&nbsp;{{OrderInfo.tradeUserInfo?.uid}}</text>
 			</view>
 
 		</view>
@@ -49,16 +49,16 @@
 		<view class="Box-card2">
 			<text class="text-msg2">买家信息</text>
 			<view class="Msg2">
-				<image src="../../static/img/men.png" mode="" class="img2"></image>
+				<image :src="OrderInfo.userInfo?.avatar" mode="" class="img2"></image>
 			</view>
 
 			<view class="AAA2">
-				<text>猫猫</text>
-				<text>11111111111</text>
+				<text>{{OrderInfo.userInfo?.nickname}}</text>
+				<text>{{OrderInfo.userInfo?.phone}}</text>
 			</view>
 
 			<view class="BBB2">
-				<text>编号:&nbsp;1dddd1ddd111</text>
+				<text>编号:&nbsp;{{OrderInfo.userInfo?.uid}}</text>
 			</view>
 
 		</view>
@@ -73,13 +73,17 @@
 color: #313131;
 padding-left:13rpx;
 line-height: 24rpx">打款截图</view>
-			<view class="" style="margin-top: 10rpx;" @click="Btn">
-				<image src="../../static/img/abcdefj.png" mode="" style="width: 130rpx;
+			<view class="" style="margin-top: 10rpx;">
+				<image :src="OrderInfo?.paymentPic" mode="" style="width: 130rpx;
 height: 130rpx;
 background: #ECECEC;"></image>
 			</view>
 		</view>
 		<!-- 截图-->
+		<view class="Btns" v-cloak v-if="statusName == '待确认' && OrderInfo.userInfo?.uid !== userStore().userInfo.uid">
+			<view class="btn1" @click="consentOrReject({orderId: OrderInfo.id,flag: true})">同意</view>
+			<view class="btn1" @click="consentOrReject({orderId: OrderInfo.id,flag: false})" style="background-color: red;">驳回</view>
+		</view>
 	</view>
 </template>
 
@@ -89,22 +93,28 @@ background: #ECECEC;"></image>
 		reactive
 	} from "vue";
 	import {
-		tradeOrderDetails
+		tradeOrderDetails,
+		processCangOrder
 	} from "@/api/trade.js"
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
+	import {userStore} from "@/store/index.js"
 	onLoad((option) => {
+		statusName.value = option?.status
 		getOrderDetails(option?.id)
 	})
-	
+	// 订单状态
+	const statusName = ref(null)
 	// 订单信息
 	const OrderInfo = reactive({})
 	// 获取订单信息
 	function getOrderDetails(id = 0) {
 		return tradeOrderDetails(id).then(res => {
 			res.tradeUserInfo.avatar = userStore().systemConfig.picUrlPre + res.tradeUserInfo.avatar
+			res.userInfo.avatar = userStore().systemConfig.picUrlPre + res.userInfo.avatar
 			Object.assign(OrderInfo,res)
+			console.log(OrderInfo);
 		})
 	}
 
@@ -114,8 +124,17 @@ background: #ECECEC;"></image>
 			delta: 1
 		})
 	}
-	const Btn = () => {
-		console.log(111111111111);
+	const consentOrReject = async ({
+		orderId = null,
+		flag = null
+	}) => {
+		try{
+			await processCangOrder({orderId,flag})
+			uni.$showMsg(`${flag ? '已同意' : '已拒绝'}订单`, 'success');
+			navigateBack()
+		} catch(err) {
+			uni.$showMsg(err)
+		}
 	}
 </script>
 
@@ -125,9 +144,29 @@ background: #ECECEC;"></image>
 		height: 100vh;
 		background-color: #FBFBFB;
 		position: relative;
-
+		[v-cloak] {
+		  display: none;
+		}
+		.Btns {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 34rpx;
+			margin-top: 10rpx;
+			.btn1 {
+				width: 330rpx;
+				height: 88rpx;
+				border-radius: 20rpx;
+				background-color: #24743C;
+				font-size: 30rpx;
+				// font-weight: bold;
+				color: #fff;
+				text-align: center;
+				line-height: 88rpx;
+			}
+		}
 		.Box-card2 {
-			margin: 18rpx 0 0 24rpx;
+			margin: 18rpx 0 0 34rpx;
 			width: 686rpx;
 			height: 202rpx;
 			background: #FFFFFF;
@@ -158,6 +197,7 @@ background: #ECECEC;"></image>
 				margin-left: 24rpx;
 				width: 76rpx;
 				height: 76rpx;
+				border-radius: 50%;
 			}
 
 			.AAA2 {
@@ -183,7 +223,7 @@ background: #ECECEC;"></image>
 
 
 		.Box-card {
-			margin: 18rpx 0 0 24rpx;
+			margin: 18rpx 0 0 34rpx;
 			width: 686rpx;
 			height: 202rpx;
 			background: #FFFFFF;
@@ -207,13 +247,13 @@ background: #ECECEC;"></image>
 				border-top: 1rpx solid rgba(200, 200, 200, 0.3);
 				width: 636rpx;
 				height: 126rpx;
-
 				// background-color: pink;
 				.img {
 					margin-top: 25rpx;
 					margin-left: 24rpx;
 					width: 76rpx;
 					height: 76rpx;
+					border-radius: 50%;
 				}
 			}
 
@@ -370,10 +410,8 @@ background: #ECECEC;"></image>
 		}
 
 		.listBg {
-
 			width: 686rpx;
-			margin: 18rpx 0 0 24rpx;
-			margin-left: 25rpx;
+			margin: 18rpx 0 0 34rpx;
 			padding: 20rpx 24rpx;
 			background: #FFFFFF;
 			box-shadow: 0rpx 6rpx 12rpx 2rpx rgba(0, 0, 0, 0.16);
@@ -406,7 +444,7 @@ background: #ECECEC;"></image>
 			}
 
 			.item2 {
-				width: 118rpx;
+				// width: 118rpx;
 				height: 34rpx;
 				font-size: 24rpx;
 				line-height: 24rpx;

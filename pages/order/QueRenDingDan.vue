@@ -6,7 +6,7 @@
 		</view>
 
 		<!-- 第一个卡片盒子 -->
-		<view class="card-box1">
+		<view class="card-box1" v-if="isNeedDeliver">
 			<!-- <image src="../../static/img/community.png" mode="" class="imaeg"></image> -->
 			<view class="imaegBox">
 				<view class="imaeg"> </view>
@@ -67,7 +67,7 @@
 				<!-- <text>￥0</text> -->
 				<!-- <text>顺丰保价</text> -->
 				<text>兑换订单</text>
-				<text>￥{{freightFee || 0}}</text>
+				<text>￥{{freightFee1 || 0}}</text>
 			</view>
 		</view>
 		<!-- 第四个卡片盒子 -->
@@ -105,7 +105,7 @@
 	onLoad((option) => {
 		getOrderList(option?.preOrderNo)
 		preOrder.value = option?.preOrderNo
-		isNeedDeliver.value = option?.isNeedDeliver
+		isNeedDeliver.value = option?.isNeedDeliver === "true" ? true : false 
 		updateOrderPrice()
 	})
 	
@@ -130,7 +130,7 @@
 		})
 	}
 	// 是否需要发货
-	const isNeedDeliver = ref(true)
+	const isNeedDeliver = ref(null)
 	// 保存preOrderNo获取当前商品列表
 	const orderList = ref([])
 	// 总金额

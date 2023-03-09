@@ -56,12 +56,12 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 		<view class="payType">
 			<text style="color: #8F8F8F;">选择支付方式</text>
 			<view class="payList">
-				<view class="palItem" v-for="item in list" :key="item.id" @click="handlePay(item)">
+				<view class="palItem" v-for="item in originalArray" :key="item?.id" @click="handlePay(item)">
 					<view class="iconAndName">
-						<image class="iconBg" :src="item.bgIcon" mode=""></image>
-						<text>{{item.name}}</text>
+						<image class="iconBg" :src="item?.bgIcon" mode=""></image>
+						<text>{{item?.name}}</text>
 					</view>
-					<view class="select" :class="[bgIndexId === item.id ? 'selectActivate' : '']"></view>
+					<view class="select" :class="[bgIndexId === item?.id ? 'selectActivate' : '']"></view>
 				</view>
 			</view>
 		</view>
@@ -87,7 +87,8 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 	} from "@dcloudio/uni-app";
 	import {
 		createOrder,
-		payPayment
+		payPayment,
+		getPayTypeByOrderNo
 	} from "@/api/order.js"
 	import {
 		changePath
@@ -98,6 +99,39 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 		preOrderNo.value = option?.preOrderNo
 		oldPre.value = +(option?.countNum)
 		freightFee.value = +(option?.freightFee)
+		getPayTypeByOrderNo(preOrderNo.value).then(res => {
+			originalArray.value = [
+				{
+						id: 1,
+						name: '支付宝',
+						payChannel: 'appAlipay',
+						payType: 'alipay',
+						bgIcon: '../../static/img/AlipayActivate.png'
+					},
+					{
+						id: 2,
+						name: '微信支付',
+						payChannel: 'appWeixin',
+						payType: 'wxpay',
+						bgIcon: '../../static/img/WeChatactivAte.png'
+					},
+					{
+						id: 3,
+						name: '兑换卷',
+						payChannel: 'vouchers',
+						payType: 'vouchers',
+						bgIcon: '../../static/img/ooooooooooo.png'
+					},
+					{
+						id: 4,
+						name: '购物积分',
+						payChannel: 'balance',
+						payType: 'balance',
+						bgIcon: '../../static/img/integralBg.png'
+					}
+			]
+			originalArray.value = originalArray.value.filter(item => res.includes(payTypeMap[item.payType]));
+		})
 		// 默认执行一次，让函数初始化
 		handlePay({})
 	})
@@ -120,44 +154,20 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 	const preOrderNo = ref(null)
 	// 单选按钮 
 	const bgIndexId = ref(1) //默认选中
-	const list = ref(
-		[{
-				id: 1,
-				name: '支付宝',
-				payChannel: 'appAlipay',
-				payType: 'alipay',
-				bgIcon: '../../static/img/AlipayActivate.png'
-			},
-			{
-				id: 2,
-				name: '微信支付',
-				payChannel: 'appWeixin',
-				payType: 'wxpay',
-				bgIcon: '../../static/img/WeChatactivAte.png'
-			},
-			{
-				id: 3,
-				name: '兑换卷',
-				payChannel: 'vouchers',
-				payType: 'vouchers',
-				bgIcon: '../../static/img/ooooooooooo.png'
-			},
-			{
-				id: 4,
-				name: '购物积分',
-				payChannel: 'vouchers',
-				payType: 'vouchers',
-				bgIcon: '../../static/img/integralBg.png'
-			}
-		]
-	)
+	const originalArray  = ref([])
+	const payTypeMap = {
+	  'alipay': 'aliPay',
+	  'wxpay': 'weixin',
+	  'vouchers': 'vouchers',
+	  'balance': 'balance'
+	};
 	const orderFrom = reactive({})
-	const [item] = list.value
+	const [item] = originalArray?.value
 	const handlePay = ({
-		id = item.id,
-		name = item.name,
-		payChannel = item.payChannel,
-		payType = item.payType
+		id = item?.id,
+		name = item?.name,
+		payChannel = item?.payChannel,
+		payType = item?.payType
 	}) => {
 		bgIndexId.value = id
 		orderFrom.preOrderNo = preOrderNo.value

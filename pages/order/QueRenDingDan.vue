@@ -105,57 +105,32 @@
 	onLoad((option) => {
 		getOrderList(option?.preOrderNo)
 		preOrder.value = option?.preOrderNo
-		defaultAddress().then(res => {
-			if(res) {
-				store.storeOrderAddress = res
-				getOrderPrice(
-					{"preOrderNo": preOrder.value,
-					"addressId": store.storeOrderAddress.id})
-					.then(price => {
-						// console.log(price,"price");
-						for(let i = 0; i < price.orderDetailList.length; i++){
-							if(i.isPostage){
-								freightFee.value = 0
-							}else{
-								freightFee.value = price.freightFee
-							}
-							
-						}
-						countNum.value = price.payFee
-						console.log('countNum.value',countNum.value)
-						console.log('freightFee.value',freightFee.value)
-						
-				})
-			}
-		})
+		isNeedDeliver.value = option?.isNeedDeliver
+		updateOrderPrice()
 	})
-	// onShow(() => {
-	// 	if(store.storeOrderAddress.id) {
-	// 		getOrderPrice(
-	// 			{"preOrderNo": preOrder.value,
-	// 			"addressId": store.storeOrderAddress.id})
-	// 			.then(price => {
-	// 				console.log(price,"price");
-	// 				for(let i; i < price.orderDetailList.length; i++){
-	// 					if(i.isPostage){
-	// 						freightFee.value = 0
-	// 					}else{
-	// 						freightFee.value = price.freightFee
-	// 					}
-	// 				}
-	// 				countNum.value = price.payFee
-					
-	// 				console.log('countNum.value',countNum.value)
-	// 				console.log('freightFee.value',freightFee.value)
-	// 		})
-	// 	}
-	// })
+	
+	async function updateOrderPrice() {
+	  const address = await defaultAddress();
+	  if (address) {
+	    store.storeOrderAddress = address;
+	    const { payFee, freightFee, orderDetailList } = await getOrderPrice({
+	      preOrderNo: preOrder.value,
+	      addressId: store.storeOrderAddress.id
+	    });
+	    const postageItem = orderDetailList.find(item => item.isPostage);
+	    freightFee1.value = postageItem ? 0 : freightFee;
+	    countNum.value = payFee;
+	  }
+	}
+	
 	const store = userStore()
 	if(!store.userInfo?.uid) {
 		info().then(res => {
 			store.userInfo = res
 		})
 	}
+	// 是否需要发货
+	const isNeedDeliver = ref(true)
 	// 保存preOrderNo获取当前商品列表
 	const orderList = ref([])
 	// 总金额
@@ -163,7 +138,7 @@
 	// 商品未加上运费的价格
 	const oldPre = ref(0)
 	// 运费
-	const freightFee = ref(null)
+	const freightFee1 = ref(null)
 	// 预订单id
 	const preOrder = ref(null)
 	// 根据preOrderNo获取当前商品详情
@@ -190,7 +165,7 @@
 				{
 					'preOrderNo': preOrder.value,
 					'countNum': oldPre.value,
-					'freightFee': freightFee.value
+					'freightFee': freightFee1.value
 				})
 		}
 	}

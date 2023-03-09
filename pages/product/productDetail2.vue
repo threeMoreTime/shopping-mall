@@ -132,6 +132,8 @@
 			productDetail(id).then(res => {
 				console.log('SSSSSSSSSSS',res);
 				shopInfo.value = res.productInfo
+				// 是否需要发货
+				isNeedDeliver.value = shopInfo.value.isNeedDeliver
 				// 对content标签img改成image
 				shopInfo.value.content = shopInfo.value.content?.replace(/<img\b/gi, '<image');
 				// 对content的src拼接上userStore().systemConfig.picUrlPre
@@ -148,6 +150,8 @@
 			})
 		}
 	}
+	// 当前商品是否需要发货字段
+	const isNeedDeliver = ref(true)
 	
 	const skuMode = ref(1)
 	// console.log(productValue.value);
@@ -186,7 +190,7 @@
 		data.productNum = selectShop.buy_num
 		preOrder({preOrderType: 'buyNow',orderDetails: [data]}).then(({preOrderNo}) => {
 			isShow.value = false
-			changePath('/pages/order/QueRenDingDan',{preOrderNo})
+			changePath('/pages/order/QueRenDingDan',{preOrderNo,isNeedDeliver: isNeedDeliver.value})
 		},() => {
 			uniShowToast({
 				msg:err,

@@ -123,3 +123,11 @@ export const payPayment = (data) => {
         url: '/client/user/pay/payment',
     }, data);
 };
+
+// 查询当前订单支持的支付方式
+export const getPayTypeByOrderNo = (orderNo) => {
+  return request({
+    method: 'GET',
+    url: `/client/user/order//getPayTypeByOrderNo/${orderNo}`,
+  });
+};

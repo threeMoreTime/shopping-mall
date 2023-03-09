@@ -162,7 +162,7 @@
                 <view class="itemBg1 selected10"></view>
                 <view class="grid-text">管理积分</view>
               </u-grid-item>
-			  <u-grid-item @click="changePath('/pages/user/management/managingPoints')">
+			  <u-grid-item @click="changePath('/pages/user/plantTrees')">
 			    <view class="itemBg1 selected11"></view>
 			    <view class="grid-text">种树</view>
 			  </u-grid-item>

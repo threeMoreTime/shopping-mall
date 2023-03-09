@@ -556,6 +556,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/user/plantTrees",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "种树专区",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
     ],
 
 	"globalStyle": {

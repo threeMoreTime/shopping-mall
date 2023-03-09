@@ -88,14 +88,14 @@
 					:name="uploadFrom.name"
 					@on-success="handleSuccess"></u-upload>
 			</view>
-			<view class="card">
+			<!-- <view class="card">
 				<u-input 
 					v-model="payPassword" 
 					type="password" 
 					placeholder="请输入支付密码"
 					height="84"
 					:border="false" />
-			</view>
+			</view> -->
 			<view class="btn" @click="handlePay(OrderInfo?.id)">我已打款</view>
 		</view>
 	</view>
@@ -108,7 +108,7 @@
 	} from "vue";
 	import {navigateBack} from "@/utils/navigate.js"
 	import {userStore} from "@/store/index.js"
-	import {tradeOrderDetails} from "@/api/trade.js"
+	import {tradeOrderDetails,payCangOrder} from "@/api/trade.js"
 	import {
 		onLoad
 	} from "@dcloudio/uni-app";
@@ -123,7 +123,6 @@
 		return tradeOrderDetails(id).then(res => {
 			res.tradeUserInfo.avatar = userStore().systemConfig.picUrlPre + res.tradeUserInfo.avatar
 			Object.assign(OrderInfo,res)
-			console.log(OrderInfo);
 		})
 	}
 	// 支付密码
@@ -158,7 +157,21 @@
 		  throw new Error('上传数据错误!');
 		}
 		uploadImg.value = lists.map(item => userStore().systemConfig.picUrlPre + item.response.data.url)
-		console.log(uploadImg.value);
+	}
+	// 确认打款
+	const handlePay = (id) => {
+		if(!uploadImg.value.length) {
+			return uni.$showMsg("请先上传支付凭证")
+		}
+		payCangOrder({
+			orderId: id,
+			paymentPic: uploadImg.value[0]
+		}).then(res => {
+			uni.$showMsg("交易成功","success")
+			navigateBack()
+		},(err) => {
+			uni.$showMsg(err)
+		})
 	}
 </script>
 

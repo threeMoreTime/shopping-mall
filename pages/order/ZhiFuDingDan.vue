@@ -137,19 +137,27 @@ line-height: 24rpx;">商品价格￥{{oldPre}}+运费￥{{freightFee}}</text>
 			},
 			{
 				id: 3,
-				name: '兑换卷加管理积分',
+				name: '兑换卷',
 				payChannel: 'vouchers',
 				payType: 'vouchers',
 				bgIcon: '../../static/img/ooooooooooo.png'
+			},
+			{
+				id: 4,
+				name: '购物积分',
+				payChannel: 'vouchers',
+				payType: 'vouchers',
+				bgIcon: '../../static/img/integralBg.png'
 			}
 		]
 	)
 	const orderFrom = reactive({})
+	const [item] = list.value
 	const handlePay = ({
-		id = 1,
-		name = "支付宝",
-		payChannel = 'appAlipay',
-		payType = 'alipay'
+		id = item.id,
+		name = item.name,
+		payChannel = item.payChannel,
+		payType = item.payType
 	}) => {
 		bgIndexId.value = id
 		orderFrom.preOrderNo = preOrderNo.value

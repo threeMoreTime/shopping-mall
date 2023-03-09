@@ -57,7 +57,10 @@
 						</view>
 						<view class="itemCtxText">
 							<text>总额: <text class="itemCtxCount">{{item.trunover}}</text></text>
-							<text style="padding: 16rpx 0 0rpx;">购买方: <text class="itemCtxCount">{{userStore().userInfo.uid || 0}}</text></text>
+							<text
+								style="padding: 16rpx 0 0rpx;"
+								v-show="item.status != 2"
+								>购买方: <text class="itemCtxCount">{{userStore().userInfo.uid || 0}}</text></text>
 						</view>
 					</view>
 					<view class="itemBtn">
@@ -82,6 +85,16 @@
 		findOrderList
 	} from "@/api/trade.js"
 	import { userStore } from "@/store/index.js"
+	import {
+		onShow,
+		onReachBottom
+	} from "@dcloudio/uni-app";
+	onShow(() => {
+		getfindOrderList()
+	})
+	onReachBottom(() => {
+		getfindOrderList()
+	})
 	const isShow = ref(true)
 	// const tabIsShow = ref(true)//tab控制显示左右切换
 	const data = reactive({
@@ -103,14 +116,13 @@
 		classifyList
 	} = toRefs(data)
 
-
 	// 点击切换改变样式
 	const changTitle = (index) => {
 		titleIndex.value = index
-		getfindOrderList(index)
+		getfindOrderList()
 	}
 
-	async function getfindOrderList(classifyNo = 1) {
+	async function getfindOrderList() {
 		const statusNames = {
 			0: '交易中',
 			1: '待支付',
@@ -120,7 +132,7 @@
 		}
 		try {
 			const res = await findOrderList({
-				classify: classifyNo
+				classify: titleIndex.value
 			})
 			classifyList.value = res
 			classifyList.value.forEach(item => {
@@ -134,6 +146,7 @@
 	// 查看详情
 	const seeDetails = (detailsId,id) => {
 		const detailsObj = {
+			2: '/pages/user/JiaoYiXiangQing',
 			4: '/pages/user/JiaoYiXiangQing',
 			1: '/pages/user/payWarehouse'
 		}

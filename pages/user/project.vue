@@ -109,7 +109,10 @@
 				        <view class="itemBg1 selected10"></view>
 				        <view class="grid-text">管理积分</view>
 				      </u-grid-item>
-				      
+				      <u-grid-item @click="changePath('/pages/user/plantTrees')">
+				        <view class="itemBg1 selected11"></view>
+				        <view class="grid-text">种树</view>
+				      </u-grid-item>
 				    </u-grid>
 				  </view>
 				</view>
@@ -263,6 +266,11 @@
 					
 					&.selected10 {
 					  background: url("@/static/img/manage.png") 100% no-repeat;
+					  background-size: 100% 100%;
+					}
+					
+					&.selected11 {
+					  background: url("@/static/img/planting.png") 100% no-repeat;
 					  background-size: 100% 100%;
 					}
 				}
